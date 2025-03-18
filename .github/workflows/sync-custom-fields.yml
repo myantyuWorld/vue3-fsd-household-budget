@@ -1,0 +1,92 @@
+name: Sync Custom Fields from Parent Issue
+
+on:
+  issues:
+    types: [opened]
+env:
+  REPOSITORY_NAME: "kaimemo-fsd-vue3" # 事前に設定するもの
+
+jobs:
+  sync_custom_fields:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Extract issue number and set as environment variable
+        id: extract_parent
+        run: |
+          echo "hello"
+          ISSUE_NUMBER=$(echo '${{ toJson(github.event) }}' | jq -r '.issue.number')
+          echo "ISSUE_NUMBER=$ISSUE_NUMBER"
+          echo "ISSUE_NUMBER=$ISSUE_NUMBER" >> $GITHUB_ENV
+      # - name: Install GitHub CLI
+      #   shell: bash
+      #   if: ${{ env.ACT && runner.os == 'Linux' }}
+      #   run: |
+      #     (type -p wget >/dev/null || (sudo apt update && sudo apt-get install wget -y)) \
+      #       && sudo mkdir -p -m 755 /etc/apt/keyrings \
+      #       && out=$(mktemp) && wget -nv -O$out https://cli.github.com/packages/githubcli-archive-keyring.gpg \
+      #       && cat $out | sudo tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null \
+      #       && sudo chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg \
+      #       && echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
+      #       && sudo apt update \
+      #       && sudo apt install gh -y
+      - name: get parent issue info
+        id: get_parent_issue
+        env:
+            GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo ${{env.ISSUE_NUMBER}}
+          echo ${{env.REPOSITORY_NAME}}
+          PARENT_ISSUE_RESPONSE=$(gh api graphql -F number=${{env.ISSUE_NUMBER}} -F repo=${{env.REPOSITORY_NAME }} -f query='
+          query($number: Int!, $repo: String!) {
+            repository(owner:"myantyuWorld", name:$repo) {
+              issue(number: $number) {
+                projectItems(first: 10) {
+                  nodes {
+                    id
+                    type
+                    content {
+                      ... on Issue {
+                        id
+                        title
+                        number
+                        body
+                        url
+                        parent {
+                          ... on Issue {
+                            number
+                            title
+                            body
+                            url
+                            projectItems(first: 10) {
+                              totalCount
+                              nodes {
+                                project {
+                                  number
+                                  title
+                                }
+                                subFunction: fieldValueByName(name: "SubFunction") {
+                                    ... on ProjectV2ItemFieldTextValue {
+                                        id
+                                        text
+                                    }
+                                }
+                                mileStones: fieldValueByName(name: "MileStones") {
+                                    ... on ProjectV2ItemFieldSingleSelectValue {
+                                        id
+                                        optionId
+                                        name
+                                    }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }')
+          echo $PARENT_ISSUE_RESPONSE
+

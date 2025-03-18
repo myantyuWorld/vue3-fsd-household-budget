@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" href="/favicon.ico">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kaimemo!</title>
+
+  <!-- iOS Safari 用の PWA 設定 -->
+  <meta name="apple-touch-fullscreen" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Kaimemo!" />
+
+  <!-- iOS 用のアイコン -->
+  <link rel="apple-touch-icon" sizes="192x192" href="/icon.png" />
+
+  <!-- スタート画面用 -->
+  <link rel="apple-touch-startup-image" href="/icon.png"
+  media="(device-width: 1179px) and (device-height: 2556px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" />
+</head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HMCZ4LBMYV"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-HMCZ4LBMYV');
+</script>
+
+<body>
+  <div id="app"></div>
+  <script type="module" src="/src/main.ts"></script>
+</body>
+
+</html>

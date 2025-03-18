@@ -1,0 +1,25 @@
+GET /kaimemo HTTP/1.1 
+Host: localhost:3000
+content-type: application/json 
+
+{ 
+  "name": "Hello,NotionAPI!",
+  "tag": "食費"
+}
+
+POST /kaimemo HTTP/1.1 
+Host: localhost:3000
+content-type: application/json 
+
+{ 
+  "name": "Hello,deploy rendor api!",
+  "tag": "食費"
+}
+
+DELETE /kaimemo/189c9692-0f0c-818b-a91a-defc35c6505d HTTP/1.1 
+Host: localhost:3000
+content-type: application/json 
+
+{ 
+  "data": "Hello, World!"
+}

@@ -1,0 +1,12 @@
+{
+  "issue": {
+    "number": 123,
+    "body": "Parent Issue: #456"
+  },
+  "repository": {
+    "name": "your-repo-name",
+    "owner": {
+      "login": "your-org"
+    }
+  }
+}

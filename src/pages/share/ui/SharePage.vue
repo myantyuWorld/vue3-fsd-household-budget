@@ -1,0 +1,37 @@
+<script setup lang="ts">
+import { PrimaryButton } from '@/shared/ui'
+import { useInteraction } from '../hooks/useInteraction'
+
+const { shareUrl, onClickShare } = useInteraction()
+</script>
+
+<template>
+  <div class="m-4">
+    <div class="flex flex-col items-center h-screen">
+      <h1 class="text-5xl font-bold mb-4 p-5">Kaimemo!</h1>
+
+      <div class="flex flex-col items-center p-5">
+        <div class="text-lg">以下のURLをLINE等でみんなに知らせてあげましょう！</div>
+      </div>
+
+      <div class="flex gap-3">
+        <input type="text" class="w-full p-2 border rounded-md" v-model="shareUrl" />
+
+        <button @click="onClickShare">
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24">
+            <path
+              fill="currentColor"
+              d="M16.61 21q-.994 0-1.687-.695q-.692-.696-.692-1.69q0-.15.132-.757l-7.197-4.273q-.324.374-.793.587t-1.007.213q-.986 0-1.676-.702T3 12t.69-1.683t1.676-.702q.537 0 1.007.213t.793.588l7.198-4.255q-.07-.194-.101-.385q-.032-.192-.032-.392q0-.993.697-1.689Q15.625 3 16.62 3t1.688.697T19 5.389t-.695 1.688t-1.69.692q-.542 0-1-.222t-.78-.597l-7.199 4.273q.07.194.101.386q.032.191.032.391t-.032.391t-.1.386l7.198 4.273q.323-.375.78-.597q.458-.222 1-.222q.994 0 1.69.696q.695.698.695 1.693t-.697 1.688t-1.692.692"
+            />
+          </svg>
+        </button>
+      </div>
+
+      <div class="flex justify-center m-10">
+        <PrimaryButton>
+          <router-link to="/kaimemo" class="text-2xl p-3 pl-10 pr-10">始める</router-link>
+        </PrimaryButton>
+      </div>
+    </div>
+  </div>
+</template>
