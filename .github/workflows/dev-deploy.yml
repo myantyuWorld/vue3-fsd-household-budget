@@ -1,0 +1,42 @@
+name: dev-deploy-frontend
+
+on:
+  push:
+    tags:
+      - 'dev-*'
+
+env:
+  BUCKET_URL: ${{ secrets.DEV_BUCKET_NAME }}
+  DIST_ID: ${{ secrets.DEV_DIST_ID }}
+  AWS_REGION: ${{ secrets.AWS_REGION }}
+  AWS_ROLE_ARN: ${{ secrets.AWS_ROLE_ARN }}
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # AWS 認証
+      - uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-region: ${{ env.AWS_REGION }}
+          role-to-assume: ${{ env.AWS_ROLE_ARN }}
+      - name: npm ci
+        shell: bash
+        run: > 
+          npm ci
+      - name: npm run build
+        shell: bash
+        run: > 
+          npm run build
+      - name: s3
+        shell: bash
+        run: aws s3 sync --delete ./dist s3://${{ env.BUCKET_URL }} --cache-control max-age=60,s-maxage=60
+      - name: cloudfront cache clear
+        shell: bash
+        run: aws cloudfront create-invalidation --distribution-id ${{ env.DIST_ID }} --paths "/*"
+  
