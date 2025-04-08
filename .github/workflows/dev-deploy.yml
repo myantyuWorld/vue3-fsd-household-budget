@@ -6,6 +6,8 @@ on:
       - 'dev-*'
 
 env:
+  VITE_API_BASE_URL: ${{ secrets.DEV_API_BASE_URL }}
+  VITE_WEBSOCKET_URL_KAIMEMO: ${{ secrets.DEV_VITE_WEBSOCKET_URL_KAIMEMO }}
   BUCKET_URL: ${{ secrets.DEV_BUCKET_NAME }}
   DIST_ID: ${{ secrets.DEV_DIST_ID }}
   AWS_REGION: ${{ secrets.AWS_REGION }}
@@ -32,6 +34,7 @@ jobs:
       - name: npm run build
         shell: bash
         run: > 
+          VITE_API_BASE_URL=${{ env.VITE_API_BASE_URL }} 
           npm run build
       - name: s3
         shell: bash
