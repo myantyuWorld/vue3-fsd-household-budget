@@ -1,0 +1,15 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# リントを実行
+echo "Running linter..."
+npm run lint
+
+# リントが失敗した場合、コミットを中止
+if [ $? -ne 0 ]; then
+  echo "Linting failed. Commit aborted."
+  exit 1
+fi
+
+# すべてのチェックが成功した場合、コミットを許可
+exit 0 

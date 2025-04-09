@@ -1,8 +1,6 @@
 import { describe, it, expect, vi } from 'vitest'
 import { useInteraction } from '../useInteraction'
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { useForm } from 'vee-validate'
 
 // Vueのライフサイクルフックをモック
 vi.mock('vue', async () => {
@@ -38,7 +36,7 @@ vi.mock('vee-validate', () => ({
 
 // WebSocketのモック（最小限）
 class MockWebSocket {
-  onmessage: ((event: any) => void) | null = null
+  onmessage: ((event: MessageEvent) => void) | null = null
   send = vi.fn()
   close = vi.fn()
 }
