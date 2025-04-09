@@ -1,13 +1,13 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-# リントを実行
-echo "Running linter..."
-npm run lint
+# すべてのチェックを並列実行
+echo "Running pre-commit checks..."
+npm run pre-commit
 
-# リントが失敗した場合、コミットを中止
+# チェックが失敗した場合、コミットを中止
 if [ $? -ne 0 ]; then
-  echo "Linting failed. Commit aborted."
+  echo "Pre-commit checks failed. Commit aborted."
   exit 1
 fi
 
