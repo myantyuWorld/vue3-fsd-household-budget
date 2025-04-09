@@ -70,10 +70,12 @@ export const useInteraction = () => {
   }
 
   const onClickShare = () => {
+    const shareURL = !tempUserID ? window.location.href + `?share=${tempUserID}` : window.location.href
+
     navigator.share({
       title: 'kaimemo!',
       text: 'リンクを共有し、買い物メモを共有しよう！',
-      url: window.location.href + `?share=${tempUserID}`,
+      url: shareURL,
     })
   }
 

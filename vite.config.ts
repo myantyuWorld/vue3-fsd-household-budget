@@ -18,8 +18,8 @@ export default defineConfig({
         cleanupOutdatedCaches: true,
       },
       manifest: {
-        name: 'Kaimemo!',
-        short_name: 'Kaimemo',
+        name: '家計簿くん(仮)!',
+        short_name: '家計簿くん(仮)',
         start_url: '/kaimemo',
         display: 'standalone',
         background_color: '#ffffff',
