@@ -1,0 +1,15 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# すべてのチェックを並列実行
+echo "Running pre-commit checks..."
+npm run pre-commit
+
+# チェックが失敗した場合、コミットを中止
+if [ $? -ne 0 ]; then
+  echo "Pre-commit checks failed. Commit aborted."
+  exit 1
+fi
+
+# すべてのチェックが成功した場合、コミットを許可
+exit 0 
