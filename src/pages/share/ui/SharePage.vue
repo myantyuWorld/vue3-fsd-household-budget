@@ -8,7 +8,7 @@ const { shareUrl, onClickShare } = useInteraction()
 <template>
   <div class="m-4">
     <div class="flex flex-col items-center h-screen">
-      <h1 class="text-5xl font-bold mb-4 p-5">Kaimemo!</h1>
+      <h1 class="text-5xl font-bold mb-4 p-5">家計簿くん(仮)!</h1>
 
       <div class="flex flex-col items-center p-5">
         <div class="text-lg">以下のURLをLINE等でみんなに知らせてあげましょう！</div>

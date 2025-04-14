@@ -1,17 +1,21 @@
 import { defineStore } from 'pinia'
-import type { User } from '@/shared/api/auth'
 import { authApi } from '@/shared/api/auth-api'
 import { GET } from '@/shared/api/client'
-
+import type { components } from '@/shared/api/v1.d'
 interface SessionState {
-  user: User | null
+  user: components['schemas']['LineMe']
   isAuthenticated: boolean
   isLoading: boolean
 }
 
 export const useSessionStore = defineStore('session', {
   state: (): SessionState => ({
-    user: null,
+    user: {
+      id: 0,
+      userID: '',
+      name: '',
+      pictureURL: ''
+    },
     isAuthenticated: false,
     isLoading: false
   }),
@@ -25,7 +29,12 @@ export const useSessionStore = defineStore('session', {
     async logout() {
       try {
         await authApi.logout()
-        this.user = null
+        this.user = {
+          id: 0,
+          userID: '',
+          name: '',
+          pictureURL: ''
+        }
         this.isAuthenticated = false
         window.location.href = '/login'
       } catch (error) {
@@ -39,13 +48,20 @@ export const useSessionStore = defineStore('session', {
         const { data, error } = await GET('/line/me', {
           param : {}
         })
-        console.log(data)
+        if (data) {
+          this.user = data
+        }
         if (error) {
           throw error
         }
         this.isAuthenticated = true
       } catch (error) {
-        this.user = null
+        this.user = {
+          id: 0,
+          userID: '',
+          name: '',
+          pictureURL: ''
+        }
         this.isAuthenticated = false
         throw error
       } finally {

@@ -3,6 +3,9 @@ import { useInteraction } from '../hooks/useInteraction'
 import { BaseModal, TheForm, PrimaryButton, SecondaryButton, PlusButton } from '@/shared/ui'
 import KaimemoItem from './KaimemoItem.vue'
 import TagFilter from './TagFilter.vue'
+import { useSessionStore } from '@/entities/session/model/session-store'
+
+const sessionStore = useSessionStore()
 
 const {
   isOpenModal,
@@ -20,6 +23,9 @@ const {
 
 const [name, nameProps] = defineField('name')
 const [tag, tagProps] = defineField('tag')
+
+const user = sessionStore.user
+console.log(user)
 </script>
 
 <template>

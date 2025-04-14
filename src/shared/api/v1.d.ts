@@ -345,7 +345,10 @@ export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
         LineMe: {
-            displayName: string;
+            id: number;
+            userID: string;
+            name: string;
+            pictureURL: string;
         };
         KaimemoSummary: {
             monthlySummaries: components["schemas"]["MonthlySummary"][];
