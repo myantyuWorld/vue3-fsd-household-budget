@@ -11,12 +11,22 @@ const router = createRouter({
     {
       path: '/login',
       name: 'login',
-      component: () => import('@/pages/login/ui/LoginPage.vue')
+      component: () => import('@/pages/login/ui/LoginPage.vue'),
+      meta: {
+        layout: 'auth',
+        requiresAuth: false,
+        title: 'ログイン'
+      }
     },
     {
       path: '/line/callback',
       name: 'line-callback',
-      component: () => import('@/pages/login/ui/LineCallback.vue')
+      component: () => import('@/pages/login/ui/LineCallback.vue'),
+      meta: {
+        layout: 'auth',
+        requiresAuth: false,
+        title: 'ログイン'
+      }
     },
     {
       path: '/',
@@ -27,11 +37,21 @@ const router = createRouter({
       path: '/kaimemo',
       name: 'kaimemo',
       component: KaimemoPage,
+      meta: {
+        layout: 'default',
+        requiresAuth: true,
+        title: '家計簿'
+      }
     },
     {
       path: '/summary',
       name: 'summary',
       component: KaimemoSummaryPage,
+      meta: {
+        layout: 'default',
+        requiresAuth: true,
+        title: '家計簿'
+      }
     },
     {
       path: '/summary/calender/:date',
@@ -40,6 +60,11 @@ const router = createRouter({
       props: (router) => ({
         date: router.params.date,
       }),
+      meta: {
+        layout: 'default',
+        requiresAuth: true,
+        title: '家計簿'
+      }
     },
   ],
 })
