@@ -31,7 +31,7 @@ console.log(user)
   <div>
     <TagFilter v-model="selectedFilters" />
 
-    <div class="m-2">
+    <div class="">
       <template v-if="loading"> データ取得中、、、 </template>
       <template v-else-if="filteredItems?.length === 0"> データがありません。 </template>
       <div v-else>
