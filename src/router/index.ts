@@ -4,7 +4,7 @@ import { KaimemoPage } from '@/pages/kaimemo'
 import { KaimemoSummaryPage } from '@/pages/kaimemo-summary'
 import { SummaryCalender } from '@/pages/summary-calender'
 import { authGuard } from '@/app/router/auth-guard'
-
+import { ProfilePage } from '@/pages/profile'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -66,6 +66,16 @@ const router = createRouter({
         title: '家計簿'
       }
     },
+    {
+      path: '/profile',
+      name: 'profile',
+      component: ProfilePage,
+      meta: {
+        layout: 'default',
+        requiresAuth: true,
+        title: 'プロフィール'
+      }
+    }
   ],
 })
 

@@ -1,8 +1,13 @@
 <script setup lang="ts">
-defineProps<{
+const props = withDefaults(defineProps<{
   isOpen: boolean
   title: string
-}>()
+  verticalPosition?: 'top-0' | 'bottom-0' | 'top-10' | 'bottom-50' | 'top-20' | 'bottom-10'
+  horizontalPosition?: 'left-0' | 'right-0'
+}>(), {
+  verticalPosition: 'bottom-0',
+  horizontalPosition: 'right-0',
+})
 
 defineEmits<{
   closeModal: []
@@ -14,15 +19,19 @@ defineEmits<{
     <div
       tabindex="-1"
       aria-hidden="true"
-      class="overflow-y-auto overflow-x-hidden fixed bottom-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 max-h-full"
-      v-show="isOpen"
+      class="overflow-y-auto overflow-x-hidden fixed  left-0 z-50 justify-center items-center w-full md:inset-0 max-h-full"
+      :class="[
+        props.verticalPosition,
+        props.horizontalPosition,
+      ]"
+      v-show="props.isOpen"
     >
       <div class="relative p-4 w-full max-w-2xl max-h-full">
-        <div class="relative bg-gray-100 rounded-lg shadow-xl dark:bg-gray-700">
+        <div class="relative bg-gray-100 rounded-lg shadow-xl dark:bg-gray-700 border-2 border-gray-200">
           <div
             class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200"
           >
-            <h3 class="text-xl font-semibold text-gray-900 dark:text-white">{{ title }}</h3>
+            <h3 class="text-xl font-semibold text-gray-900 dark:text-white">{{ props.title }}</h3>
             <button
               type="button"
               class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
