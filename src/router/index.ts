@@ -29,9 +29,14 @@ const router = createRouter({
       }
     },
     {
-      path: '/',
+      path: '/share',
       name: 'share',
       component: SharePage,
+      meta: {
+        layout: 'default',
+        requiresAuth: true,
+        title: '家計簿共有'
+      }
     },
     {
       path: '/kaimemo',
