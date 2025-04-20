@@ -3,7 +3,7 @@ import { authApi } from '@/shared/api/auth-api'
 import { GET } from '@/shared/api/client'
 import type { components } from '@/shared/api/v1.d'
 interface SessionState {
-  user: components['schemas']['LineMe']
+  user: components['schemas']['FetchMe']
   isAuthenticated: boolean
   isLoading: boolean
 }
@@ -14,12 +14,12 @@ export const useSessionStore = defineStore('session', {
       id: 0,
       userID: '',
       name: '',
-      pictureURL: ''
+      pictureURL: '',
+      householdBooks: []
     },
     isAuthenticated: false,
     isLoading: false
   }),
-
   actions: {
     // async login() {
     //   const loginUrl = await authApi.login()
@@ -33,7 +33,8 @@ export const useSessionStore = defineStore('session', {
           id: 0,
           userID: '',
           name: '',
-          pictureURL: ''
+          pictureURL: '',
+          householdBooks: []
         }
         this.isAuthenticated = false
         window.location.href = '/login'
@@ -44,23 +45,28 @@ export const useSessionStore = defineStore('session', {
 
     async fetchUser() {
       this.isLoading = true
+      
       try {
         const { data, error } = await GET('/line/me', {
           param : {}
         })
+
         if (data) {
           this.user = data
+          this.isAuthenticated = true
+        } else {
+          this.isAuthenticated = false
         }
         if (error) {
           throw error
         }
-        this.isAuthenticated = true
       } catch (error) {
         this.user = {
           id: 0,
           userID: '',
           name: '',
-          pictureURL: ''
+          pictureURL: '',
+          householdBooks: []
         }
         this.isAuthenticated = false
         throw error

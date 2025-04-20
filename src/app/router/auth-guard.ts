@@ -11,7 +11,7 @@ export const authGuard: NavigationGuard = async (to) => {
       await sessionStore.fetchUser()
     }
   } catch (error) {
-    console.log(error)
+    console.error('Failed to load user:', error)
     if (authRequired) {
       return '/login'
     }

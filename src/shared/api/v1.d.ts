@@ -61,7 +61,7 @@ export interface paths {
             };
             requestBody?: never;
             responses: {
-                200: components["responses"]["GetLineMe"];
+                200: components["responses"]["FetchMe"];
                 400: components["responses"]["UnauthorizedError"];
             };
         };
@@ -344,11 +344,12 @@ export interface paths {
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
-        LineMe: {
+        FetchMe: {
             id: number;
             userID: string;
             name: string;
             pictureURL: string;
+            householdBooks: components["schemas"]["HouseholdBook"][];
         };
         KaimemoSummary: {
             monthlySummaries: components["schemas"]["MonthlySummary"][];
@@ -384,15 +385,41 @@ export interface components {
             tag: string;
             done: boolean;
         };
+        HouseholdBook: {
+            id: number;
+            userID: number;
+            title: string;
+            description: string;
+            categoryLimit: components["schemas"]["CategoryLimit"][];
+        };
+        CategoryLimit: {
+            id: number;
+            categoryID: number;
+            limitAmount: number;
+            category: components["schemas"]["Category"];
+        };
+        Category: {
+            id: number;
+            name: string;
+            color: string;
+        };
+        ShoppingMemo: {
+            id: number;
+            householdID: number;
+            categoryID: number;
+            title: string;
+            memo: string;
+            isCompleted: boolean;
+        };
     };
     responses: {
         /** @description ユーザー情報取得 */
-        GetLineMe: {
+        FetchMe: {
             headers: {
                 [name: string]: unknown;
             };
             content: {
-                "application/json": components["schemas"]["LineMe"];
+                "application/json": components["schemas"]["FetchMe"];
             };
         };
         /** @description 週次集計 */

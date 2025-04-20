@@ -6,7 +6,7 @@ defineEmits<{
 
 <template>
   <button
-    class="fixed bottom-4 right-4 bg-blue-500 text-white p-4 rounded-full shadow-lg hover:bg-blue-700 flex items-center justify-center"
+    class="fixed bottom-20 right-4 bg-blue-500 text-white p-4 rounded-full shadow-lg hover:bg-blue-700 flex items-center justify-center"
     style="width: 56px; height: 56px"
     @click="$emit('click')"
   >

@@ -1,23 +1,21 @@
 <script setup lang="ts">
+import type { components } from '@/shared/api/v1';
 import { computed } from 'vue'
 
 const props = defineProps<{
-  id:string
-  tag: string // TODO : 本当は、型制約を設けること 'food' | 'dailyItems'
-  name: string
-  done: boolean
+  item: components["schemas"]["ShoppingMemo"]
 }>()
 
 defineEmits<{
-  handleDoneItem : [id:string]
+  handleDoneItem : [id:number]
 }>()
 
 const doneClasses = computed(() => ({
-  'line-through text-gray-400': props.done,
+  'line-through text-gray-400': props.item.isCompleted,
 }))
 
 const nameClasses = computed(() => ({
-  'text-gray-400': props.done,
+  'text-gray-400': props.item.isCompleted,
 }))
 </script>
 
@@ -26,7 +24,7 @@ const nameClasses = computed(() => ({
     <div class="flex items-center justify-between">
       <div class="flex items-center">
         <svg
-          v-if="tag === '食費'"
+          v-if="item.categoryID === 1"
           xmlns="http://www.w3.org/2000/svg"
           width="32"
           height="32"
@@ -39,7 +37,7 @@ const nameClasses = computed(() => ({
           />
         </svg>
         <svg
-          v-if="tag === '日用品'"
+          v-if="item.categoryID === 2"
           xmlns="http://www.w3.org/2000/svg"
           width="28"
           height="32"
@@ -53,13 +51,13 @@ const nameClasses = computed(() => ({
         </svg>
 
         <div class="flex flex-col ml-3" :class="doneClasses">
-          <div class="font-medium leading-none" :class="nameClasses">{{ name }}</div>
+          <div class="font-medium leading-none" :class="nameClasses">{{ item.title }}</div>
         </div>
       </div>
 
       <button
         class="flex-no-shrink bg-red-500 px-5 ml-4 py-2 text-sm shadow-sm hover:shadow-lg font-medium tracking-wider border-2 border-red-500 text-white rounded-full"
-        @click="$emit('handleDoneItem', id)"
+        @click="$emit('handleDoneItem', item.id)"
       >
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="32" viewBox="0 0 448 512">
           <path
