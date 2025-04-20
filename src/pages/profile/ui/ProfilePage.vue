@@ -1,45 +1,26 @@
 <script setup lang="ts">
-import { useSessionStore } from '@/entities/session/model/session-store'
-import { computed, ref } from 'vue';
-import { TheForm, TheCard, PrimaryButton } from '@/shared/ui';
-import ModalAddCategory from './ModalAddCategory.vue';
+import { TheForm, TheCard, PrimaryButton, SecondaryButton, BaseModal } from '@/shared/ui';
 import ModalAddHousehold from './ModalAddHousehold.vue';
 import LinkUserItem from './LinkUserItems.vue';
 import CategoryLimits from './CategoryLimits.vue';
+import { useInteraction } from '../hooks/useInteraction';
 
-const sessionStore = useSessionStore()
+const { 
+    user, 
+    defineField,
+    errors,
+    isOpenModalAddCategory, 
+    isOpenModalAddHousehold,
+    onClickOpenAddHouseholdModal, 
+    onClickCloseAddHouseholdModal, 
+    onClickOpenAddCategoryModal, 
+    onClickCloseAddItemModal, 
+    handleAddCategory, 
+    handleAddHousehold 
+} = useInteraction()
 
-const user = computed(() => sessionStore.user)
-
-const isOpenModalAddCategory = ref(false)
-const isOpenModalAddHousehold = ref(false)
-
-const onClickOpenAddCategoryModal = () => {
-    isOpenModalAddCategory.value = true
-}
-
-const onClickCloseAddItemModal = () => {
-    isOpenModalAddCategory.value = false
-}
-
-const onClickOpenAddHouseholdModal = () => {
-    isOpenModalAddHousehold.value = true
-}
-
-const onClickCloseAddHouseholdModal = () => {
-    isOpenModalAddHousehold.value = false
-}
-
-const handleAddCategory = () => {
-    console.log('handleAddCategory')
-    isOpenModalAddCategory.value = false
-}
-
-const handleAddHousehold = () => {
-    console.log('handleAddHousehold')
-    isOpenModalAddHousehold.value = false
-}
-
+const [name, nameProps] = defineField('name')
+const [limitAmount, limitAmountProps] = defineField('limitAmount')
 
 </script>
 
@@ -113,8 +94,39 @@ const handleAddHousehold = () => {
     </TheCard>
 
     <!-- modal -->
-    <ModalAddCategory :isOpenModal="isOpenModalAddCategory" @closeModal="onClickCloseAddItemModal"
-        @addCategory="handleAddCategory" />
+    <BaseModal title="カテゴリ追加" :isOpen="isOpenModalAddCategory" @closeModal="onClickCloseAddItemModal"
+    verticalPosition="top-20"
+    >
+        <template #modalBody>
+            <TheForm label="カテゴリ名">
+                <input type="text" 
+                class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                v-model="name" 
+                v-bind="nameProps" 
+                :class="{ 'bg-red-50 border-red-500': errors.name }"
+                />  
+                <p class="mt-2 text-sm text-red-600 dark:text-red-500">{{ errors.name }}</p>
+            </TheForm>
+            <TheForm label="上限値">
+                <input type="number" 
+                class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                v-model="limitAmount" 
+                v-bind="limitAmountProps" 
+                :class="{ 'bg-red-50 border-red-500': errors.limitAmount }"
+                />  
+                <p class="mt-2 text-sm text-red-600 dark:text-red-500">{{ errors.limitAmount }}</p>
+            </TheForm>
+        </template>
+        <template #buttons>
+            <PrimaryButton @click="handleAddCategory">
+                追加
+            </PrimaryButton>
+            <SecondaryButton @click="onClickCloseAddItemModal">
+                閉じる
+            </SecondaryButton>
+        </template>
+    </BaseModal>
+    
     <ModalAddHousehold :isOpenModal="isOpenModalAddHousehold" @closeModal="onClickCloseAddHouseholdModal"
         @addHousehold="handleAddHousehold" />
 </template>
