@@ -1,17 +1,24 @@
-import { type Kaimemo } from '@/shared/api'
 import { useForm } from 'vee-validate'
 import { onMounted, ref, computed, onUnmounted } from 'vue'
 import { type KaimemoSchema, schema } from '../types'
 import { toTypedSchema } from '@vee-validate/zod'
 import { useRouter } from 'vue-router'
+import { useSessionStore } from '@/entities/session/model/session-store'
+import type { components } from '@/shared/api/v1'
+export const WebSocketMethodMap = {
+  CreateKaimemo: '1',
+  RemoveKaimemo: '2',
+}
 
 export const useInteraction = () => {
-  const items = ref<Kaimemo[]>()
+  const sessionStore = useSessionStore()
+  const selectedHouseholdBook = ref<components['schemas']['HouseholdBook']>(sessionStore.user.householdBooks[0])
+  const items = ref<components['schemas']['ShoppingMemo'][]>()
   const isOpenModal = ref(false)
   const selectedFilters = ref<string[]>([])
   const tempUserID =
     (useRouter().currentRoute.value.query.share as string) ?? localStorage.getItem('tempUserID')
-  const ws = new WebSocket(`${import.meta.env.VITE_WEBSOCKET_URL_KAIMEMO}?tempUserID=${tempUserID}`)
+  let ws: WebSocket
 
   // TODO : provide, injectで共通的に処理したい
   const loading = ref<boolean>(true)
@@ -22,6 +29,7 @@ export const useInteraction = () => {
 
   onMounted(async () => {
     localStorage.setItem('tempUserID', tempUserID)
+    ws = new WebSocket(`${import.meta.env.VITE_WEBSOCKET_URL_KAIMEMO}?tempUserID=${selectedHouseholdBook.value.id}`)
 
     ws.onmessage = (event) => {
       console.log(JSON.parse(event.data))
@@ -46,8 +54,8 @@ export const useInteraction = () => {
   const onClickAddItem = handleSubmit(async (values) => {
     ws.send(
       JSON.stringify({
-        methodType: '1',
-        tempUserID: tempUserID,
+        methodType: WebSocketMethodMap.CreateKaimemo,
+        householdBookID: selectedHouseholdBook.value.id,
         ...values,
       }),
     )
@@ -57,13 +65,13 @@ export const useInteraction = () => {
     })
   })
 
-  const onClickArchiveItem = async (id: string) => {
+  const onClickArchiveItem = async (id: number) => {
     items.value = items.value?.filter((item) => item.id !== id)
 
     ws.send(
       JSON.stringify({
-        methodType: '2',
-        tempUserID: tempUserID,
+        methodType: WebSocketMethodMap.RemoveKaimemo,
+        // tempUserID: tempUserID,
         id: id,
       }),
     )
@@ -80,15 +88,27 @@ export const useInteraction = () => {
   }
 
   const filteredItems = computed(() => {
-    if (!selectedFilters.value.length) {
-      return items.value
-    }
-    return items.value?.filter((item) => selectedFilters.value.includes(item.tag))
+    return items.value
+    // TODO : modify
+    // if (!selectedFilters.value.length) {
+    // }
+    // return items.value?.filter((item) => selectedFilters.value.includes(item.categoryID))
+  })
+
+  const householdBooks = computed(() => {
+    return sessionStore.user.householdBooks
+  })
+
+  const categories = computed(() => {
+    return householdBooks.value[0].categoryLimit
   })
 
   return {
     items,
+    householdBooks,
+    categories,
     isOpenModal,
+    selectedHouseholdBook,
     errors,
     selectedFilters,
     filteredItems,

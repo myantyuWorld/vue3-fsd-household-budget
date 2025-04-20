@@ -20,7 +20,6 @@ export const useSessionStore = defineStore('session', {
     isAuthenticated: false,
     isLoading: false
   }),
-
   actions: {
     // async login() {
     //   const loginUrl = await authApi.login()
@@ -52,7 +51,6 @@ export const useSessionStore = defineStore('session', {
           param : {}
         })
 
-        console.log(data)
         if (data) {
           this.user = data
           this.isAuthenticated = true

@@ -403,6 +403,14 @@ export interface components {
             name: string;
             color: string;
         };
+        ShoppingMemo: {
+            id: number;
+            householdID: number;
+            categoryID: number;
+            title: string;
+            memo: string;
+            isCompleted: boolean;
+        };
     };
     responses: {
         /** @description ユーザー情報取得 */
