@@ -7,7 +7,7 @@ export const authGuard: NavigationGuard = async (to) => {
   const authRequired = !publicPages.includes(to.path)
 
   try {
-    if (!sessionStore.isAuthenticated && !sessionStore.isLoading) {
+    if (!sessionStore.isAuthenticated) {
       await sessionStore.fetchUser()
     }
   } catch (error) {

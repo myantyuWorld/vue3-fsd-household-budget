@@ -54,8 +54,10 @@ export const useSessionStore = defineStore('session', {
         if (data) {
           this.user = data
           this.isAuthenticated = true
+          this.isLoading = false
         } else {
           this.isAuthenticated = false
+          this.isLoading = false
         }
         if (error) {
           throw error
