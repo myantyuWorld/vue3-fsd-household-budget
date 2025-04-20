@@ -1,7 +1,6 @@
 <template>
   <div class="flex items-center gap-4">
     <div class="w-10 h-10 rounded-full bg-gray-200 animate-pulse"></div>
-    <div class="h-4 w-20 bg-gray-200 rounded animate-pulse"></div>
   </div>
 </template>
 

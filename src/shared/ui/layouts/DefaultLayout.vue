@@ -2,7 +2,7 @@
 import { computed, onMounted, ref } from 'vue'
 import { useSessionStore } from '@/entities/session/model/session-store'
 import { defineAsyncComponent } from 'vue'
-
+import { BaseModal, TheForm, PrimaryButton } from '@/shared/ui'
 defineProps<{
   title: string
 }>()
@@ -12,17 +12,20 @@ const user = computed(() => sessionStore.user)
 const isUserLoaded = ref(false)
 
 // 遅延読み込みコンポーネント
-const ShoppingIcon = defineAsyncComponent(() => 
+const ShoppingIcon = defineAsyncComponent(() =>
   import('@/shared/ui/icons/ShoppingIcon.vue')
 )
-const SummaryIcon = defineAsyncComponent(() => 
+const SummaryIcon = defineAsyncComponent(() =>
   import('@/shared/ui/icons/SummaryIcon.vue')
 )
-const LogoutIcon = defineAsyncComponent(() => 
+const LogoutIcon = defineAsyncComponent(() =>
   import('@/shared/ui/icons/LogoutIcon.vue')
 )
-const UserSkeleton = defineAsyncComponent(() => 
+const UserSkeleton = defineAsyncComponent(() =>
   import('@/shared/ui/icons/UserSkeleton.vue')
+)
+const ProfileIcon = defineAsyncComponent(() =>
+  import('@/shared/ui/icons/ProfileIcon.vue')
 )
 
 onMounted(async () => {
@@ -78,14 +81,57 @@ const logout = async () => {
           <router-link to="/summary" class="text-gray-600 hover:text-gray-900">
             <SummaryIcon />
           </router-link>
+          <router-link to="/profile" class="text-gray-600 hover:text-gray-900">
+            <ProfileIcon />
+          </router-link>
         </div>
       </div>
     </nav>
   </div>
+
+  <!-- modal -->
+  <BaseModal title="プロフィール" :isOpen="false" verticalPosition="top-0" horizontalPosition="left-0">
+    <template #modalBody>
+      <div class="flex items-center gap-4">
+        <template v-if="isUserLoaded">
+          <img :src="user.pictureURL" class="w-10 h-10 rounded-full" />
+        </template>
+        <UserSkeleton v-else />
+
+        <TheForm label="ユーザー名">
+          <label>
+            {{ user.name }}
+          </label>
+        </TheForm>
+      </div>
+      <hr/>
+      <TheForm label="家計簿">
+        <template v-for="householdBook in user.householdBooks" :key="householdBook.id">
+          <ul>
+            <li>
+                {{ householdBook.title }}
+                <ul>
+                  <li v-for="categoryLimit in householdBook.categoryLimit" :key="categoryLimit.id">
+                    - {{ categoryLimit.category.name }}
+                  </li>
+                  <PrimaryButton>
+                    追加
+                  </PrimaryButton>
+                </ul>
+            </li>
+          </ul>
+        </template>
+      </TheForm>
+
+      <hr/>
+
+      <hr/>
+    </template>
+  </BaseModal>
 </template>
 
 <style scoped>
 .router-link-active {
   @apply text-blue-600;
 }
-</style> 
+</style>
