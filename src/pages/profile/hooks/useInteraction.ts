@@ -43,6 +43,14 @@ export const useInteraction = () => {
         console.log(values)
         isOpenModalAddHousehold.value = false
     })
+
+    const handleShareHouseHoldLink = (id: number) => {
+        navigator.share({
+          title: 'kaimemo!',
+          text: 'リンクを共有し、買い物メモを共有しよう！',
+          url: window.location.origin + '/share' + '?houseHoldBookID=' + id + '&inviteUserID=' + user.value.id,
+        })
+    }
     
     return {
         user,
@@ -57,6 +65,7 @@ export const useInteraction = () => {
         onClickCloseAddHouseholdModal,
         handleAddCategory,
         handleAddHousehold,
+        handleShareHouseHoldLink,
     }
 
 }

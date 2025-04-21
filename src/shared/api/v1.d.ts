@@ -340,10 +340,130 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/household/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * 家計簿取得
+         * @description 家計簿を取得する
+         */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                200: components["responses"]["GetHousehold"];
+                401: components["responses"]["UnauthorizedError"];
+                404: components["responses"]["NotFoundError"];
+                default: components["responses"]["GeneralError"];
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/household/user/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * 家計簿ユーザー取得
+         * @description 家計簿ユーザーを取得する
+         */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                200: components["responses"]["FetchMe"];
+                401: components["responses"]["UnauthorizedError"];
+                404: components["responses"]["NotFoundError"];
+                default: components["responses"]["GeneralError"];
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/household/{householdID}/share/{inviteUserID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * 家計簿共有
+         * @description 家計簿を共有する
+         */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    householdID: number;
+                    inviteUserID: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                401: components["responses"]["UnauthorizedError"];
+                404: components["responses"]["NotFoundError"];
+                default: components["responses"]["GeneralError"];
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        UserAccount: {
+            id: number;
+            name: string;
+            pictureURL: string;
+        };
         FetchMe: {
             id: number;
             userID: string;
@@ -391,6 +511,7 @@ export interface components {
             title: string;
             description: string;
             categoryLimit: components["schemas"]["CategoryLimit"][];
+            users: components["schemas"]["UserAccount"][];
         };
         CategoryLimit: {
             id: number;
@@ -460,6 +581,15 @@ export interface components {
                 [name: string]: unknown;
             };
             content?: never;
+        };
+        /** @description 家計簿取得 */
+        GetHousehold: {
+            headers: {
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": components["schemas"]["HouseholdBook"];
+            };
         };
     };
     parameters: never;
