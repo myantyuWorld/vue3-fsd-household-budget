@@ -6,6 +6,7 @@ export const useAmountSummaryStore = defineStore('sharedState', {
   state: () => ({
     count: 0,
     summaries: {} as components['schemas']['KaimemoSummary'],
+    shoppingRecords: {} as components['schemas']['SummarizeShoppingAmount'],
   }),
   actions: {
     increment() {
@@ -13,6 +14,9 @@ export const useAmountSummaryStore = defineStore('sharedState', {
     },
     mutation(summaries: components['schemas']['KaimemoSummary']) {
       this.summaries = summaries
+    },
+    mutationShoppingRecords(shoppingRecords: components['schemas']['SummarizeShoppingAmount']) {
+      this.shoppingRecords = shoppingRecords
     },
   },
 })

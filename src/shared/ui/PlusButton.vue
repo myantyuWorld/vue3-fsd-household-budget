@@ -6,11 +6,11 @@ defineEmits<{
 
 <template>
   <button
-    class="fixed bottom-20 right-4 bg-blue-500 text-white p-4 rounded-full shadow-lg hover:bg-blue-700 flex items-center justify-center"
+    class="fixed bottom-20 right-4 bg-gradient-to-br from-indigo-500 to-purple-500 text-white p-4 rounded-full shadow-lg hover:from-indigo-600 hover:to-purple-600 transform hover:scale-110 transition-all duration-300 flex items-center justify-center"
     style="width: 56px; height: 56px"
     @click="$emit('click')"
   >
-    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" class="transform hover:rotate-90 transition-transform duration-300">
       <path
         fill="none"
         stroke="currentColor"

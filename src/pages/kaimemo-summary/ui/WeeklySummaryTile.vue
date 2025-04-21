@@ -31,9 +31,14 @@ defineEmits<{
 </script>
 
 <template>
-  <TheCard>
-    <div class="flex flex-row">
-      <div class="basis-32 flex items-center text-2xl" @click="$emit('onClickPrev')">＜</div>
+  <TheCard class="transform transition-all duration-300 hover:scale-[1.02] hover:shadow-xl">
+    <div class="flex flex-row items-center">
+      <button 
+        @click="$emit('onClickPrev')"
+        class="basis-32 flex items-center justify-center text-3xl text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 transition-colors duration-300"
+      >
+        ＜
+      </button>
       <div class="basis-224 m-2">
         <SummaryRecordHeader
           :startDate="weekStart"
@@ -41,11 +46,16 @@ defineEmits<{
           :weeklyAmount="weeklySummary.totalAmount"
         />
       </div>
-      <div class="flex items-center text-2xl" @click="$emit('onClickNext')">＞</div>
+      <button 
+        @click="$emit('onClickNext')"
+        class="basis-32 flex items-center justify-center text-3xl text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 transition-colors duration-300"
+      >
+        ＞
+      </button>
     </div>
 
-    <TheCard>
-      <div class="flow-root overflow-auto">
+    <TheCard class="mt-4 bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-gray-800 dark:to-gray-700">
+      <div class="flow-root overflow-auto max-h-96">
         <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
           <template v-for="item in weeklySummary.items" :key="item.id">
             <SummaryRecordItem
