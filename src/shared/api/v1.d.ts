@@ -412,6 +412,123 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/household/{householdID}/shopping/record": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * 買い物記録取得
+         * @description 買い物記録を取得する
+         */
+        get: {
+            parameters: {
+                query?: {
+                    date?: string;
+                };
+                header?: never;
+                path: {
+                    householdID: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                200: components["responses"]["GetShoppingRecord"];
+                401: components["responses"]["UnauthorizedError"];
+                404: components["responses"]["NotFoundError"];
+                default: components["responses"]["GeneralError"];
+            };
+        };
+        put?: never;
+        /**
+         * 買い物記録追加
+         * @description 買い物記録を追加する
+         */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    householdID: number;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        householdID: number;
+                        categoryID: number;
+                        amount: number;
+                        date: string;
+                        memo: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                401: components["responses"]["UnauthorizedError"];
+                404: components["responses"]["NotFoundError"];
+                default: components["responses"]["GeneralError"];
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/household/{householdID}/shopping/record/{shoppingID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /**
+         * 買い物記録削除
+         * @description 買い物記録を削除する
+         */
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    householdID: number;
+                    shoppingID: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                401: components["responses"]["UnauthorizedError"];
+                404: components["responses"]["NotFoundError"];
+                default: components["responses"]["GeneralError"];
+            };
+        };
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/household/{householdID}/share/{inviteUserID}": {
         parameters: {
             query?: never;
@@ -532,8 +649,33 @@ export interface components {
             memo: string;
             isCompleted: boolean;
         };
+        ShoppingRecord: {
+            id: number;
+            amount: number;
+            date: string;
+            memo: string;
+            category: components["schemas"]["Category"];
+        };
+        CategoryAmount: {
+            category: components["schemas"]["Category"];
+            amount: number;
+        };
+        SummarizeShoppingAmount: {
+            shoppingAmounts: components["schemas"]["ShoppingRecord"][];
+            totalAmount: number;
+            categoryAmounts: components["schemas"]["CategoryAmount"][];
+        };
     };
     responses: {
+        /** @description 買い物記録取得 */
+        GetShoppingRecord: {
+            headers: {
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": components["schemas"]["SummarizeShoppingAmount"];
+            };
+        };
         /** @description ユーザー情報取得 */
         FetchMe: {
             headers: {

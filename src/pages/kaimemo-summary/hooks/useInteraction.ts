@@ -1,52 +1,48 @@
 import { DELETE, GET, POST } from '@/shared/api'
 import type { components } from '@/shared/api/v1'
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { schema, type KaimemoSummarySchema } from '../types'
 import { toTypedSchema } from '@vee-validate/zod'
 import { useForm } from 'vee-validate'
 import { useAmountSummaryStore } from '@/features/kaimemo'
+import { useSessionStore } from '@/entities/session/model/session-store'
 
 export const useInteraction = () => {
   // TODO : provide, injectで共通的に処理したい
   const loading = ref<boolean>(true)
   const isOpenModal = ref<boolean>(false)
+  const isOpenDeleteModal = ref<boolean>(false)
+  const deleteId = ref<number>(0)
   const operatingCurrentDate = ref<Date>(new Date())
-  const summaries = ref<components['schemas']['KaimemoSummary']>()
-  const tempUserID = localStorage.getItem('tempUserID') ?? ''
+  const summarizeShoppingAmounts = ref<components['schemas']['SummarizeShoppingAmount']>()
   const store = useAmountSummaryStore()
+  const sessionStore = useSessionStore()
 
   const { defineField, errors, handleSubmit, resetForm } = useForm<KaimemoSummarySchema>({
     validationSchema: toTypedSchema(schema),
   })
 
-  const currentMonthlySummary = computed(() => {
-    return summaries.value?.monthlySummaries.find(
-      (summary) => summary.month === operatingCurrentDate.value.toISOString().slice(0, 7),
-    )
+  const householdBooks = computed(() => {
+    return sessionStore.user.householdBooks
   })
 
-  const currentWeeklySummary = computed(() => {
-    const weekStart = new Date(operatingCurrentDate.value)
-    weekStart.setDate(weekStart.getDate() - weekStart.getDay())
-
-    return summaries.value?.weeklySummaries.find(
-      (summary) =>
-        summary.weekStart ===
-        new Date(weekStart.getTime() + 9 * 60 * 60 * 1000).toISOString().slice(0, 10),
-    )
+  const categories = computed(() => {
+    // TODO : ユーザーが選択したhouseholdBookのcategoryLimitを取得
+    return householdBooks.value[0].categoryLimit
   })
 
   onMounted(async () => {
-    await fetchKaimemoSummary()
-
+    await Promise.all([fetchShoppingRecords()])
     store.increment()
   })
 
-  const fetchKaimemoSummary = async () => {
-    const { data, error } = await GET('/kaimemo/summary', {
+  const fetchShoppingRecords = async () => {
+    const { data, error } = await GET('/household/{householdID}/shopping/record', {
       params: {
+        // TODO : ユーザーが選択したhouseholdBookのidを取得
+        path: { householdID: householdBooks.value[0].id },
         query: {
-          tempUserID: tempUserID,
+          date: operatingCurrentDate.value.toISOString().split('T')[0],
         },
       },
     })
@@ -55,9 +51,15 @@ export const useInteraction = () => {
       return []
     }
 
-    store.mutation(data)
-    summaries.value = data
+    if (data) {
+      store.mutationShoppingRecords(data)
+      summarizeShoppingAmounts.value = data
+    }
   }
+  
+  watch(operatingCurrentDate, () => {
+    fetchShoppingRecords()
+  })
 
   const onClickAddAmountModal = () => {
     isOpenModal.value = true
@@ -101,58 +103,82 @@ export const useInteraction = () => {
     }
   }
 
-  const onClickAddAmountRecord = handleSubmit(async (values) => {
-    const { error } = await POST('/kaimemo/summary', {
-      body: {
-        tempUserID: tempUserID,
-        ...values,
-      },
-    })
-    if (error) {
-      console.error(error)
-      return
-    }
-
-    isOpenModal.value = false
-
-    fetchKaimemoSummary()
+  const summarizeCategoryLimitAmount = computed(() => {
+    return categories.value.reduce((acc, category) => acc + category.limitAmount, 0)
   })
 
-  const onClickDeleteAmountRecord = async (id: string) => {
-    const { error } = await DELETE('/kaimemo/summary/{id}', {
+  const onClickCreateShoppingRecord = handleSubmit(async (values) => {
+    console.log(values)
+
+    const { error } = await POST('/household/{householdID}/shopping/record', {
       body: {
-        tempUserID: tempUserID,
+        householdID: householdBooks.value[0].id,
+        categoryID: values.tag,
+        amount: values.amount,
+        date: values.date,
+        memo: values.memo ?? '',
       },
       params: {
         path: {
-          id,
+          // TODO : ユーザーが選択したhouseholdBookのidを取得
+          householdID: householdBooks.value[0].id,
         },
       },
     })
+
     if (error) {
       console.error(error)
       return
     }
 
-    fetchKaimemoSummary()
+    fetchShoppingRecords()
+    isOpenModal.value = false
+  })
+
+  const onClickDeleteAmountRecord = async () => {
+    const { error } = await DELETE('/household/{householdID}/shopping/record/{shoppingID}', {
+      params: {
+        path: { householdID: householdBooks.value[0].id, shoppingID: deleteId.value },
+      },
+    })
+
+    if (error) {
+      console.error(error)
+      return
+    }
+
+    await fetchShoppingRecords()
+    isOpenDeleteModal.value = false
   }
+  const onClickOpenDeleteConfirmModal = (id: number) => {
+    deleteId.value = id
+    isOpenDeleteModal.value = true
+  }
+
+  const onClickCloseDeleteConfirmModal = () => {
+    isOpenDeleteModal.value = false
+  }
+
 
   return {
     isOpenModal,
+    isOpenDeleteModal,
     loading,
-    currentMonthlySummary,
-    currentWeeklySummary,
     operatingCurrentDate,
     errors,
+    categories,
     defineField,
-    fetchKaimemoSummary,
     onClickAddAmountModal,
     onClickCloseAmountModal,
     onClickMonthlyPrev,
     onClickMonthlyNext,
     onClickWeeklyPrev,
     onClickWeeklyNext,
-    onClickAddAmountRecord,
     onClickDeleteAmountRecord,
+    onClickCreateShoppingRecord,
+    onClickCloseDeleteConfirmModal,
+    onClickOpenDeleteConfirmModal,
+    summarizeShoppingAmounts,
+    summarizeCategoryLimitAmount,
   }
 }

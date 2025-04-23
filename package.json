@@ -16,7 +16,7 @@
     "format": "prettier --write src/",
     "storybook": "storybook dev -p 6006 --initial-path=/ --quiet",
     "build-storybook": "storybook build",
-    "gen-api-types": "openapi-typescript https://raw.githubusercontent.com/myantyuWorld/echo-household-budget/refs/heads/feature/invite-user/openapi.yml --output ./src/shared/api/v1.d.ts  --properties-required-by-default",
+    "gen-api-types": "openapi-typescript https://raw.githubusercontent.com/myantyuWorld/echo-household-budget/refs/heads/feature/search-money-record/openapi.yml --output ./src/shared/api/v1.d.ts  --properties-required-by-default",
     "prepare": "husky",
     "pre-commit": "run-p lint type-check test:unit"
   },

@@ -15,11 +15,11 @@ defineEmits<{
 </script>
 
 <template>
-  <Transition>
+  <Transition name="modal">
     <div
       tabindex="-1"
       aria-hidden="true"
-      class="overflow-y-auto overflow-x-hidden fixed  left-0 z-50 justify-center items-center w-full md:inset-0 max-h-full"
+      class="overflow-y-auto overflow-x-hidden fixed z-50 justify-center items-center w-full md:inset-0 max-h-full backdrop-blur-sm"
       :class="[
         props.verticalPosition,
         props.horizontalPosition,
@@ -27,19 +27,19 @@ defineEmits<{
       v-show="props.isOpen"
     >
       <div class="relative p-4 w-full max-w-2xl max-h-full">
-        <div class="relative bg-gray-100 rounded-lg shadow-xl dark:bg-gray-700 border-2 border-gray-200">
+        <div class="relative bg-gradient-to-br from-indigo-50 via-pink-50 to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-700 rounded-2xl shadow-2xl border-2 border-indigo-200/50 dark:border-indigo-800/50 transform transition-all duration-300 hover:scale-[1.01]">
           <div
-            class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600 border-gray-200"
+            class="flex items-center justify-between p-6 border-b border-indigo-200/50 dark:border-indigo-800/50 rounded-t-2xl"
           >
-            <h3 class="text-xl font-semibold text-gray-900 dark:text-white">{{ props.title }}</h3>
+            <h3 class="text-2xl font-bold bg-gradient-to-r from-indigo-600 via-pink-600 to-purple-600 bg-clip-text text-transparent dark:from-indigo-400 dark:via-pink-400 dark:to-purple-400">{{ props.title }}</h3>
             <button
               type="button"
-              class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+              class="text-indigo-600 dark:text-indigo-400 bg-transparent hover:bg-indigo-100 dark:hover:bg-indigo-900 rounded-full text-sm w-8 h-8 ms-auto inline-flex justify-center items-center transition-all duration-300 transform hover:rotate-90"
               data-modal-hide="default-modal"
               @click="$emit('closeModal')"
             >
               <svg
-                class="w-3 h-3"
+                class="w-4 h-4"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -57,12 +57,12 @@ defineEmits<{
             </button>
           </div>
 
-          <div class="p-4 md:p-5 space-y-4">
+          <div class="p-6 space-y-6">
             <slot name="modalBody"></slot>
           </div>
 
           <div
-            class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600"
+            class="flex items-center p-6 border-t border-indigo-200/50 dark:border-indigo-800/50 rounded-b-2xl"
           >
             <slot name="buttons"> </slot>
           </div>
@@ -73,13 +73,14 @@ defineEmits<{
 </template>
 
 <style lang="css" scoped>
-.v-enter-active,
-.v-leave-active {
-  transition: opacity 0.5s ease;
+.modal-enter-active,
+.modal-leave-active {
+  transition: all 0.3s ease;
 }
 
-.v-enter-from,
-.v-leave-to {
+.modal-enter-from,
+.modal-leave-to {
   opacity: 0;
+  transform: scale(0.95);
 }
 </style>

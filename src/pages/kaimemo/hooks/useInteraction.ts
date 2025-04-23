@@ -100,6 +100,7 @@ export const useInteraction = () => {
   })
 
   const categories = computed(() => {
+    // TODO : ユーザーが選択したhouseholdBookのcategoryLimitを取得
     return householdBooks.value[0].categoryLimit
   })
 
