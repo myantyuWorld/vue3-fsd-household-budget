@@ -425,7 +425,9 @@ export interface paths {
          */
         get: {
             parameters: {
-                query?: never;
+                query?: {
+                    date?: string;
+                };
                 header?: never;
                 path: {
                     householdID: number;
