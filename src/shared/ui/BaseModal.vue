@@ -19,7 +19,7 @@ defineEmits<{
     <div
       tabindex="-1"
       aria-hidden="true"
-      class="overflow-y-auto overflow-x-hidden fixed z-50 justify-center items-center w-full md:inset-0 max-h-full backdrop-blur-sm"
+      class="overflow-y-auto overflow-x-hidden fixed z-50 justify-center items-center md:inset-0 max-h-full backdrop-blur-sm"
       :class="[
         props.verticalPosition,
         props.horizontalPosition,

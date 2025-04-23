@@ -1,8 +1,9 @@
-import { categoryLimitSchema, type CategoryLimitSchema } from "../types/schema"
+import { categoryLimitSchema, householdBookSchema, type CategoryLimitSchema, type HouseholdBookSchema } from "../types/schema"
 import { toTypedSchema } from "@vee-validate/zod"
 import { ref, computed } from "vue"
 import { useForm } from "vee-validate"
 import { useSessionStore } from "@/entities/session/model/session-store"
+import { POST } from "@/shared/api/client"
 
 export const useInteraction = () => {
     const sessionStore = useSessionStore()
@@ -15,6 +16,14 @@ export const useInteraction = () => {
         initialValues: {
             name: '',
             limitAmount: 0,
+        },
+    })
+
+    const { defineField: defineFieldHousehold, errors: errorsHousehold, handleSubmit: handleSubmitHousehold, setValues: setValuesHousehold } = useForm<HouseholdBookSchema>({
+        validationSchema: toTypedSchema(householdBookSchema),
+        initialValues: {
+            title: '',
+            description: '',
         },
     })
 
@@ -34,13 +43,42 @@ export const useInteraction = () => {
         isOpenModalAddHousehold.value = false
     }
 
-    const handleAddCategory = handleSubmit((values) => {
+    const handleAddCategory = handleSubmit(async (values) => {
         console.log(values)
+        const err = await POST('/household/{householdID}/category', {
+            params: {
+                path: {
+                    // TODO : ユーザーが選択したhouseholdBookのidを取得
+                    householdID: user.value.householdBooks[0].id,
+                },
+            },
+            body: {
+                categoryName: values.name,
+                categoryLimitAmount: values.limitAmount,
+            },
+        })
+        if (err) {
+            console.log(err)
+        }
         isOpenModalAddCategory.value = false
     })
 
-    const handleAddHousehold = handleSubmit((values) => {
+    const handleAddHousehold = handleSubmitHousehold(async (values) => {
         console.log(values)
+        const err = await POST('/household/user/{id}', {
+            params: {
+                path: {
+                    id: user.value.id,
+                },
+            },
+            body: {
+                title: values.title,
+                description: values.description,
+            },
+        })
+        if (err) {
+            console.log(err)
+        }
         isOpenModalAddHousehold.value = false
     })
 
@@ -57,8 +95,11 @@ export const useInteraction = () => {
         isOpenModalAddCategory,
         isOpenModalAddHousehold,
         defineField,
+        defineFieldHousehold,
         errors,
+        errorsHousehold,
         setValues,
+        setValuesHousehold,
         onClickOpenAddCategoryModal,
         onClickCloseAddItemModal,
         onClickOpenAddHouseholdModal,

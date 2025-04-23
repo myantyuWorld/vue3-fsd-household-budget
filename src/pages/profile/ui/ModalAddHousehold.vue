@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { BaseModal, TheForm, PrimaryButton, SecondaryButton } from '@/shared/ui';
-
 defineProps<{
     isOpenModal: boolean
 }>()

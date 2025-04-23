@@ -1,6 +1,6 @@
 import { DELETE, GET, POST } from '@/shared/api'
 import type { components } from '@/shared/api/v1'
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { schema, type KaimemoSummarySchema } from '../types'
 import { toTypedSchema } from '@vee-validate/zod'
 import { useForm } from 'vee-validate'
@@ -41,6 +41,9 @@ export const useInteraction = () => {
       params: {
         // TODO : ユーザーが選択したhouseholdBookのidを取得
         path: { householdID: householdBooks.value[0].id },
+        query: {
+          date: operatingCurrentDate.value.toISOString().split('T')[0],
+        },
       },
     })
     if (error) {
@@ -53,6 +56,10 @@ export const useInteraction = () => {
       summarizeShoppingAmounts.value = data
     }
   }
+  
+  watch(operatingCurrentDate, () => {
+    fetchShoppingRecords()
+  })
 
   const onClickAddAmountModal = () => {
     isOpenModal.value = true
