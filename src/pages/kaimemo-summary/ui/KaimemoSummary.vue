@@ -4,6 +4,8 @@ import { GridCol3 } from '@/shared/ui/layouts'
 import { useInteraction } from '../hooks/useInteraction'
 import { ShoppingAmountItem, ShoppingCategoryBudgetRemain } from '@/entities/shopping'
 import MonthlyHeader from './MonthlyHeader.vue'
+import { HouseholdTile } from '@/entities/household'
+
 const {
   isOpenModal,
   operatingCurrentDate,
@@ -11,6 +13,8 @@ const {
   categories,
   summarizeShoppingAmounts,
   summarizeCategoryLimitAmount,
+  householdBooks,
+  selectedHouseholdBook,
   defineField,
   onClickAddAmountModal,
   onClickCloseAmountModal,
@@ -30,6 +34,7 @@ const [memo, memoProps] = defineField('memo')
 </script>
 
 <template>
+  <HouseholdTile :householdBooks="householdBooks" v-model="selectedHouseholdBook" />
   <div
     class="min-h-screen bg-gradient-to-br from-indigo-50 via-pink-50 to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-700">
     <div class="sticky top-14 z-10 backdrop-blur-md bg-white/80 dark:bg-gray-800/80 shadow-lg p-4">

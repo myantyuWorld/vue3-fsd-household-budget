@@ -92,7 +92,7 @@ describe.skip('useInteraction', () => {
     expect(filteredItems.value).toEqual(items.value)
     
     // フィルターを設定
-    selectedFilters.value = ['食費']
+    selectedFilters.value = 1
     
     // フィルターに一致するアイテムのみが返される
     expect(filteredItems.value).toEqual([

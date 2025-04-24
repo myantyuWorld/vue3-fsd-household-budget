@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { TheCard } from "@/shared/ui";
+import { TheCard, PlusButton } from "@/shared/ui";
 import { PrimaryButton } from "@/shared/ui";
 import CategoryLimits from "./CategoryLimits.vue";
 import type { components } from "@/shared/api/v1";
@@ -44,10 +44,11 @@ const onClickShow = () => {
                 <CategoryLimits :categoryLimits="householdBook.categoryLimit" />
             </template>
             <div class="flex justify-end mt-6">
-                <PrimaryButton @click="$emit('click', householdBook.id)"
+                <!-- <PrimaryButton @click="$emit('click', householdBook.id)"
                     class="bg-indigo-600 hover:bg-indigo-700 transform hover:scale-105 transition-transform duration-300">
                     「カテゴリ」を追加
-                </PrimaryButton>
+                </PrimaryButton> -->
+                <PlusButton @click="$emit('click', householdBook.id)" :isFixed="false"/>
             </div>
         </div>
     </TheCard>

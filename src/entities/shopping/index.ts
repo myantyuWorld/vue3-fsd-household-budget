@@ -1,2 +1,4 @@
 export { default as ShoppingAmountItem } from './ui/ShoppingAmountItem.vue'
 export { default as ShoppingCategoryBudgetRemain } from './ui/ShoppingCategoryBudgetRemain.vue'
+export { default as ShoppingCategoryIcon } from './ui/ShoppingCategoryIcon.vue'
+export { default as ShoppingMemoItem } from './ui/ShoppingMemoItem.vue'

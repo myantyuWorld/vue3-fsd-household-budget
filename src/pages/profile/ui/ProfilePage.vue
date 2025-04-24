@@ -46,32 +46,12 @@ const [description, descriptionProps] = defineFieldHousehold('description')
 
         <!-- 家計簿セクション -->
         <TheCard class="bg-white dark:bg-gray-800 shadow-2xl rounded-xl backdrop-blur-sm">
-            <TheForm label="家計簿">
-                <!-- 共有ユーザーセクション -->
-                <TheCard class="bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-700 dark:to-gray-600 rounded-xl mb-8 transform hover:scale-[1.01] transition-all duration-300">
-                    <TheForm label="共有しているユーザー">
-                        <ul class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                            <LinkUserItem name="山田太郎" role="メンバー" />
-                        </ul>
-                    </TheForm>
-                </TheCard>
-
-                <!-- 家計簿リスト -->
-                <ul class="space-y-2">
-                    <li v-for="householdBook in user.householdBooks" :key="householdBook.id" class="space-y-2">
-                        <HouseHoldHeaderTile :householdBook="householdBook" @share="handleShareHouseHoldLink(householdBook.id)" v-model:title="householdBook.title"/>
-                        <HouseHoldCategories :householdBook="householdBook" @click="onClickOpenAddCategoryModal(householdBook.id)"/>
-                    </li>
-                </ul>
-
-                <!-- 家計簿追加ボタン -->
-                <div class="flex justify-end mt-8">
-                    <PrimaryButton @click="onClickOpenAddHouseholdModal" 
-                        class="bg-indigo-600 hover:bg-indigo-700 transform hover:scale-105 transition-transform duration-300">
-                        「家計簿」を追加
-                    </PrimaryButton>
-                </div>
-            </TheForm>
+            <ul class="space-y-2">
+                <li v-for="householdBook in user.householdBooks" :key="householdBook.id" class="space-y-2">
+                    <HouseHoldHeaderTile :householdBook="householdBook" @share="handleShareHouseHoldLink(householdBook.id)" @add="onClickOpenAddHouseholdModal" v-model:title="householdBook.title" />
+                    <HouseHoldCategories :householdBook="householdBook" @click="onClickOpenAddCategoryModal(householdBook.id)"/>
+                </li>
+            </ul>
         </TheCard>
 
         <!-- カテゴリ追加モーダル -->
