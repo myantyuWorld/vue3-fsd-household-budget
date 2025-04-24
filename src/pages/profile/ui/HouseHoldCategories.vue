@@ -11,7 +11,7 @@ defineProps<{
 }>()
 
 defineEmits<{
-    click: []
+    click: [householdBookID:number]
 }>()
 
 const isShow = ref(false)
@@ -44,7 +44,7 @@ const onClickShow = () => {
                 <CategoryLimits :categoryLimits="householdBook.categoryLimit" />
             </template>
             <div class="flex justify-end mt-6">
-                <PrimaryButton @click="$emit('click')"
+                <PrimaryButton @click="$emit('click', householdBook.id)"
                     class="bg-indigo-600 hover:bg-indigo-700 transform hover:scale-105 transition-transform duration-300">
                     「カテゴリ」を追加
                 </PrimaryButton>

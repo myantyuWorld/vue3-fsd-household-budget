@@ -59,8 +59,8 @@ const [description, descriptionProps] = defineFieldHousehold('description')
                 <!-- 家計簿リスト -->
                 <ul class="space-y-2">
                     <li v-for="householdBook in user.householdBooks" :key="householdBook.id" class="space-y-2">
-                        <HouseHoldHeaderTile :householdBook="householdBook" @share="handleShareHouseHoldLink(householdBook.id)"/>
-                        <HouseHoldCategories :householdBook="householdBook" @click="onClickOpenAddCategoryModal"/>
+                        <HouseHoldHeaderTile :householdBook="householdBook" @share="handleShareHouseHoldLink(householdBook.id)" v-model:title="householdBook.title"/>
+                        <HouseHoldCategories :householdBook="householdBook" @click="onClickOpenAddCategoryModal(householdBook.id)"/>
                     </li>
                 </ul>
 

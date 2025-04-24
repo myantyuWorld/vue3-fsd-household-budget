@@ -10,6 +10,7 @@ export const useInteraction = () => {
     const user = computed(() => sessionStore.user)
     const isOpenModalAddCategory = ref(false)
     const isOpenModalAddHousehold = ref(false)
+    let selectedHouseholdBookID = 0
 
     const { defineField, errors, handleSubmit, setValues } = useForm<CategoryLimitSchema>({
         validationSchema: toTypedSchema(categoryLimitSchema),
@@ -27,7 +28,8 @@ export const useInteraction = () => {
         },
     })
 
-    const onClickOpenAddCategoryModal = () => {
+    const onClickOpenAddCategoryModal = (householdBookID: number) => {
+        selectedHouseholdBookID = householdBookID
         isOpenModalAddCategory.value = true
     }
 
@@ -48,8 +50,7 @@ export const useInteraction = () => {
         const err = await POST('/household/{householdID}/category', {
             params: {
                 path: {
-                    // TODO : ユーザーが選択したhouseholdBookのidを取得
-                    householdID: user.value.householdBooks[0].id,
+                    householdID: selectedHouseholdBookID,
                 },
             },
             body: {
@@ -60,6 +61,7 @@ export const useInteraction = () => {
         if (err) {
             console.log(err)
         }
+        await sessionStore.fetchUser()
         isOpenModalAddCategory.value = false
     })
 
@@ -79,6 +81,7 @@ export const useInteraction = () => {
         if (err) {
             console.log(err)
         }
+        await sessionStore.fetchUser()
         isOpenModalAddHousehold.value = false
     })
 
