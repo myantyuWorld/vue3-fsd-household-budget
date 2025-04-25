@@ -1,0 +1,1 @@
+export { default as HouseholdTile } from './ui/HouseHoldTile.vue'

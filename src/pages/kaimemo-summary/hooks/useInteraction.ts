@@ -17,6 +17,7 @@ export const useInteraction = () => {
   const summarizeShoppingAmounts = ref<components['schemas']['SummarizeShoppingAmount']>()
   const store = useAmountSummaryStore()
   const sessionStore = useSessionStore()
+  const selectedHouseholdBook = ref<components['schemas']['HouseholdBook']>(sessionStore.user.householdBooks[0])
 
   const { defineField, errors, handleSubmit, resetForm } = useForm<KaimemoSummarySchema>({
     validationSchema: toTypedSchema(schema),
@@ -28,19 +29,22 @@ export const useInteraction = () => {
 
   const categories = computed(() => {
     // TODO : ユーザーが選択したhouseholdBookのcategoryLimitを取得
-    return householdBooks.value[0].categoryLimit
+    return selectedHouseholdBook.value.categoryLimit
   })
 
   onMounted(async () => {
-    await Promise.all([fetchShoppingRecords()])
-    store.increment()
+    fetchShoppingRecords()
+  })
+
+  watch(selectedHouseholdBook, () => {
+    fetchShoppingRecords()
   })
 
   const fetchShoppingRecords = async () => {
     const { data, error } = await GET('/household/{householdID}/shopping/record', {
       params: {
         // TODO : ユーザーが選択したhouseholdBookのidを取得
-        path: { householdID: householdBooks.value[0].id },
+        path: { householdID: selectedHouseholdBook.value.id },
         query: {
           date: operatingCurrentDate.value.toISOString().split('T')[0],
         },
@@ -121,7 +125,7 @@ export const useInteraction = () => {
       params: {
         path: {
           // TODO : ユーザーが選択したhouseholdBookのidを取得
-          householdID: householdBooks.value[0].id,
+          householdID: selectedHouseholdBook.value.id,
         },
       },
     })
@@ -138,7 +142,7 @@ export const useInteraction = () => {
   const onClickDeleteAmountRecord = async () => {
     const { error } = await DELETE('/household/{householdID}/shopping/record/{shoppingID}', {
       params: {
-        path: { householdID: householdBooks.value[0].id, shoppingID: deleteId.value },
+        path: { householdID: selectedHouseholdBook.value.id, shoppingID: deleteId.value },
       },
     })
 
@@ -180,5 +184,7 @@ export const useInteraction = () => {
     onClickOpenDeleteConfirmModal,
     summarizeShoppingAmounts,
     summarizeCategoryLimitAmount,
+    householdBooks,
+    selectedHouseholdBook,
   }
 }

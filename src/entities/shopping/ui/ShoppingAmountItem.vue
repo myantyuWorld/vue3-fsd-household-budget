@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { components } from '@/shared/api/v1';
-
+import  ShoppingCategoryIcon from './ShoppingCategoryIcon.vue';
 
 defineProps<{
     shoppingRecord: components['schemas']['ShoppingRecord']
@@ -14,13 +14,7 @@ defineEmits<{
 <template>
     <div class="flex items-center justify-between">
         <div class="flex items-center gap-3">
-            <div
-                class="w-12 h-12 rounded-full bg-gradient-to-r from-indigo-100 to-purple-100 dark:from-indigo-900 dark:to-purple-900 flex items-center justify-center">
-                <span class="text-lg font-bold text-indigo-600 dark:text-indigo-400">
-                    {{ shoppingRecord.category.name.charAt(0) }}
-                </span>
-            </div>
-
+            <ShoppingCategoryIcon :categoryName="shoppingRecord.category.name" />
             <div>
                 <p class="text-sm text-gray-500 dark:text-gray-400">{{ shoppingRecord.date }}</p>
                 <p class="font-medium text-gray-700 dark:text-gray-200">{{ shoppingRecord.category.name }}</p>

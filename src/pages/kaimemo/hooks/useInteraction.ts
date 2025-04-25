@@ -1,5 +1,5 @@
 import { useForm } from 'vee-validate'
-import { onMounted, ref, computed, onUnmounted } from 'vue'
+import { onMounted, ref, computed, onUnmounted, watch } from 'vue'
 import { type KaimemoSchema, schema } from '../types'
 import { toTypedSchema } from '@vee-validate/zod'
 import { useRouter } from 'vue-router'
@@ -15,13 +15,28 @@ export const useInteraction = () => {
   const selectedHouseholdBook = ref<components['schemas']['HouseholdBook']>(sessionStore.user.householdBooks[0])
   const items = ref<components['schemas']['ShoppingMemo'][]>()
   const isOpenModal = ref(false)
-  const selectedFilters = ref<string[]>([])
+  const selectedFilters = ref<number>()
   const tempUserID =
     (useRouter().currentRoute.value.query.share as string) ?? localStorage.getItem('tempUserID')
   let ws: WebSocket
 
   // TODO : provide, injectで共通的に処理したい
   const loading = ref<boolean>(true)
+
+  const selectedCategoryLimit = computed(() => {
+    return selectedHouseholdBook.value.categoryLimit
+  })
+
+  watch(selectedHouseholdBook, () => {
+    ws = new WebSocket(`${import.meta.env.VITE_WEBSOCKET_URL_KAIMEMO}?tempUserID=${selectedHouseholdBook.value.id}`)
+
+    ws.onmessage = (event) => {
+      console.log(JSON.parse(event.data))
+      items.value = JSON.parse(event.data)
+
+      loading.value = false
+    }
+  })
 
   const { defineField, errors, handleSubmit, setValues } = useForm<KaimemoSchema>({
     validationSchema: toTypedSchema(schema),
@@ -32,7 +47,6 @@ export const useInteraction = () => {
     ws = new WebSocket(`${import.meta.env.VITE_WEBSOCKET_URL_KAIMEMO}?tempUserID=${selectedHouseholdBook.value.id}`)
 
     ws.onmessage = (event) => {
-      console.log(JSON.parse(event.data))
       items.value = JSON.parse(event.data)
 
       loading.value = false
@@ -88,11 +102,10 @@ export const useInteraction = () => {
   }
 
   const filteredItems = computed(() => {
-    return items.value
-    // TODO : modify
-    // if (!selectedFilters.value.length) {
-    // }
-    // return items.value?.filter((item) => selectedFilters.value.includes(item.categoryID))
+    if (!selectedFilters.value) {
+      return items.value
+    }
+    return items.value?.filter((item) => selectedFilters.value === item.categoryID)
   })
 
   const householdBooks = computed(() => {
@@ -110,6 +123,7 @@ export const useInteraction = () => {
     categories,
     isOpenModal,
     selectedHouseholdBook,
+    selectedCategoryLimit,
     errors,
     selectedFilters,
     filteredItems,
