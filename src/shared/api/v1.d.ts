@@ -728,6 +728,7 @@ export interface components {
             title: string;
             memo: string;
             isCompleted: boolean;
+            category: components["schemas"]["Category"];
         };
         ShoppingRecord: {
             id: number;

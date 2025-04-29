@@ -12,7 +12,9 @@ export const WebSocketMethodMap = {
 
 export const useInteraction = () => {
   const sessionStore = useSessionStore()
-  const selectedHouseholdBook = ref<components['schemas']['HouseholdBook']>(sessionStore.user.householdBooks[0])
+  const selectedHouseholdBook = ref<components['schemas']['HouseholdBook']>(
+    sessionStore.user.householdBooks[0],
+  )
   const items = ref<components['schemas']['ShoppingMemo'][]>()
   const isOpenModal = ref(false)
   const selectedFilters = ref<number>()
@@ -28,7 +30,9 @@ export const useInteraction = () => {
   })
 
   watch(selectedHouseholdBook, () => {
-    ws = new WebSocket(`${import.meta.env.VITE_WEBSOCKET_URL_KAIMEMO}?tempUserID=${selectedHouseholdBook.value.id}`)
+    ws = new WebSocket(
+      `${import.meta.env.VITE_WEBSOCKET_URL_KAIMEMO}?tempUserID=${selectedHouseholdBook.value.id}`,
+    )
 
     ws.onmessage = (event) => {
       console.log(JSON.parse(event.data))
@@ -44,9 +48,12 @@ export const useInteraction = () => {
 
   onMounted(async () => {
     localStorage.setItem('tempUserID', tempUserID)
-    ws = new WebSocket(`${import.meta.env.VITE_WEBSOCKET_URL_KAIMEMO}?tempUserID=${selectedHouseholdBook.value.id}`)
+    ws = new WebSocket(
+      `${import.meta.env.VITE_WEBSOCKET_URL_KAIMEMO}?tempUserID=${selectedHouseholdBook.value.id}`,
+    )
 
     ws.onmessage = (event) => {
+      // TODO : カテゴリ名も取得する
       items.value = JSON.parse(event.data)
 
       loading.value = false
@@ -92,7 +99,9 @@ export const useInteraction = () => {
   }
 
   const onClickShare = () => {
-    const shareURL = !tempUserID ? window.location.href + `?share=${tempUserID}` : window.location.href
+    const shareURL = !tempUserID
+      ? window.location.href + `?share=${tempUserID}`
+      : window.location.href
 
     navigator.share({
       title: 'kaimemo!',
