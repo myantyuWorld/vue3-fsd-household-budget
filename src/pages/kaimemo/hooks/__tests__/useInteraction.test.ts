@@ -8,7 +8,7 @@ vi.mock('vue', async () => {
   return {
     ...actual,
     onMounted: (fn: () => void) => fn(),
-    onUnmounted: vi.fn()
+    onUnmounted: vi.fn(),
   }
 })
 
@@ -18,11 +18,11 @@ vi.mock('vue-router', () => ({
     currentRoute: {
       value: {
         query: {
-          share: 'test-user-id'
-        }
-      }
-    }
-  }))
+          share: 'test-user-id',
+        },
+      },
+    },
+  })),
 }))
 
 vi.mock('vee-validate', () => ({
@@ -30,8 +30,8 @@ vi.mock('vee-validate', () => ({
     defineField: vi.fn(),
     errors: ref({}),
     handleSubmit: vi.fn((fn) => fn),
-    setValues: vi.fn()
-  }))
+    setValues: vi.fn(),
+  })),
 }))
 
 // WebSocketのモック（最小限）
@@ -47,13 +47,13 @@ vi.stubGlobal('WebSocket', MockWebSocket)
 // localStorageのモック（最小限）
 vi.stubGlobal('localStorage', {
   getItem: vi.fn(),
-  setItem: vi.fn()
+  setItem: vi.fn(),
 })
 
 describe.skip('useInteraction', () => {
   it('初期化時に正しく設定される', () => {
     const { items, isOpenModal, selectedFilters, loading } = useInteraction()
-    
+
     expect(items.value).toBeUndefined()
     expect(isOpenModal.value).toBe(false)
     expect(selectedFilters.value).toEqual([])
@@ -62,42 +62,66 @@ describe.skip('useInteraction', () => {
 
   it('onClickOpenAddItemModalが呼ばれると、isOpenModalがtrueになる', () => {
     const { isOpenModal, onClickOpenAddItemModal } = useInteraction()
-    
+
     onClickOpenAddItemModal()
-    
+
     expect(isOpenModal.value).toBe(true)
   })
 
   it('onClickCloseAddItemModalが呼ばれると、isOpenModalがfalseになる', () => {
     const { isOpenModal, onClickCloseAddItemModal } = useInteraction()
-    
+
     // まずtrueに設定
     isOpenModal.value = true
-    
+
     onClickCloseAddItemModal()
-    
+
     expect(isOpenModal.value).toBe(false)
   })
 
   it('filteredItemsが正しく計算される', () => {
     const { items, selectedFilters, filteredItems } = useInteraction()
-    
+
     // 初期データを設定
     items.value = [
-      { id: 1, title: '牛乳', categoryID: 1, isCompleted: false, householdID: 1, memo: '' },
-      { id: 2, title: 'パン', categoryID: 1, isCompleted: false, householdID: 1, memo: '' },
-      { id: 3, title: '洗剤', categoryID: 2, isCompleted: false, householdID: 1, memo: '' }
+      {
+        id: 1,
+        title: '牛乳',
+        categoryID: 1,
+        isCompleted: false,
+        householdID: 1,
+        memo: '',
+        category: { id: 1, name: '食費', color: '#FF0000' },
+      },
+      {
+        id: 2,
+        title: 'パン',
+        categoryID: 1,
+        isCompleted: false,
+        householdID: 1,
+        memo: '',
+        category: { id: 1, name: '食費', color: '#FF0000' },
+      },
+      {
+        id: 3,
+        title: '洗剤',
+        categoryID: 2,
+        isCompleted: false,
+        householdID: 1,
+        memo: '',
+        category: { id: 2, name: '日用品', color: '#00FF00' },
+      },
     ]
     // フィルターがない場合は全てのアイテムが返される
     expect(filteredItems.value).toEqual(items.value)
-    
+
     // フィルターを設定
     selectedFilters.value = 1
-    
+
     // フィルターに一致するアイテムのみが返される
     expect(filteredItems.value).toEqual([
       { id: 1, title: '牛乳', categoryID: 1, isCompleted: false },
-      { id: 2, title: 'パン', categoryID: 1, isCompleted: false }
+      { id: 2, title: 'パン', categoryID: 1, isCompleted: false },
     ])
   })
-}) 
+})
