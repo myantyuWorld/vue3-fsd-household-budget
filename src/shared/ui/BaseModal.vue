@@ -1,13 +1,16 @@
 <script setup lang="ts">
-const props = withDefaults(defineProps<{
-  isOpen: boolean
-  title: string
-  verticalPosition?: 'top-0' | 'bottom-0' | 'top-10' | 'bottom-50' | 'top-20' | 'bottom-10'
-  horizontalPosition?: 'left-0' | 'right-0'
-}>(), {
-  verticalPosition: 'bottom-0',
-  horizontalPosition: 'right-0',
-})
+const props = withDefaults(
+  defineProps<{
+    isOpen: boolean
+    title: string
+    verticalPosition?: 'top-0' | 'bottom-0' | 'top-10' | 'bottom-50' | 'top-20' | 'bottom-10'
+    horizontalPosition?: 'left-0' | 'right-0'
+  }>(),
+  {
+    verticalPosition: 'bottom-0',
+    horizontalPosition: 'right-0',
+  },
+)
 
 defineEmits<{
   closeModal: []
@@ -19,22 +22,25 @@ defineEmits<{
     <div
       tabindex="-1"
       aria-hidden="true"
-      class="overflow-y-auto overflow-x-hidden fixed z-50 justify-center items-center md:inset-0 max-h-full backdrop-blur-sm"
-      :class="[
-        props.verticalPosition,
-        props.horizontalPosition,
-      ]"
+      class="w-full overflow-y-auto overflow-x-hidden fixed z-50 justify-center items-center md:inset-0 max-h-full backdrop-blur-sm"
+      :class="[props.verticalPosition, props.horizontalPosition]"
       v-show="props.isOpen"
     >
       <div class="relative p-4 w-full max-w-2xl max-h-full">
-        <div class="relative bg-gradient-to-br from-indigo-50 via-pink-50 to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-700 rounded-2xl shadow-2xl border-2 border-indigo-200/50 dark:border-indigo-800/50 transform transition-all duration-300 hover:scale-[1.01]">
+        <div
+          class="relative bg-gradient-to-br from-primary-bg to-white rounded-2xl shadow-soft border border-primary-light/50 transform transition-all duration-300 hover:scale-[1.01]"
+        >
           <div
-            class="flex items-center justify-between p-6 border-b border-indigo-200/50 dark:border-indigo-800/50 rounded-t-2xl"
+            class="flex items-center justify-between p-6 border-b border-primary-light/50 rounded-t-2xl"
           >
-            <h3 class="text-2xl font-bold bg-gradient-to-r from-indigo-600 via-pink-600 to-purple-600 bg-clip-text text-transparent dark:from-indigo-400 dark:via-pink-400 dark:to-purple-400">{{ props.title }}</h3>
+            <h3
+              class="text-2xl font-bold bg-gradient-to-r from-primary to-primary-dark bg-clip-text text-transparent"
+            >
+              {{ props.title }}
+            </h3>
             <button
               type="button"
-              class="text-indigo-600 dark:text-indigo-400 bg-transparent hover:bg-indigo-100 dark:hover:bg-indigo-900 rounded-full text-sm w-8 h-8 ms-auto inline-flex justify-center items-center transition-all duration-300 transform hover:rotate-90"
+              class="text-primary bg-transparent hover:bg-primary-bg rounded-full text-sm w-8 h-8 ms-auto inline-flex justify-center items-center transition-all duration-300 transform hover:rotate-90"
               data-modal-hide="default-modal"
               @click="$emit('closeModal')"
             >
@@ -61,9 +67,7 @@ defineEmits<{
             <slot name="modalBody"></slot>
           </div>
 
-          <div
-            class="flex items-center p-6 border-t border-indigo-200/50 dark:border-indigo-800/50 rounded-b-2xl"
-          >
+          <div class="flex items-center p-6 border-t border-primary-light/50 rounded-b-2xl">
             <slot name="buttons"> </slot>
           </div>
         </div>
