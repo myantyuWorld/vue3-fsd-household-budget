@@ -1,11 +1,16 @@
 import type { Preview } from '@storybook/vue3'
 import { withActions } from '@storybook/addon-actions/decorator'
-import { initialize } from 'msw-storybook-addon'
+import { initialize, mswDecorator, mswLoader } from 'msw-storybook-addon'
 import { createPinia } from 'pinia'
 import '../src/index.css'
 
 // MSWの初期化
-initialize()
+initialize({
+  onUnhandledRequest: 'bypass',
+  serviceWorker: {
+    url: '/mockServiceWorker.js',
+  },
+})
 
 const preview: Preview = {
   parameters: {
@@ -17,6 +22,9 @@ const preview: Preview = {
     },
     interactions: {
       disable: false,
+    },
+    msw: {
+      handlers: [], // グローバルなハンドラーをここに追加できます
     },
     viewport: {
       defaultViewport: 'mobile3',
@@ -45,6 +53,7 @@ const preview: Preview = {
       },
     },
   },
+  loaders: [mswLoader],
   decorators: [
     (story) => {
       const pinia = createPinia()
@@ -59,6 +68,7 @@ const preview: Preview = {
       }
     },
     withActions,
+    mswDecorator,
   ],
 }
 
