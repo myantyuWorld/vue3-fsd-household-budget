@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import { useInteraction } from '../hooks/useInteraction'
+import { useRouter } from 'vue-router'
 import { BaseModal, TheForm, PrimaryButton, SecondaryButton, PlusButton } from '@/shared/ui'
 import { ShoppingMemoItem } from '@/entities/shopping'
 import TagFilter from './TagFilter.vue'
 import { HouseholdTile } from '@/entities/household'
+
+const router = useRouter()
 const {
   isOpenModal,
   errors,
@@ -17,7 +20,7 @@ const {
   onClickArchiveItem,
   selectedHouseholdBook,
   selectedCategoryLimit,
-} = useInteraction()
+} = useInteraction(router)
 
 const [name, nameProps] = defineField('name')
 const [tag, tagProps] = defineField('tag')
