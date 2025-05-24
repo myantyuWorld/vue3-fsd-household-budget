@@ -2,15 +2,16 @@ import { useForm } from 'vee-validate'
 import { onMounted, ref, computed, onUnmounted, watch } from 'vue'
 import { type KaimemoSchema, schema } from '../types'
 import { toTypedSchema } from '@vee-validate/zod'
-import { useRouter } from 'vue-router'
+import type { Router } from 'vue-router'
 import { useSessionStore } from '@/entities/session/model/session-store'
 import type { components } from '@/shared/api/v1'
+
 export const WebSocketMethodMap = {
   CreateKaimemo: '1',
   RemoveKaimemo: '2',
 }
 
-export const useInteraction = () => {
+export const useInteraction = (router?: Router) => {
   const sessionStore = useSessionStore()
   const selectedHouseholdBook = ref<components['schemas']['HouseholdBook']>(
     sessionStore.user.householdBooks[0],
@@ -19,7 +20,7 @@ export const useInteraction = () => {
   const isOpenModal = ref(false)
   const selectedFilters = ref<number>()
   const tempUserID =
-    (useRouter().currentRoute.value.query.share as string) ?? localStorage.getItem('tempUserID')
+    (router?.currentRoute.value.query.share as string) ?? localStorage.getItem('tempUserID')
   let ws: WebSocket
 
   // TODO : provide, injectで共通的に処理したい

@@ -740,6 +740,7 @@ export interface components {
         CategoryAmount: {
             category: components["schemas"]["Category"];
             amount: number;
+            limitAmount: number;
         };
         SummarizeShoppingAmount: {
             shoppingAmounts: components["schemas"]["ShoppingRecord"][];

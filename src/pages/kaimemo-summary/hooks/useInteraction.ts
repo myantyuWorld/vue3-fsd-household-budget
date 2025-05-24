@@ -17,7 +17,9 @@ export const useInteraction = () => {
   const summarizeShoppingAmounts = ref<components['schemas']['SummarizeShoppingAmount']>()
   const store = useAmountSummaryStore()
   const sessionStore = useSessionStore()
-  const selectedHouseholdBook = ref<components['schemas']['HouseholdBook']>(sessionStore.user.householdBooks[0])
+  const selectedHouseholdBook = ref<components['schemas']['HouseholdBook']>(
+    sessionStore.user.householdBooks[0],
+  )
 
   const { defineField, errors, handleSubmit, resetForm } = useForm<KaimemoSummarySchema>({
     validationSchema: toTypedSchema(schema),
@@ -60,7 +62,7 @@ export const useInteraction = () => {
       summarizeShoppingAmounts.value = data
     }
   }
-  
+
   watch(operatingCurrentDate, () => {
     fetchShoppingRecords()
   })
@@ -162,7 +164,6 @@ export const useInteraction = () => {
   const onClickCloseDeleteConfirmModal = () => {
     isOpenDeleteModal.value = false
   }
-
 
   return {
     isOpenModal,

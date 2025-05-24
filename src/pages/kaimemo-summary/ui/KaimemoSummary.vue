@@ -52,7 +52,7 @@ const [memo, memoProps] = defineField('memo')
           v-for="categoryAmount in summarizeShoppingAmounts?.categoryAmounts"
           :key="categoryAmount.category.id"
           :categoryAmount="categoryAmount"
-          :limitAmount="19000"
+          :limitAmount="categoryAmount.limitAmount"
         />
       </GridCol3>
 

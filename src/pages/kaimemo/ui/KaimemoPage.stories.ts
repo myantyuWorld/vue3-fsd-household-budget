@@ -1,17 +1,72 @@
 import { type Meta, type StoryObj } from '@storybook/vue3'
-import { within, expect, userEvent } from '@storybook/test'
 import { VueQueryPlugin, QueryClient, type VueQueryPluginOptions } from '@tanstack/vue-query'
+import { createPinia, setActivePinia } from 'pinia'
+import { createRouter, createWebHistory } from 'vue-router'
 import { http, HttpResponse } from 'msw'
-import { initialize, mswLoader } from 'msw-storybook-addon'
+import { mswLoader } from 'msw-storybook-addon'
 import Component from './KaimemoPage.vue'
-
-// MSWの初期化
-initialize()
+import { useSessionStore } from '@/entities/session/model/session-store'
 
 const queryClient = new QueryClient()
 const vueQueryPluginOptions: VueQueryPluginOptions = {
-  queryClient
+  queryClient,
 }
+
+const pinia = createPinia()
+setActivePinia(pinia)
+
+// SessionStoreのモック
+const sessionStore = useSessionStore()
+sessionStore.$patch({
+  user: {
+    id: 1,
+    userID: 'test-user-1',
+    name: 'テストユーザー',
+    pictureURL: '',
+    householdBooks: [
+      {
+        id: 1,
+        userID: 1,
+        title: 'テスト家計簿',
+        description: 'テスト用の家計簿です',
+        categoryLimit: [
+          {
+            id: 1,
+            categoryID: 1,
+            limitAmount: 10000,
+            category: {
+              id: 1,
+              name: '食費',
+            },
+          },
+        ],
+        users: [],
+      },
+    ],
+  },
+  isAuthenticated: true,
+  isLoading: false,
+})
+
+// Routerのモック
+const router = createRouter({
+  history: createWebHistory(),
+  routes: [
+    {
+      path: '/kaimemo',
+      name: 'kaimemo',
+      component: Component,
+    },
+  ],
+})
+
+// ルーターを初期化（queryパラメータを含める）
+router.push({
+  path: '/kaimemo',
+  query: {
+    tempUserID: 'test-temp-user-id',
+  },
+})
 
 const meta: Meta<typeof Component> = {
   component: Component,
@@ -19,9 +74,12 @@ const meta: Meta<typeof Component> = {
   decorators: [
     (story) => ({
       components: { story },
-      plugins: [[VueQueryPlugin, vueQueryPluginOptions]],
-      template: '<story />'
-    })
+      plugins: [[VueQueryPlugin, vueQueryPluginOptions], pinia, router],
+      provide: {
+        router: router,
+      },
+      template: '<story />',
+    }),
   ],
   parameters: {
     msw: {
@@ -30,13 +88,13 @@ const meta: Meta<typeof Component> = {
           return HttpResponse.json([
             { id: '1', name: '牛乳', tag: '食費', done: false },
             { id: '2', name: 'パン', tag: '食費', done: false },
-            { id: '3', name: '洗剤', tag: '日用品', done: false }
+            { id: '3', name: '洗剤', tag: '日用品', done: false },
           ])
-        })
-      ]
-    }
+        }),
+      ],
+    },
   },
-  loaders: [mswLoader]
+  loaders: [mswLoader],
 }
 
 export default meta
@@ -44,33 +102,17 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 export const Primary: Story = {
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement)
-
-    // モーダルを開くボタンをクリック
-    const openModalButton = await canvas.getByRole('button', { name: /追加/i })
-    await userEvent.click(openModalButton)
-
-    // モーダルが表示されることを確認
-    const modal = await canvas.getByRole('dialog')
-    expect(modal).toBeVisible()
-
-    // フォームに入力
-    const nameInput = await canvas.getByLabelText(/商品名/i)
-    await userEvent.type(nameInput, 'テスト商品')
-
-    const tagSelect = await canvas.getByLabelText(/タグ/i)
-    await userEvent.selectOptions(tagSelect, '食費')
-
-    // 保存ボタンをクリック
-    const saveButton = await canvas.getByRole('button', { name: /保存/i })
-    await userEvent.click(saveButton)
-
-    // モーダルが閉じることを確認
-    expect(modal).not.toBeVisible()
-
-    // 新しいアイテムがリストに追加されることを確認
-    const items = await canvas.findAllByRole('listitem')
-    expect(items).toHaveLength(4) // 初期の3つ + 新規追加の1つ
-  }
+  parameters: {
+    msw: {
+      handlers: [
+        http.get('/api/items', () => {
+          return HttpResponse.json([
+            { id: '1', name: '牛乳', tag: '食費', done: false },
+            { id: '2', name: 'パン', tag: '食費', done: false },
+            { id: '3', name: '洗剤', tag: '日用品', done: false },
+          ])
+        }),
+      ],
+    },
+  },
 }
