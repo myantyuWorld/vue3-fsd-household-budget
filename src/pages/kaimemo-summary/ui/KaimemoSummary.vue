@@ -25,6 +25,7 @@ const {
   isOpenDeleteModal,
   onClickCloseDeleteConfirmModal,
   onClickOpenDeleteConfirmModal,
+  onClickReceiptAnalyzeReception,
 } = useInteraction()
 
 const [amount, amountProps] = defineField('amount')
@@ -145,6 +146,12 @@ const [memo, memoProps] = defineField('memo')
             class="px-6 py-3 rounded-xl bg-gradient-to-r from-primary to-primary-dark hover:from-primary-dark hover:to-primary transition-all duration-300 transform hover:scale-105 shadow-soft hover:shadow-lg"
           >
             追加
+          </PrimaryButton>
+          <PrimaryButton
+            @click="onClickReceiptAnalyzeReception"
+            class="px-6 py-3 rounded-xl bg-gradient-to-r from-primary to-primary-dark hover:from-primary-dark hover:to-primary transition-all duration-300 transform hover:scale-105 shadow-soft hover:shadow-lg"
+          >
+            （仮）レシート分析
           </PrimaryButton>
         </div>
       </template>

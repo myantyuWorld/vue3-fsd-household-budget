@@ -110,6 +110,9 @@ export const useInteraction = () => {
   }
 
   const summarizeCategoryLimitAmount = computed(() => {
+    if (!categories.value) {
+      return 0
+    }
     return categories.value.reduce((acc, category) => acc + category.limitAmount, 0)
   })
 
@@ -165,6 +168,27 @@ export const useInteraction = () => {
     isOpenDeleteModal.value = false
   }
 
+  const onClickReceiptAnalyzeReception = async () => {
+    console.log('receipt analyze reception')
+
+    const { data, error } = await POST('/openai/analyze/{householdID}/receipt/reception', {
+      body: {
+        // TODO : 撮影した画像データをbase64に変換
+        imageData: 'base64',
+      },
+      params: {
+        path: { householdID: selectedHouseholdBook.value.id },
+      },
+    })
+
+    if (error) {
+      console.error(error)
+      return
+    }
+
+    console.log(data)
+  }
+
   return {
     isOpenModal,
     isOpenDeleteModal,
@@ -172,6 +196,10 @@ export const useInteraction = () => {
     operatingCurrentDate,
     errors,
     categories,
+    summarizeShoppingAmounts,
+    summarizeCategoryLimitAmount,
+    householdBooks,
+    selectedHouseholdBook,
     defineField,
     onClickAddAmountModal,
     onClickCloseAmountModal,
@@ -183,9 +211,6 @@ export const useInteraction = () => {
     onClickCreateShoppingRecord,
     onClickCloseDeleteConfirmModal,
     onClickOpenDeleteConfirmModal,
-    summarizeShoppingAmounts,
-    summarizeCategoryLimitAmount,
-    householdBooks,
-    selectedHouseholdBook,
+    onClickReceiptAnalyzeReception,
   }
 }
