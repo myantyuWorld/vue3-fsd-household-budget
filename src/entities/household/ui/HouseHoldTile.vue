@@ -11,13 +11,13 @@ const selectedHouseholdBook = defineModel<components['schemas']['HouseholdBook']
 </script>
 
 <template>
-  <div class="m-4">
-    <div class="flex overflow-x-auto gap-4">
+  <div class="m-2">
+    <div class="flex overflow-x-auto">
       <div
         v-for="householdBook in householdBooks"
         :key="householdBook.id"
         @click="selectedHouseholdBook = householdBook"
-        class="card p-4 cursor-pointer transition-all duration-300 min-w-[150px] flex-shrink-0"
+        class="bg-white dark:bg-gray-800 rounded-xl p-2 cursor-pointer transition-all duration-300 min-w-[100px] flex-shrink-0"
         :class="[
           selectedHouseholdBook?.id === householdBook.id
             ? 'border-2 border-primary bg-gradient-to-br from-primary-bg to-primary-light/20 shadow-soft'

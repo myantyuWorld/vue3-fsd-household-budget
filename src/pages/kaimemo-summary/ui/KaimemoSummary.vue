@@ -15,6 +15,8 @@ const {
   summarizeCategoryLimitAmount,
   householdBooks,
   selectedHouseholdBook,
+  selectedShoppingAmounts,
+  selectedCategoryNumber,
   defineField,
   onClickAddAmountModal,
   onClickCloseAmountModal,
@@ -25,6 +27,7 @@ const {
   isOpenDeleteModal,
   onClickCloseDeleteConfirmModal,
   onClickOpenDeleteConfirmModal,
+  onClickCategoryAmount,
   onClickReceiptAnalyzeReception,
 } = useInteraction()
 
@@ -54,14 +57,16 @@ const [memo, memoProps] = defineField('memo')
           :key="categoryAmount.category.id"
           :categoryAmount="categoryAmount"
           :limitAmount="categoryAmount.limitAmount"
+          :selectedCategoryNumber="selectedCategoryNumber"
+          @clickCategoryLimit="onClickCategoryAmount"
         />
       </GridCol3>
 
-      <div class="grid grid-cols-1 gap-4">
+      <div class="grid grid-cols-1 gap-3">
         <div
-          v-for="shoppingRecord in summarizeShoppingAmounts?.shoppingAmounts"
+          v-for="shoppingRecord in selectedShoppingAmounts"
           :key="shoppingRecord.id"
-          class="card hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1"
+          class="bg-white dark:bg-gray-800 rounded-xl p-2 shadow-lg hover:shadow-xl transition-all duration-300 border-1"
         >
           <ShoppingAmountItem
             :shoppingRecord="shoppingRecord"
