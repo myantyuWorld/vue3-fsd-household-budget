@@ -31,7 +31,7 @@ defineEmits<{
       </svg>
     </button>
 
-    <div class="flex items-center gap-4">
+    <div class="flex items-center">
       <router-link
         :to="`/summary/calender/2025-02`"
         class="group flex items-center gap-4 hover:scale-105 transition-transform duration-300"
@@ -73,14 +73,14 @@ defineEmits<{
   </div>
 
   <GridCol2>
-    <div class="card">
+    <div class="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-md">
       <div class="text-center">
         <p class="text-sm text-gray-600">今月の支出</p>
         <p class="text-2xl font-bold text-primary">¥{{ summarizeAmount.toLocaleString() }}</p>
       </div>
     </div>
 
-    <div class="card">
+    <div class="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-md">
       <div class="text-center">
         <p class="text-sm text-gray-600">今月の予算</p>
         <p class="text-2xl font-bold text-primary">
