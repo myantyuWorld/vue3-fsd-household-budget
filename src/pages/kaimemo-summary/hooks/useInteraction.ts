@@ -195,7 +195,18 @@ export const useInteraction = () => {
   const onClickOpenReceiptAnalyzeModal = async () => {
     isOpenReceiptAnalyzeModal.value = true
     try {
-      stream.value = await navigator.mediaDevices.getUserMedia({ video: true })
+      const devices = await navigator.mediaDevices.enumerateDevices()
+      const videoDevices = devices.filter((device) => device.kind === 'videoinput')
+      const backCamera =
+        videoDevices.find((device) => device.label.toLowerCase().includes('back')) ||
+        videoDevices[0]
+
+      stream.value = await navigator.mediaDevices.getUserMedia({
+        video: {
+          deviceId: backCamera?.deviceId,
+          facingMode: 'environment',
+        },
+      })
       videoRef.value!.srcObject = stream.value
       await videoRef.value!.play()
     } catch (error) {
