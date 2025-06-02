@@ -17,6 +17,9 @@ const {
   selectedHouseholdBook,
   selectedShoppingAmounts,
   selectedCategoryNumber,
+  isOpenDeleteModal,
+  isOpenReceiptAnalyzeModal,
+  videoRef,
   defineField,
   onClickAddAmountModal,
   onClickCloseAmountModal,
@@ -24,11 +27,12 @@ const {
   onClickMonthlyNext,
   onClickCreateShoppingRecord,
   onClickDeleteAmountRecord,
-  isOpenDeleteModal,
   onClickCloseDeleteConfirmModal,
   onClickOpenDeleteConfirmModal,
   onClickCategoryAmount,
-  onClickReceiptAnalyzeReception,
+  handleReceiptAnalyzeReception,
+  onClickOpenReceiptAnalyzeModal,
+  onClickCloseReceiptAnalyzeModal,
 } = useInteraction()
 
 const [amount, amountProps] = defineField('amount')
@@ -77,6 +81,7 @@ const [memo, memoProps] = defineField('memo')
     </div>
 
     <PlusButton @click="onClickAddAmountModal" class="fixed bottom-20 right-4" />
+    <PlusButton @click="onClickOpenReceiptAnalyzeModal" class="fixed bottom-20 right-20" />
 
     <BaseModal
       title="金額追加"
@@ -152,12 +157,6 @@ const [memo, memoProps] = defineField('memo')
           >
             追加
           </PrimaryButton>
-          <PrimaryButton
-            @click="onClickReceiptAnalyzeReception"
-            class="px-6 py-3 rounded-xl bg-gradient-to-r from-primary to-primary-dark hover:from-primary-dark hover:to-primary transition-all duration-300 transform hover:scale-105 shadow-soft hover:shadow-lg"
-          >
-            （仮）レシート分析
-          </PrimaryButton>
         </div>
       </template>
     </BaseModal>
@@ -190,6 +189,36 @@ const [memo, memoProps] = defineField('memo')
             class="px-6 py-3 rounded-xl bg-gradient-to-r from-primary to-primary-dark hover:from-primary-dark hover:to-primary transition-all duration-300 transform hover:scale-105 shadow-soft hover:shadow-lg"
           >
             削除
+          </PrimaryButton>
+        </div>
+      </template>
+    </BaseModal>
+
+    <BaseModal
+      title="レシート分析"
+      :isOpen="isOpenReceiptAnalyzeModal"
+      @closeModal="onClickCloseReceiptAnalyzeModal"
+      class="backdrop-blur-md"
+      verticalPosition="top-0"
+      horizontalPosition="left-0"
+    >
+      <template #modalBody>
+        <video ref="videoRef" autoplay playsinline class="w-full h-full"></video>
+      </template>
+      <template #buttons>
+        <div class="flex justify-end gap-4">
+          <SecondaryButton
+            @click="onClickCloseReceiptAnalyzeModal"
+            class="px-6 py-3 rounded-xl hover:bg-primary-bg transition-all duration-300 transform hover:scale-105"
+          >
+            閉じる
+          </SecondaryButton>
+
+          <PrimaryButton
+            @click="handleReceiptAnalyzeReception"
+            class="px-6 py-3 rounded-xl bg-gradient-to-r from-primary to-primary-dark hover:from-primary-dark hover:to-primary transition-all duration-300 transform hover:scale-105 shadow-soft hover:shadow-lg"
+          >
+            分析
           </PrimaryButton>
         </div>
       </template>

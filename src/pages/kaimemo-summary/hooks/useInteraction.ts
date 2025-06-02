@@ -12,6 +12,7 @@ export const useInteraction = () => {
   const loading = ref<boolean>(true)
   const isOpenModal = ref<boolean>(false)
   const isOpenDeleteModal = ref<boolean>(false)
+  const isOpenReceiptAnalyzeModal = ref<boolean>(false)
   const deleteId = ref<number>(0)
   const operatingCurrentDate = ref<Date>(new Date())
   const summarizeShoppingAmounts = ref<components['schemas']['SummarizeShoppingAmount']>()
@@ -21,6 +22,8 @@ export const useInteraction = () => {
     sessionStore.user.householdBooks[0],
   )
   const selectedCategoryNumber = ref<number>(0)
+  const videoRef = ref<HTMLVideoElement | null>(null)
+  const stream = ref<MediaStream | null>(null)
 
   const { defineField, errors, handleSubmit, resetForm } = useForm<KaimemoSummarySchema>({
     validationSchema: toTypedSchema(schema),
@@ -189,13 +192,39 @@ export const useInteraction = () => {
     }
   }
 
-  const onClickReceiptAnalyzeReception = async () => {
+  const onClickOpenReceiptAnalyzeModal = async () => {
+    isOpenReceiptAnalyzeModal.value = true
+    try {
+      stream.value = await navigator.mediaDevices.getUserMedia({ video: true })
+      videoRef.value!.srcObject = stream.value
+      await videoRef.value!.play()
+    } catch (error) {
+      console.error('カメラの起動に失敗しました:', error)
+    }
+  }
+
+  const onClickCloseReceiptAnalyzeModal = () => {
+    isOpenReceiptAnalyzeModal.value = false
+    stream.value?.getTracks().forEach((track) => track.stop())
+  }
+
+  const handleReceiptAnalyzeReception = async () => {
     console.log('receipt analyze reception')
+
+    const canvas = document.createElement('canvas')
+    canvas.width = videoRef.value!.videoWidth
+    canvas.height = videoRef.value!.videoHeight
+    const context = canvas.getContext('2d')
+    context?.drawImage(videoRef.value!, 0, 0, canvas.width, canvas.height)
+
+    const base64 = canvas.toDataURL('image/jpeg')
+    console.log('撮影した画像のbase64:', base64)
+
+    stream.value?.getTracks().forEach((track) => track.stop())
 
     const { data, error } = await POST('/openai/analyze/{householdID}/receipt/reception', {
       body: {
-        // TODO : 撮影した画像データをbase64に変換
-        imageData: 'base64',
+        imageData: base64,
       },
       params: {
         path: { householdID: selectedHouseholdBook.value.id },
@@ -207,12 +236,18 @@ export const useInteraction = () => {
       return
     }
 
-    console.log(data)
+    if (data) {
+      console.log(data)
+    }
+
+    onClickCloseReceiptAnalyzeModal()
   }
 
   return {
     isOpenModal,
     isOpenDeleteModal,
+    isOpenReceiptAnalyzeModal,
+    videoRef,
     loading,
     operatingCurrentDate,
     errors,
@@ -235,6 +270,8 @@ export const useInteraction = () => {
     onClickCloseDeleteConfirmModal,
     onClickOpenDeleteConfirmModal,
     onClickCategoryAmount,
-    onClickReceiptAnalyzeReception,
+    handleReceiptAnalyzeReception,
+    onClickOpenReceiptAnalyzeModal,
+    onClickCloseReceiptAnalyzeModal,
   }
 }
