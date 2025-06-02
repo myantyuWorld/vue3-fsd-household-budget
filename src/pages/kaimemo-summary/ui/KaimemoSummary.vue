@@ -1,10 +1,19 @@
 <script setup lang="ts">
-import { BaseModal, PlusButton, PrimaryButton, SecondaryButton, TheForm } from '@/shared/ui'
+import {
+  BaseModal,
+  PrimaryButton,
+  SecondaryButton,
+  TheForm,
+  CameraButton,
+  PencilButton,
+  PlusButton,
+} from '@/shared/ui'
 import { GridCol3 } from '@/shared/ui/layouts'
 import { useInteraction } from '../hooks/useInteraction'
 import { ShoppingAmountItem, ShoppingCategoryBudgetRemain } from '@/entities/shopping'
 import MonthlyHeader from './MonthlyHeader.vue'
 import { HouseholdTile } from '@/entities/household'
+import { ref } from 'vue'
 
 const {
   isOpenModal,
@@ -17,6 +26,9 @@ const {
   selectedHouseholdBook,
   selectedShoppingAmounts,
   selectedCategoryNumber,
+  isOpenDeleteModal,
+  isOpenReceiptAnalyzeModal,
+  videoRef,
   defineField,
   onClickAddAmountModal,
   onClickCloseAmountModal,
@@ -24,16 +36,24 @@ const {
   onClickMonthlyNext,
   onClickCreateShoppingRecord,
   onClickDeleteAmountRecord,
-  isOpenDeleteModal,
   onClickCloseDeleteConfirmModal,
   onClickOpenDeleteConfirmModal,
   onClickCategoryAmount,
+  handleReceiptAnalyzeReception,
+  onClickOpenReceiptAnalyzeModal,
+  onClickCloseReceiptAnalyzeModal,
 } = useInteraction()
 
 const [amount, amountProps] = defineField('amount')
 const [tag, tagProps] = defineField('tag')
 const [date, dateProps] = defineField('date')
 const [memo, memoProps] = defineField('memo')
+
+const isExpanded = ref(false)
+
+const toggleExpand = () => {
+  isExpanded.value = !isExpanded.value
+}
 </script>
 
 <template>
@@ -74,8 +94,21 @@ const [memo, memoProps] = defineField('memo')
         </div>
       </div>
     </div>
-
-    <PlusButton @click="onClickAddAmountModal" class="fixed bottom-20 right-4" />
+    <PlusButton @click="toggleExpand" class="fixed bottom-20 right-4" />
+    <div v-show="isExpanded">
+      <PencilButton
+        @click="onClickAddAmountModal"
+        :isFixed="false"
+        id="pencil-button"
+        class="fixed bottom-40 right-4"
+      />
+      <CameraButton
+        @click="onClickOpenReceiptAnalyzeModal"
+        :isFixed="false"
+        id="camera-button"
+        class="fixed bottom-20 right-24"
+      />
+    </div>
 
     <BaseModal
       title="金額追加"
@@ -86,7 +119,7 @@ const [memo, memoProps] = defineField('memo')
       horizontalPosition="left-0"
     >
       <template #modalBody>
-        <div class="space-y-8 p-8 bg-gradient-to-br from-primary-bg to-white/50 rounded-2xl">
+        <div class="bg-gradient-to-br from-primary-bg to-white/50 rounded-2xl">
           <TheForm label="日付">
             <input
               type="date"
@@ -138,7 +171,7 @@ const [memo, memoProps] = defineField('memo')
       </template>
 
       <template #buttons>
-        <div class="flex justify-end gap-4 p-6">
+        <div class="flex justify-end gap-4">
           <SecondaryButton
             @click="onClickCloseAmountModal"
             class="px-6 py-3 rounded-xl hover:bg-primary-bg transition-all duration-300 transform hover:scale-105"
@@ -164,13 +197,13 @@ const [memo, memoProps] = defineField('memo')
       horizontalPosition="left-0"
     >
       <template #modalBody>
-        <div class="space-y-8 p-8 bg-gradient-to-br from-primary-bg to-white/50 rounded-2xl">
+        <div class="space-y-8 bg-gradient-to-br from-primary-bg to-white/50 rounded-2xl">
           <p class="text-gray-800">本当に削除しますか？</p>
         </div>
       </template>
 
       <template #buttons>
-        <div class="flex justify-end gap-4 p-6">
+        <div class="flex justify-end gap-4">
           <SecondaryButton
             @click="onClickCloseDeleteConfirmModal"
             class="px-6 py-3 rounded-xl hover:bg-primary-bg transition-all duration-300 transform hover:scale-105"
@@ -183,6 +216,36 @@ const [memo, memoProps] = defineField('memo')
             class="px-6 py-3 rounded-xl bg-gradient-to-r from-primary to-primary-dark hover:from-primary-dark hover:to-primary transition-all duration-300 transform hover:scale-105 shadow-soft hover:shadow-lg"
           >
             削除
+          </PrimaryButton>
+        </div>
+      </template>
+    </BaseModal>
+
+    <BaseModal
+      title="レシート分析"
+      :isOpen="isOpenReceiptAnalyzeModal"
+      @closeModal="onClickCloseReceiptAnalyzeModal"
+      class="backdrop-blur-md"
+      verticalPosition="top-0"
+      horizontalPosition="left-0"
+    >
+      <template #modalBody>
+        <video ref="videoRef" autoplay playsinline class="w-full h-full"></video>
+      </template>
+      <template #buttons>
+        <div class="flex justify-end gap-4">
+          <SecondaryButton
+            @click="onClickCloseReceiptAnalyzeModal"
+            class="px-6 py-3 rounded-xl hover:bg-primary-bg transition-all duration-300 transform hover:scale-105"
+          >
+            閉じる
+          </SecondaryButton>
+
+          <PrimaryButton
+            @click="handleReceiptAnalyzeReception"
+            class="px-6 py-3 rounded-xl bg-gradient-to-r from-primary to-primary-dark hover:from-primary-dark hover:to-primary transition-all duration-300 transform hover:scale-105 shadow-soft hover:shadow-lg"
+          >
+            分析
           </PrimaryButton>
         </div>
       </template>
