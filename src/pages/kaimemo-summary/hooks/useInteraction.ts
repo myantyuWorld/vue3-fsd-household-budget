@@ -20,6 +20,7 @@ export const useInteraction = () => {
   const selectedHouseholdBook = ref<components['schemas']['HouseholdBook']>(
     sessionStore.user.householdBooks[0],
   )
+  const selectedCategoryNumber = ref<number>(0)
 
   const { defineField, errors, handleSubmit, resetForm } = useForm<KaimemoSummarySchema>({
     validationSchema: toTypedSchema(schema),
@@ -113,6 +114,16 @@ export const useInteraction = () => {
     return categories.value.reduce((acc, category) => acc + category.limitAmount, 0)
   })
 
+  const selectedShoppingAmounts = computed(() => {
+    if (selectedCategoryNumber.value === 0) {
+      return summarizeShoppingAmounts.value?.shoppingAmounts
+    }
+
+    return summarizeShoppingAmounts.value?.shoppingAmounts.filter(
+      (shoppingAmount) => shoppingAmount.category.id === selectedCategoryNumber.value,
+    )
+  })
+
   const onClickCreateShoppingRecord = handleSubmit(async (values) => {
     console.log(values)
 
@@ -165,6 +176,16 @@ export const useInteraction = () => {
     isOpenDeleteModal.value = false
   }
 
+  const onClickCategoryAmount = (categoryID: number) => {
+    console.log(categoryID)
+
+    if (selectedCategoryNumber.value === categoryID) {
+      selectedCategoryNumber.value = 0
+    } else {
+      selectedCategoryNumber.value = categoryID
+    }
+  }
+
   return {
     isOpenModal,
     isOpenDeleteModal,
@@ -172,6 +193,12 @@ export const useInteraction = () => {
     operatingCurrentDate,
     errors,
     categories,
+    summarizeShoppingAmounts,
+    summarizeCategoryLimitAmount,
+    householdBooks,
+    selectedHouseholdBook,
+    selectedShoppingAmounts,
+    selectedCategoryNumber,
     defineField,
     onClickAddAmountModal,
     onClickCloseAmountModal,
@@ -183,9 +210,6 @@ export const useInteraction = () => {
     onClickCreateShoppingRecord,
     onClickCloseDeleteConfirmModal,
     onClickOpenDeleteConfirmModal,
-    summarizeShoppingAmounts,
-    summarizeCategoryLimitAmount,
-    householdBooks,
-    selectedHouseholdBook,
+    onClickCategoryAmount,
   }
 }
