@@ -1,0 +1,36 @@
+import { type Meta, type StoryObj } from '@storybook/vue3'
+import Component from './ReceiptAnalyzeItem.vue'
+
+const meta: Meta<typeof Component> = {
+  component: Component,
+  tags: ['autodocs'],
+  args: {
+    receiptAnalyze: {
+      id: '1',
+      receiptImageURL:
+        'https://www.isp21.co.jp/wp-content/uploads/solution/library/library02-1.jpg',
+      date: '2021-01-01',
+      totalAmount: 99999,
+      items: [
+        {
+          name: 'Item 1',
+          price: 100,
+        },
+        {
+          name: 'ああああああああああ',
+          price: 9999,
+        },
+        {
+          name: 'Item 3',
+          price: 300,
+        },
+      ],
+    },
+  },
+}
+
+export default meta
+
+type Story = StoryObj<typeof meta>
+
+export const Primary: Story = {}

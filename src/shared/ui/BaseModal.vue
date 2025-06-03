@@ -40,19 +40,19 @@ defineEmits<{
             </h3>
             <button
               type="button"
-              class="text-primary bg-transparent hover:bg-primary-bg rounded-full text-sm w-8 h-8 ms-auto inline-flex justify-center items-center transition-all duration-300 transform hover:rotate-90"
+              class="text-white bg-transparent shadow-lg hover:bg-primary-bg rounded-full text-sm w-8 h-8 ms-auto inline-flex justify-center items-center transition-all duration-300 transform hover:rotate-90"
               data-modal-hide="default-modal"
               @click="$emit('closeModal')"
             >
               <svg
-                class="w-4 h-4"
+                class="w-4 h-4 text-gray-500"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 14 14"
               >
                 <path
-                  stroke="currentColor"
+                  stroke="gray"
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   stroke-width="2"
