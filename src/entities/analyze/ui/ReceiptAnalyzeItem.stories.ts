@@ -9,6 +9,8 @@ const meta: Meta<typeof Component> = {
       id: '1',
       receiptImageURL:
         'https://www.isp21.co.jp/wp-content/uploads/solution/library/library02-1.jpg',
+      analyzeStatus: 'finished',
+      transferStatus: 'finished',
       date: '2021-01-01',
       totalAmount: 99999,
       items: [
@@ -34,3 +36,18 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 export const Primary: Story = {}
+
+export const Pending: Story = {
+  args: {
+    receiptAnalyze: {
+      id: '1',
+      receiptImageURL:
+        'https://www.isp21.co.jp/wp-content/uploads/solution/library/library02-1.jpg',
+      analyzeStatus: 'pending',
+      transferStatus: 'pending',
+      date: '2021-01-01',
+      totalAmount: 99999,
+      items: [],
+    },
+  },
+}
