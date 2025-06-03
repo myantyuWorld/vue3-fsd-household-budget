@@ -5,6 +5,8 @@ import { KaimemoSummaryPage } from '@/pages/kaimemo-summary'
 import { SummaryCalender } from '@/pages/summary-calender'
 import { authGuard } from '@/app/router/auth-guard'
 import { ProfilePage } from '@/pages/profile'
+import { ReceiptAnalyzePage } from '@/pages/analyze'
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -15,8 +17,8 @@ const router = createRouter({
       meta: {
         layout: 'auth',
         requiresAuth: false,
-        title: 'ログイン'
-      }
+        title: 'ログイン',
+      },
     },
     {
       path: '/line/callback',
@@ -25,8 +27,8 @@ const router = createRouter({
       meta: {
         layout: 'auth',
         requiresAuth: false,
-        title: 'ログイン'
-      }
+        title: 'ログイン',
+      },
     },
     {
       path: '/share',
@@ -35,8 +37,8 @@ const router = createRouter({
       meta: {
         layout: 'default',
         requiresAuth: true,
-        title: '家計簿共有'
-      }
+        title: '家計簿共有',
+      },
     },
     {
       path: '/kaimemo',
@@ -45,8 +47,8 @@ const router = createRouter({
       meta: {
         layout: 'default',
         requiresAuth: true,
-        title: '家計簿'
-      }
+        title: '家計簿',
+      },
     },
     {
       path: '/summary',
@@ -55,8 +57,8 @@ const router = createRouter({
       meta: {
         layout: 'default',
         requiresAuth: true,
-        title: '家計簿'
-      }
+        title: '家計簿',
+      },
     },
     {
       path: '/summary/calender/:date',
@@ -68,8 +70,18 @@ const router = createRouter({
       meta: {
         layout: 'default',
         requiresAuth: true,
-        title: '家計簿'
-      }
+        title: '家計簿',
+      },
+    },
+    {
+      path: '/analyze',
+      name: 'analyze',
+      component: ReceiptAnalyzePage,
+      meta: {
+        layout: 'default',
+        requiresAuth: true,
+        title: 'レシート解析',
+      },
     },
     {
       path: '/profile',
@@ -78,9 +90,9 @@ const router = createRouter({
       meta: {
         layout: 'default',
         requiresAuth: true,
-        title: 'プロフィール'
-      }
-    }
+        title: 'プロフィール',
+      },
+    },
   ],
 })
 
