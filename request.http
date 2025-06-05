@@ -33,7 +33,8 @@ content-type: application/json
 
 { 
   "total": 100,
-  "s3FilePath": "https://micro-receipt-analyzer-receiptimagebucket-yx100uktqwj2.s3.ap-southeast-1.amazonaws.com/78695054-508a-4f4d-a166-386128f66703-2-20250527222736.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Checksum-Mode=ENABLED&X-Amz-Credential=AKIAYPWWYACG6KJ4NDFY%2F20250527%2Fap-southeast-1%2Fs3%2Faws4_request&X-Amz-Date=20250527T132738Z&X-Amz-Expires=86400&X-Amz-SignedHeaders=host&x-id=GetObject&X-Amz-Signature=01c1395cdd6fd9717b73c98745fe651158abfdc5e6aa528498e12174a642ddfa",
+  "categoryID": 3,
+  "s3FilePath": "4e4cbd8d-f39f-4eb9-8ba0-7de6b98317bb-2-3-20250605233119.jpg",
   "items": [
     {
       "name": "test",
