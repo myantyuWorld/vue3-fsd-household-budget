@@ -1,24 +1,20 @@
 <script setup lang="ts">
-import {
-  BaseModal,
-  PrimaryButton,
-  SecondaryButton,
-  TheForm,
-  CameraButton,
-  PencilButton,
-  PlusButton,
-} from '@/shared/ui'
+import { CameraButton, PencilButton, PlusButton } from '@/shared/ui'
 import { GridCol3 } from '@/shared/ui/layouts'
 import { useInteraction } from '../hooks/useInteraction'
-import { ShoppingAmountItem, ShoppingCategoryBudgetRemain } from '@/entities/shopping'
-import MonthlyHeader from './MonthlyHeader.vue'
+import {
+  DeleteShoppingItemModal,
+  DirectInputModal,
+  MonthlyHeader,
+  ShoppingCategoryBudgetRemain,
+  ShoppingAmountItem,
+} from '@/entities/kaimemo-summary'
+import { ReceiptAnalyzeModal } from '@/entities/analyze'
 import { HouseholdTile } from '@/entities/household'
 import { ref } from 'vue'
 
 const {
-  isOpenModal,
   operatingCurrentDate,
-  errors,
   categories,
   summarizeShoppingAmounts,
   summarizeCategoryLimitAmount,
@@ -26,28 +22,20 @@ const {
   selectedHouseholdBook,
   selectedShoppingAmounts,
   selectedCategoryNumber,
-  isOpenDeleteModal,
-  isOpenReceiptAnalyzeModal,
-  videoRef,
-  defineField,
-  onClickAddAmountModal,
-  onClickCloseAmountModal,
+  deleteId,
+  amountModal,
+  deleteConfirmModal,
+  receiptAnalyzeModal,
+  updateSummarizeShoppingAmounts,
   onClickMonthlyPrev,
   onClickMonthlyNext,
-  onClickCreateShoppingRecord,
-  onClickDeleteAmountRecord,
-  onClickCloseDeleteConfirmModal,
-  onClickOpenDeleteConfirmModal,
   onClickCategoryAmount,
-  handleReceiptAnalyzeReception,
-  onClickOpenReceiptAnalyzeModal,
-  onClickCloseReceiptAnalyzeModal,
 } = useInteraction()
 
-const [amount, amountProps] = defineField('amount')
-const [tag, tagProps] = defineField('tag')
-const [date, dateProps] = defineField('date')
-const [memo, memoProps] = defineField('memo')
+const openDeleteConfirmModal = (id: number) => {
+  deleteId.value = id
+  deleteConfirmModal.openModal()
+}
 
 const isExpanded = ref(false)
 
@@ -89,166 +77,49 @@ const toggleExpand = () => {
         >
           <ShoppingAmountItem
             :shoppingRecord="shoppingRecord"
-            @click="onClickOpenDeleteConfirmModal(shoppingRecord.id)"
+            @click="openDeleteConfirmModal(shoppingRecord.id)"
           />
         </div>
       </div>
     </div>
+
     <PlusButton @click="toggleExpand" class="fixed bottom-20 right-4" />
+
     <div v-show="isExpanded">
       <PencilButton
-        @click="onClickAddAmountModal"
+        @click="amountModal.openModal"
         :isFixed="false"
         id="pencil-button"
         class="fixed bottom-40 right-4"
       />
       <CameraButton
-        @click="onClickOpenReceiptAnalyzeModal"
+        @click="receiptAnalyzeModal.openModal"
         :isFixed="false"
         id="camera-button"
         class="fixed bottom-20 right-24"
       />
     </div>
 
-    <BaseModal
-      title="金額追加"
-      :isOpen="isOpenModal"
-      @closeModal="onClickCloseAmountModal"
-      class="backdrop-blur-md"
-      verticalPosition="top-0"
-      horizontalPosition="left-0"
-    >
-      <template #modalBody>
-        <div class="bg-gradient-to-br from-primary-bg to-white/50 rounded-2xl">
-          <TheForm label="日付">
-            <input
-              type="date"
-              class="w-full p-4 border border-primary-light rounded-xl focus:border-primary focus:ring-2 focus:ring-primary-light bg-white/90 text-base"
-              :class="{ 'border-red-500 bg-red-50/80': errors.date }"
-              v-model="date"
-              v-bind="dateProps"
-            />
-            <p class="mt-2 text-sm text-red-600">{{ errors.date }}</p>
-          </TheForm>
+    <DirectInputModal
+      :householdID="selectedHouseholdBook.id"
+      :categories="categories"
+      :isOpenModal="amountModal.isOpen.value"
+      @closeModal="amountModal.closeModal"
+      @fetchShoppingRecords="updateSummarizeShoppingAmounts"
+    />
 
-          <TheForm label="カテゴリ">
-            <select
-              class="w-full p-4 border border-primary-light rounded-xl focus:border-primary focus:ring-2 focus:ring-primary-light bg-white/90 text-base"
-              :class="{ 'border-red-500 bg-red-50/80': errors.tag }"
-              v-model="tag"
-              v-bind="tagProps"
-            >
-              <template v-for="categoryLimit in categories" :key="categoryLimit.category.id">
-                <option :value="categoryLimit.category.id">
-                  {{ categoryLimit.category.name }}
-                </option>
-              </template>
-            </select>
-            <p class="mt-2 text-sm text-red-600">{{ errors.tag }}</p>
-          </TheForm>
+    <DeleteShoppingItemModal
+      :householdID="selectedHouseholdBook.id"
+      :shoppingRecordID="deleteId"
+      :isOpenDeleteModal="deleteConfirmModal.isOpen.value"
+      @closeModal="deleteConfirmModal.closeModal"
+      @fetchShoppingRecords="updateSummarizeShoppingAmounts"
+    />
 
-          <TheForm label="金額">
-            <input
-              type="number"
-              class="w-full p-4 border border-primary-light rounded-xl focus:border-primary focus:ring-2 focus:ring-primary-light bg-white/90 text-base"
-              :class="{ 'border-red-500 bg-red-50/80': errors.amount }"
-              v-model="amount"
-              v-bind="amountProps"
-            />
-            <p class="mt-2 text-sm text-red-600">{{ errors.amount }}</p>
-          </TheForm>
-
-          <TheForm label="メモ">
-            <textarea
-              class="w-full p-4 border border-primary-light rounded-xl focus:border-primary focus:ring-2 focus:ring-primary-light bg-white/90 min-h-[100px] text-base"
-              :class="{ 'border-red-500 bg-red-50/80': errors.memo }"
-              v-model="memo"
-              v-bind="memoProps"
-            />
-            <p class="mt-2 text-sm text-red-600">{{ errors.memo }}</p>
-          </TheForm>
-        </div>
-      </template>
-
-      <template #buttons>
-        <div class="flex justify-end gap-4">
-          <SecondaryButton
-            @click="onClickCloseAmountModal"
-            class="px-6 py-3 rounded-xl hover:bg-primary-bg transition-all duration-300 transform hover:scale-105"
-          >
-            閉じる
-          </SecondaryButton>
-          <PrimaryButton
-            @click="onClickCreateShoppingRecord"
-            class="px-6 py-3 rounded-xl bg-gradient-to-r from-primary to-primary-dark hover:from-primary-dark hover:to-primary transition-all duration-300 transform hover:scale-105 shadow-soft hover:shadow-lg"
-          >
-            追加
-          </PrimaryButton>
-        </div>
-      </template>
-    </BaseModal>
-
-    <BaseModal
-      title="金額削除"
-      :isOpen="isOpenDeleteModal"
-      @closeModal="onClickCloseDeleteConfirmModal"
-      class="backdrop-blur-md"
-      verticalPosition="top-0"
-      horizontalPosition="left-0"
-    >
-      <template #modalBody>
-        <div class="space-y-8 bg-gradient-to-br from-primary-bg to-white/50 rounded-2xl">
-          <p class="text-gray-800">本当に削除しますか？</p>
-        </div>
-      </template>
-
-      <template #buttons>
-        <div class="flex justify-end gap-4">
-          <SecondaryButton
-            @click="onClickCloseDeleteConfirmModal"
-            class="px-6 py-3 rounded-xl hover:bg-primary-bg transition-all duration-300 transform hover:scale-105"
-          >
-            閉じる
-          </SecondaryButton>
-
-          <PrimaryButton
-            @click="onClickDeleteAmountRecord"
-            class="px-6 py-3 rounded-xl bg-gradient-to-r from-primary to-primary-dark hover:from-primary-dark hover:to-primary transition-all duration-300 transform hover:scale-105 shadow-soft hover:shadow-lg"
-          >
-            削除
-          </PrimaryButton>
-        </div>
-      </template>
-    </BaseModal>
-
-    <BaseModal
-      title="レシート分析"
-      :isOpen="isOpenReceiptAnalyzeModal"
-      @closeModal="onClickCloseReceiptAnalyzeModal"
-      class="backdrop-blur-md"
-      verticalPosition="top-0"
-      horizontalPosition="left-0"
-    >
-      <template #modalBody>
-        <video ref="videoRef" autoplay playsinline class="w-full h-full"></video>
-      </template>
-      <template #buttons>
-        <div class="flex justify-end gap-4">
-          <SecondaryButton
-            @click="onClickCloseReceiptAnalyzeModal"
-            class="px-6 py-3 rounded-xl hover:bg-primary-bg transition-all duration-300 transform hover:scale-105"
-          >
-            閉じる
-          </SecondaryButton>
-
-          <PrimaryButton
-            @click="handleReceiptAnalyzeReception"
-            class="px-6 py-3 rounded-xl bg-gradient-to-r from-primary to-primary-dark hover:from-primary-dark hover:to-primary transition-all duration-300 transform hover:scale-105 shadow-soft hover:shadow-lg"
-          >
-            分析
-          </PrimaryButton>
-        </div>
-      </template>
-    </BaseModal>
+    <ReceiptAnalyzeModal
+      :householdID="selectedHouseholdBook.id"
+      :isOpenReceiptAnalyzeModal="receiptAnalyzeModal.isOpen.value"
+      @closeModal="receiptAnalyzeModal.closeModal"
+    />
   </div>
 </template>

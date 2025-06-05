@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { components } from '@/shared/api/v1'
-import ShoppingCategoryIcon from './ShoppingCategoryIcon.vue'
+import ShoppingCategoryIcon from '@/entities/kaimemo-summary/ui/ShoppingCategoryIcon.vue'
 
 defineProps<{
   shoppingRecord: components['schemas']['ShoppingRecord']
