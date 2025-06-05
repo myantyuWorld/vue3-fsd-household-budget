@@ -1,90 +1,50 @@
 <script setup lang="ts">
-import { BaseModal, PrimaryButton, SecondaryButton } from '@/shared/ui'
-import { POST } from '@/shared/api'
-import { ref, watch } from 'vue'
+import { BaseModal, PrimaryButton, SecondaryButton, TheForm } from '@/shared/ui'
+import { useInteraction } from '../hooks/useInteraction'
+import { watch } from 'vue'
+import type { components } from '@/shared/api/v1'
 
 const props = defineProps<{
   householdID: number
   isOpenReceiptAnalyzeModal: boolean
+  categories: components['schemas']['CategoryLimit'][]
 }>()
-
-const videoRef = ref<HTMLVideoElement | null>(null)
-const stream = ref<MediaStream | null>(null)
 
 const emit = defineEmits<{
   (e: 'closeModal'): void
 }>()
 
-const onClickCloseReceiptAnalyzeModal = () => {
-  stream.value?.getTracks().forEach((track) => track.stop())
-  emit('closeModal')
-}
+const {
+  videoRef,
+  handleStartCamera,
+  handleReceiptAnalyzeReception,
+  stopCamera,
+  defineField,
+  errors,
+} = useInteraction(props.householdID)
+
+const [tag, tagProps] = defineField('tag')
 
 watch(
   () => props.isOpenReceiptAnalyzeModal,
   async (newVal) => {
     if (newVal) {
-      try {
-        const devices = await navigator.mediaDevices.enumerateDevices()
-        const videoDevices = devices.filter((device) => device.kind === 'videoinput')
-        const backCamera =
-          videoDevices.find((device) => device.label.toLowerCase().includes('back')) ||
-          videoDevices[0]
-
-        stream.value = await navigator.mediaDevices.getUserMedia({
-          video: {
-            deviceId: backCamera?.deviceId,
-            facingMode: 'environment',
-          },
-        })
-
-        if (videoRef.value) {
-          videoRef.value.srcObject = stream.value
-          await videoRef.value.play()
-        }
-      } catch (error) {
-        console.error('カメラの起動に失敗しました:', error)
-      }
+      handleStartCamera()
     }
   },
 )
 
-const handleReceiptAnalyzeReception = async () => {
-  console.log('receipt analyze reception')
-  if (!videoRef.value) {
-    console.error('videoRefがnullです')
-    return
+const onClickAnalyzeReceipt = async () => {
+  console.log('onClickAnalyzeReceipt')
+
+  const result = await handleReceiptAnalyzeReception()
+  if (result) {
+    emit('closeModal')
   }
+}
 
-  const canvas = document.createElement('canvas')
-  canvas.width = videoRef.value.videoWidth
-  canvas.height = videoRef.value.videoHeight
-  const context = canvas.getContext('2d')
-  context?.drawImage(videoRef.value, 0, 0, canvas.width, canvas.height)
-
-  const base64 = canvas.toDataURL('image/jpeg')
-  console.log('撮影した画像のbase64:', base64)
-
-  stream.value?.getTracks().forEach((track) => track.stop())
-
-  const { data, error } = await POST('/openai/analyze/{householdID}/receipt/reception', {
-    body: {
-      imageData: base64,
-    },
-    params: {
-      path: { householdID: props.householdID },
-    },
-  })
-
-  if (error) {
-    console.error(error)
-    return
-  }
-
-  if (data) {
-    console.log(data)
-  }
-
+const onClickCloseReceiptAnalyzeModal = () => {
+  stopCamera()
   emit('closeModal')
 }
 </script>
@@ -100,6 +60,21 @@ const handleReceiptAnalyzeReception = async () => {
   >
     <template #modalBody>
       <video ref="videoRef" autoplay playsinline class="w-full h-full"></video>
+      <TheForm label="カテゴリ">
+        <select
+          class="w-full p-4 border border-primary-light rounded-xl focus:border-primary focus:ring-2 focus:ring-primary-light bg-white/90 text-base"
+          :class="{ 'border-red-500 bg-red-50/80': errors.tag }"
+          v-model="tag"
+          v-bind="tagProps"
+        >
+          <template v-for="categoryLimit in categories" :key="categoryLimit.category.id">
+            <option :value="categoryLimit.category.id">
+              {{ categoryLimit.category.name }}
+            </option>
+          </template>
+        </select>
+        <p class="mt-2 text-sm text-red-600">{{ errors.tag }}</p>
+      </TheForm>
     </template>
     <template #buttons>
       <div class="flex justify-end gap-4">
@@ -111,7 +86,7 @@ const handleReceiptAnalyzeReception = async () => {
         </SecondaryButton>
 
         <PrimaryButton
-          @click="handleReceiptAnalyzeReception"
+          @click="onClickAnalyzeReceipt"
           class="px-6 py-3 rounded-xl bg-gradient-to-r from-primary to-primary-dark hover:from-primary-dark hover:to-primary transition-all duration-300 transform hover:scale-105 shadow-soft hover:shadow-lg"
         >
           分析

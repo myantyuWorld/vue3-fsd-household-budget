@@ -119,6 +119,7 @@ const toggleExpand = () => {
     <ReceiptAnalyzeModal
       :householdID="selectedHouseholdBook.id"
       :isOpenReceiptAnalyzeModal="receiptAnalyzeModal.isOpen.value"
+      :categories="categories"
       @closeModal="receiptAnalyzeModal.closeModal"
     />
   </div>
