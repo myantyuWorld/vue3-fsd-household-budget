@@ -30,6 +30,8 @@ const {
   isOpenReceiptAnalyzeModal,
   videoRef,
   defineField,
+  defineTagField,
+  tagErrors,
   onClickAddAmountModal,
   onClickCloseAmountModal,
   onClickMonthlyPrev,
@@ -48,6 +50,8 @@ const [amount, amountProps] = defineField('amount')
 const [tag, tagProps] = defineField('tag')
 const [date, dateProps] = defineField('date')
 const [memo, memoProps] = defineField('memo')
+
+const [analyzeTag, analyzeTagProps] = defineTagField('tag')
 
 const isExpanded = ref(false)
 
@@ -231,6 +235,20 @@ const toggleExpand = () => {
     >
       <template #modalBody>
         <video ref="videoRef" autoplay playsinline class="w-full h-full"></video>
+        <TheForm label="カテゴリ">
+          <select
+            class="w-full p-4 border border-primary-light rounded-xl focus:border-primary focus:ring-2 focus:ring-primary-light bg-white/90 text-base"
+            :class="{ 'border-red-500 bg-red-50/80': tagErrors.tag }"
+            v-model="analyzeTag"
+            v-bind="analyzeTagProps"
+          >
+            <template v-for="categoryLimit in categories" :key="categoryLimit.category.id">
+              <option :value="categoryLimit.category.id">
+                {{ categoryLimit.category.name }}
+              </option>
+            </template>
+          </select>
+        </TheForm>
       </template>
       <template #buttons>
         <div class="flex justify-end gap-4">
