@@ -701,6 +701,42 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/openai/analyze/receipt/result/{receiptAnalyzeID}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * レシート分析結果取得
+         * @description レシート分析結果を取得する
+         */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    receiptAnalyzeID: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                200: components["responses"]["GetReceiptAnalyzeResult"];
+                401: components["responses"]["UnauthorizedError"];
+                404: components["responses"]["NotFoundError"];
+                default: components["responses"]["GeneralError"];
+            };
+        };
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -785,6 +821,8 @@ export interface components {
             date: string;
             memo: string;
             category: components["schemas"]["Category"];
+            analyze_id: number;
+            receipt_analyze_results: components["schemas"]["ReceiptAnalyzeResult"];
         };
         CategoryAmount: {
             category: components["schemas"]["Category"];
@@ -796,8 +834,28 @@ export interface components {
             totalAmount: number;
             categoryAmounts: components["schemas"]["CategoryAmount"][];
         };
+        ReceiptAnalyzeResultItem: {
+            id: number;
+            name: string;
+            amount: number;
+        };
+        ReceiptAnalyzeResult: {
+            id: number;
+            totalAmount: number;
+            receiptImageURL: string;
+            items: components["schemas"]["ReceiptAnalyzeResultItem"][];
+        };
     };
     responses: {
+        /** @description レシート分析結果取得 */
+        GetReceiptAnalyzeResult: {
+            headers: {
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": components["schemas"]["ReceiptAnalyzeResult"];
+            };
+        };
         /** @description 買い物記録取得 */
         GetShoppingRecord: {
             headers: {

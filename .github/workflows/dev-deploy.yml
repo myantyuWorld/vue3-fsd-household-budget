@@ -12,7 +12,7 @@ env:
   DIST_ID: ${{ secrets.DEV_DIST_ID }}
   AWS_REGION: ${{ secrets.AWS_REGION }}
   AWS_ROLE_ARN: ${{ secrets.AWS_ROLE_ARN }}
-
+  VITE_S3_BUCKET_URL: ${{ secrets.VITE_S3_BUCKET_URL }}
 permissions:
   id-token: write
   contents: read
@@ -36,6 +36,7 @@ jobs:
         run: > 
           VITE_API_BASE_URL=${{ env.VITE_API_BASE_URL }} 
           VITE_WEBSOCKET_URL_KAIMEMO=${{ env.VITE_WEBSOCKET_URL_KAIMEMO }} 
+          VITE_S3_BUCKET_URL=${{ env.VITE_S3_BUCKET_URL }}
           npm run build
       - name: s3
         shell: bash
