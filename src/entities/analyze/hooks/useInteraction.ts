@@ -9,7 +9,7 @@ import { toTypedSchema } from '@vee-validate/zod'
 import { schema, type AnalyzeSchema } from '../types/schema'
 
 export const useInteraction = (householdID: number) => {
-  const videoRef = ref<HTMLVideoElement | null>(null)
+  const videoRef = ref<HTMLVideoElement>()
   const stream = ref<MediaStream | null>(null)
   // TODO: レシート分析専用の、バリデーションのスキーマを作成する
   const { defineField, errors, handleSubmit, resetForm } = useForm<AnalyzeSchema>({
