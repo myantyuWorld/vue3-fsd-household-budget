@@ -678,6 +678,7 @@ export interface paths {
                 content: {
                     "application/json": {
                         imageData: string;
+                        categoryID: number;
                     };
                 };
             };

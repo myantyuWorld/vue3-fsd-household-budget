@@ -6,6 +6,7 @@ import { toTypedSchema } from '@vee-validate/zod'
 import { useForm } from 'vee-validate'
 import { useAmountSummaryStore } from '@/features/kaimemo'
 import { useSessionStore } from '@/entities/session/model/session-store'
+import { analyzeSchema, type AnalyzeSchema } from '@/features/analyze'
 
 export const useInteraction = () => {
   // TODO : provide, injectで共通的に処理したい
@@ -27,6 +28,14 @@ export const useInteraction = () => {
 
   const { defineField, errors, handleSubmit, resetForm } = useForm<KaimemoSummarySchema>({
     validationSchema: toTypedSchema(schema),
+  })
+
+  const {
+    defineField: defineTagField,
+    errors: tagErrors,
+    handleSubmit: handleTagSubmit,
+  } = useForm<AnalyzeSchema>({
+    validationSchema: toTypedSchema(analyzeSchema),
   })
 
   const householdBooks = computed(() => {
@@ -219,8 +228,8 @@ export const useInteraction = () => {
     stream.value?.getTracks().forEach((track) => track.stop())
   }
 
-  const handleReceiptAnalyzeReception = async () => {
-    console.log('receipt analyze reception')
+  const handleReceiptAnalyzeReception = handleTagSubmit(async (values) => {
+    console.log('receipt analyze reception', values)
 
     const canvas = document.createElement('canvas')
     canvas.width = videoRef.value!.videoWidth
@@ -236,6 +245,7 @@ export const useInteraction = () => {
     const { data, error } = await POST('/openai/analyze/{householdID}/receipt/reception', {
       body: {
         imageData: base64,
+        categoryID: values.tag,
       },
       params: {
         path: { householdID: selectedHouseholdBook.value.id },
@@ -252,7 +262,7 @@ export const useInteraction = () => {
     }
 
     onClickCloseReceiptAnalyzeModal()
-  }
+  })
 
   return {
     isOpenModal,
@@ -269,6 +279,8 @@ export const useInteraction = () => {
     selectedHouseholdBook,
     selectedShoppingAmounts,
     selectedCategoryNumber,
+    defineTagField,
+    tagErrors,
     defineField,
     onClickAddAmountModal,
     onClickCloseAmountModal,
