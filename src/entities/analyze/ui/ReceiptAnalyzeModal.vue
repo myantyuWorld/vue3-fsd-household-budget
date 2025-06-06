@@ -3,6 +3,7 @@ import { BaseModal, PrimaryButton, SecondaryButton, TheForm } from '@/shared/ui'
 import { useInteraction } from '../hooks/useInteraction'
 import { watch } from 'vue'
 import type { components } from '@/shared/api/v1'
+import { getBackCameraMediaStream } from '../hooks/functions'
 
 const props = defineProps<{
   householdID: number
@@ -14,14 +15,8 @@ const emit = defineEmits<{
   (e: 'closeModal'): void
 }>()
 
-const {
-  videoRef,
-  handleStartCamera,
-  handleReceiptAnalyzeReception,
-  stopCamera,
-  defineField,
-  errors,
-} = useInteraction(props.householdID)
+const { videoRef, stream, handleReceiptAnalyzeReception, stopCamera, defineField, errors } =
+  useInteraction(props.householdID)
 
 const [tag, tagProps] = defineField('tag')
 
@@ -29,7 +24,22 @@ watch(
   () => props.isOpenReceiptAnalyzeModal,
   async (newVal) => {
     if (newVal) {
-      handleStartCamera()
+      try {
+        const backCamera: MediaDeviceInfo | undefined = await getBackCameraMediaStream()
+        stream.value = await navigator.mediaDevices.getUserMedia({
+          video: {
+            deviceId: backCamera?.deviceId,
+            facingMode: 'environment',
+          },
+        })
+
+        if (videoRef.value) {
+          videoRef.value.srcObject = stream.value
+          await videoRef.value.play()
+        }
+      } catch (error) {
+        console.error('カメラの起動に失敗しました:', error)
+      }
     }
   },
 )
