@@ -14,14 +14,8 @@ const emit = defineEmits<{
   (e: 'closeModal'): void
 }>()
 
-const {
-  videoRef,
-  handleStartCamera,
-  handleReceiptAnalyzeReception,
-  stopCamera,
-  defineField,
-  errors,
-} = useInteraction(props.householdID)
+const { videoRef, stream, handleReceiptAnalyzeReception, stopCamera, defineField, errors } =
+  useInteraction(props.householdID)
 
 const [tag, tagProps] = defineField('tag')
 
@@ -29,7 +23,28 @@ watch(
   () => props.isOpenReceiptAnalyzeModal,
   async (newVal) => {
     if (newVal) {
-      handleStartCamera()
+      try {
+        const devices = await navigator.mediaDevices.enumerateDevices()
+        const videoDevices = devices.filter((device) => device.kind === 'videoinput')
+        const backCamera =
+          videoDevices.find((device) => device.label.toLowerCase().includes('back')) ||
+          videoDevices[0]
+        console.log(backCamera)
+        // const backCamera: MediaDeviceInfo | undefined = await getBackCameraMediaStream()
+        stream.value = await navigator.mediaDevices.getUserMedia({
+          video: {
+            deviceId: backCamera?.deviceId,
+            facingMode: 'environment',
+          },
+        })
+
+        if (videoRef.value) {
+          videoRef.value.srcObject = stream.value
+          await videoRef.value.play()
+        }
+      } catch (error) {
+        console.error('カメラの起動に失敗しました:', error)
+      }
     }
   },
 )
@@ -50,6 +65,9 @@ const onClickCloseReceiptAnalyzeModal = () => {
 </script>
 
 <template>
+  {{ videoRef }}
+  {{ videoRef?.videoWidth }}
+  {{ videoRef?.videoHeight }}
   <BaseModal
     title="レシート分析"
     :isOpen="isOpenReceiptAnalyzeModal"
