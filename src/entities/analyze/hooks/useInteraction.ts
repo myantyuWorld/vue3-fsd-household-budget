@@ -22,7 +22,7 @@ export const useInteraction = (householdID: number) => {
 
   const handleStartCamera = async () => {
     try {
-      const backCamera = await getBackCameraMediaStream()
+      const backCamera: MediaDeviceInfo | undefined = await getBackCameraMediaStream()
       stream.value = await navigator.mediaDevices.getUserMedia({
         video: {
           deviceId: backCamera?.deviceId,
