@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { BaseModal, PrimaryButton, SecondaryButton, TheForm } from '@/shared/ui'
 import { useInteraction } from '../hooks/useInteraction'
-import { watch } from 'vue'
+import { ref, watch } from 'vue'
 import type { components } from '@/shared/api/v1'
+import { requestReceiptAnalyze } from '../hooks/functions'
 
 const props = defineProps<{
   householdID: number
@@ -14,14 +15,10 @@ const emit = defineEmits<{
   (e: 'closeModal'): void
 }>()
 
-const {
-  videoRef,
-  handleStartCamera,
-  handleReceiptAnalyzeReception,
-  stopCamera,
-  defineField,
-  errors,
-} = useInteraction(props.householdID)
+const { stopCamera, defineField, errors } = useInteraction(props.householdID)
+
+const videoRef = ref<HTMLVideoElement | null>(null)
+const stream = ref<MediaStream | null>(null)
 
 const [tag, tagProps] = defineField('tag')
 
@@ -29,7 +26,26 @@ watch(
   () => props.isOpenReceiptAnalyzeModal,
   async (newVal) => {
     if (newVal) {
-      handleStartCamera()
+      try {
+        const devices = await navigator.mediaDevices.enumerateDevices()
+        const videoDevices = devices.filter((device) => device.kind === 'videoinput')
+        const backCamera =
+          videoDevices.find((device) => device.label.toLowerCase().includes('back')) ||
+          videoDevices[0]
+        console.log(backCamera)
+        // const backCamera: MediaDeviceInfo | undefined = await getBackCameraMediaStream()
+        stream.value = await navigator.mediaDevices.getUserMedia({
+          video: {
+            deviceId: backCamera?.deviceId,
+            facingMode: 'environment',
+          },
+        })
+
+        videoRef.value!.srcObject = stream.value
+        await videoRef.value!.play()
+      } catch (error) {
+        console.error('カメラの起動に失敗しました:', error)
+      }
     }
   },
 )
@@ -37,10 +53,29 @@ watch(
 const onClickAnalyzeReceipt = async () => {
   console.log('onClickAnalyzeReceipt')
 
-  const result = await handleReceiptAnalyzeReception()
-  if (result) {
-    emit('closeModal')
+  if (!videoRef.value) {
+    console.error('videoRefがnullです')
+    return
   }
+  stopCamera()
+
+  const canvas = document.createElement('canvas')
+  canvas.width = videoRef.value.videoWidth
+  canvas.height = videoRef.value.videoHeight
+  const context = canvas.getContext('2d')
+  context?.drawImage(videoRef.value, 0, 0, canvas.width, canvas.height)
+
+  const base64 = canvas.toDataURL('image/jpeg')
+  console.log('撮影した画像のbase64:', base64)
+
+  const data = await requestReceiptAnalyze(props.householdID, base64, tag.value)
+
+  if (data) {
+    console.log(data)
+    // TODO: 通知バナーを表示、とか、トースト表示、とかでもいいかも
+  }
+
+  emit('closeModal')
 }
 
 const onClickCloseReceiptAnalyzeModal = () => {
@@ -59,6 +94,9 @@ const onClickCloseReceiptAnalyzeModal = () => {
     horizontalPosition="left-0"
   >
     <template #modalBody>
+      {{ videoRef }}
+      {{ videoRef?.videoWidth }}
+      {{ videoRef?.videoHeight }}
       <video ref="videoRef" autoplay playsinline class="w-full h-full"></video>
       <TheForm label="カテゴリ">
         <select
