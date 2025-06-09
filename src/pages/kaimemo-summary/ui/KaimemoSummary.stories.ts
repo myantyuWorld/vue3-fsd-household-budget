@@ -22,34 +22,24 @@ sessionStore.$patch({
     userID: 'test-user-1',
     name: 'テストユーザー',
     pictureURL: '',
-    householdBooks: [
-      {
-        id: 1,
-        userID: 1,
-        title: 'テスト家計簿',
-        description: 'テスト用の家計簿です',
-        categoryLimit: [
-          {
+    householdBooks: Array.from({ length: 20 }, (_, index) => ({
+      id: index + 1,
+      userID: 1,
+      title: 'テスト家計簿',
+      description: 'テスト用の家計簿です',
+      categoryLimit: [
+        {
+          id: 1,
+          categoryID: 1,
+          limitAmount: 10000,
+          category: {
             id: 1,
-            categoryID: 1,
-            limitAmount: 10000,
-            category: {
-              id: 1,
-              name: '食費',
-            },
+            name: '食費',
           },
-        ],
-        users: [],
-      },
-      {
-        id: 2,
-        userID: 1,
-        title: 'テスト家計簿2',
-        description: 'テスト用の家計簿です2',
-        categoryLimit: [],
-        users: [],
-      },
-    ],
+        },
+      ],
+      users: [],
+    })),
   },
   isAuthenticated: true,
   isLoading: false,
@@ -118,6 +108,7 @@ const meta: Meta<typeof Component> = {
                   date: date,
                   memo: 'テスト',
                   category: { id: 1, name: '食費' },
+                  analyze_id: 1,
                 },
                 {
                   id: 2,
