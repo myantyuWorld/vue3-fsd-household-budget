@@ -22,6 +22,13 @@ export const Primary: Story = {
         name: 'テスト',
         color: '#000000',
       },
+      analyze_id: 1,
+      receipt_analyze_results: {
+        id: 1,
+        totalAmount: 1000,
+        receiptImageURL: 'test.jpg',
+        items: [],
+      },
     },
   },
 }

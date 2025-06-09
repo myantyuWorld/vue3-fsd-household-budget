@@ -1,17 +1,33 @@
 <script setup lang="ts">
 import type { components } from '@/shared/api/v1'
 import ShoppingCategoryIcon from './ShoppingCategoryIcon.vue'
+import { ReceiptAnalyzeResultModal } from '@/features/analyze'
+import { ref } from 'vue'
 
-defineProps<{
+const props = defineProps<{
   shoppingRecord: components['schemas']['ShoppingRecord']
 }>()
+
+const isOpenReceiptAnalyzeResultModal = ref<boolean>(false)
+
+const handleReceiptAnalyzeResult = {
+  openModal: () => {
+    if (props.shoppingRecord.analyze_id === 0) {
+      return
+    }
+    isOpenReceiptAnalyzeResultModal.value = true
+  },
+  closeModal: () => {
+    isOpenReceiptAnalyzeResultModal.value = false
+  },
+}
 
 defineEmits<{
   click: [id: number]
 }>()
 </script>
 <template>
-  <div class="flex items-center justify-between">
+  <div class="flex items-center justify-between" @click="handleReceiptAnalyzeResult.openModal">
     <div class="flex items-center gap-3">
       <ShoppingCategoryIcon :categoryName="shoppingRecord.category.name" />
       <div>
@@ -52,4 +68,10 @@ defineEmits<{
       </button>
     </div>
   </div>
+
+  <ReceiptAnalyzeResultModal
+    :isOpen="isOpenReceiptAnalyzeResultModal"
+    :shoppingRecord="shoppingRecord"
+    @closeModal="handleReceiptAnalyzeResult.closeModal"
+  />
 </template>

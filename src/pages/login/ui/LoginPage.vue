@@ -49,6 +49,18 @@ const { isLoading, onClickLogin } = useInteraction()
       </h3>
       <div class="space-y-4">
         <div class="p-3 bg-green-50 dark:bg-green-900/30 rounded-lg">
+          <p class="text-base font-bold text-green-800 dark:text-green-200">2025/06/XX</p>
+          <p class="text-base font-bold text-green-800 dark:text-green-200">
+            🎉 レシート分析結果を買い物金額行から閲覧できるようになりました！
+          </p>
+          <p class="text-sm text-gray-600 dark:text-gray-200">
+            買い物金額行をタップすることで、レシート分析結果を閲覧できます。
+          </p>
+        </div>
+      </div>
+      <hr class="my-4 border-gray-200 dark:border-gray-700" />
+      <div class="space-y-4">
+        <div class="p-3 bg-green-50 dark:bg-green-900/30 rounded-lg">
           <p class="text-base font-bold text-green-800 dark:text-green-200">2025/06/06</p>
           <p class="text-base font-bold text-green-800 dark:text-green-200">
             🎉 レシート解析機能が追加されました！
