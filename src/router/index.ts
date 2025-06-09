@@ -5,83 +5,93 @@ import { KaimemoSummaryPage } from '@/pages/kaimemo-summary'
 import { SummaryCalender } from '@/pages/summary-calender'
 import { authGuard } from '@/app/router/auth-guard'
 import { ProfilePage } from '@/pages/profile'
+
+// デフォルトのメタ情報を定義
+const defaultMeta = {
+  layout: 'default',
+  requiresAuth: true,
+}
+
+// 認証不要のメタ情報を定義
+const authMeta = {
+  layout: 'auth',
+  requiresAuth: false,
+}
+
+// ルート定義を分離
+const routes = [
+  {
+    path: '/login',
+    name: 'login',
+    component: () => import('@/pages/login/ui/LoginPage.vue'),
+    meta: {
+      ...authMeta,
+      title: 'ログイン',
+    },
+  },
+  {
+    path: '/line/callback',
+    name: 'line-callback',
+    component: () => import('@/pages/login/ui/LineCallback.vue'),
+    meta: {
+      ...authMeta,
+      title: 'ログイン',
+    },
+  },
+  {
+    path: '/share',
+    name: 'share',
+    component: SharePage,
+    meta: {
+      ...defaultMeta,
+      title: '家計簿共有',
+    },
+  },
+  {
+    path: '/kaimemo',
+    name: 'kaimemo',
+    component: KaimemoPage,
+    meta: {
+      ...defaultMeta,
+      title: '家計簿',
+    },
+  },
+  {
+    path: '/summary',
+    name: 'summary',
+    component: KaimemoSummaryPage,
+    meta: {
+      ...defaultMeta,
+      title: '家計簿',
+    },
+  },
+  {
+    path: '/summary/calender/:date',
+    name: 'summary-calender',
+    component: SummaryCalender,
+    props: (router: { params: { date: string } }) => ({
+      date: router.params.date,
+    }),
+    meta: {
+      ...defaultMeta,
+      title: '家計簿',
+    },
+  },
+  {
+    path: '/profile',
+    name: 'profile',
+    component: ProfilePage,
+    meta: {
+      ...defaultMeta,
+      title: 'プロフィール',
+    },
+  },
+]
+
+// ルーターの作成
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [
-    {
-      path: '/login',
-      name: 'login',
-      component: () => import('@/pages/login/ui/LoginPage.vue'),
-      meta: {
-        layout: 'auth',
-        requiresAuth: false,
-        title: 'ログイン'
-      }
-    },
-    {
-      path: '/line/callback',
-      name: 'line-callback',
-      component: () => import('@/pages/login/ui/LineCallback.vue'),
-      meta: {
-        layout: 'auth',
-        requiresAuth: false,
-        title: 'ログイン'
-      }
-    },
-    {
-      path: '/share',
-      name: 'share',
-      component: SharePage,
-      meta: {
-        layout: 'default',
-        requiresAuth: true,
-        title: '家計簿共有'
-      }
-    },
-    {
-      path: '/kaimemo',
-      name: 'kaimemo',
-      component: KaimemoPage,
-      meta: {
-        layout: 'default',
-        requiresAuth: true,
-        title: '家計簿'
-      }
-    },
-    {
-      path: '/summary',
-      name: 'summary',
-      component: KaimemoSummaryPage,
-      meta: {
-        layout: 'default',
-        requiresAuth: true,
-        title: '家計簿'
-      }
-    },
-    {
-      path: '/summary/calender/:date',
-      name: 'summary-calender',
-      component: SummaryCalender,
-      props: (router) => ({
-        date: router.params.date,
-      }),
-      meta: {
-        layout: 'default',
-        requiresAuth: true,
-        title: '家計簿'
-      }
-    },
-    {
-      path: '/profile',
-      name: 'profile',
-      component: ProfilePage,
-      meta: {
-        layout: 'default',
-        requiresAuth: true,
-        title: 'プロフィール'
-      }
-    }
-  ],
+  routes,
 })
 
 // 認証ガードを追加

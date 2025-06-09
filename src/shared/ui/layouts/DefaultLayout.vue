@@ -2,7 +2,6 @@
 import { computed, onMounted, ref } from 'vue'
 import { useSessionStore } from '@/entities/session/model/session-store'
 import { defineAsyncComponent } from 'vue'
-import { BaseModal, TheForm, PrimaryButton } from '@/shared/ui'
 defineProps<{
   title: string
 }>()
@@ -66,11 +65,13 @@ const logout = async () => {
         </div>
       </div>
     </header>
-    <main class="flex-1">
+
+    <main class="flex-1 pb-20">
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <slot></slot>
       </div>
     </main>
+
     <nav
       class="fixed bottom-0 left-0 right-0 bg-gradient-to-r from-primary-light to-primary-bg shadow-lg backdrop-blur-md"
     >
@@ -92,49 +93,6 @@ const logout = async () => {
       </div>
     </nav>
   </div>
-
-  <!-- modal -->
-  <BaseModal
-    title="プロフィール"
-    :isOpen="false"
-    verticalPosition="top-0"
-    horizontalPosition="left-0"
-  >
-    <template #modalBody>
-      <div class="flex items-center gap-4">
-        <template v-if="isUserLoaded">
-          <img :src="user.pictureURL" class="w-10 h-10 rounded-full" />
-        </template>
-        <UserSkeleton v-else />
-
-        <TheForm label="ユーザー名">
-          <label>
-            {{ user.name }}
-          </label>
-        </TheForm>
-      </div>
-      <hr />
-      <TheForm label="家計簿">
-        <template v-for="householdBook in user.householdBooks" :key="householdBook.id">
-          <ul>
-            <li>
-              {{ householdBook.title }}
-              <ul>
-                <li v-for="categoryLimit in householdBook.categoryLimit" :key="categoryLimit.id">
-                  - {{ categoryLimit.category.name }}
-                </li>
-                <PrimaryButton> 追加 </PrimaryButton>
-              </ul>
-            </li>
-          </ul>
-        </template>
-      </TheForm>
-
-      <hr />
-
-      <hr />
-    </template>
-  </BaseModal>
 </template>
 
 <style scoped>
