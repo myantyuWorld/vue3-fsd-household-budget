@@ -1,11 +1,7 @@
 <script setup lang="ts">
 import { ExpenseCalendar } from '@/features/expense-calendar'
-import { HouseholdTile } from '@/entities/household'
-// TODO: features/kaimemo-summaryという状態にしたい
-import { useInteraction } from '@/pages/kaimemo-summary/hooks/useInteraction'
-// TODO: expense、というfeaturesの"monthlyHeader"としたい
-import MonthlyHeader from '@/pages/kaimemo-summary/ui/MonthlyHeader.vue'
-// TODO: expense、というfeaturesの"shoppingCategoryBudgetRemain"としたい
+import { useKaimemoSummary } from '@/features/shopping'
+import MonthlyHeader from '@/features/shopping/ui/MonthlyHeader.vue'
 import ShoppingCategoryBudgetRemain from '@/entities/shopping/ui/ShoppingCategoryBudgetRemain.vue'
 import { GridCol3 } from '@/shared/ui/layouts'
 
@@ -20,11 +16,11 @@ const {
   onClickMonthlyPrev,
   onClickMonthlyNext,
   onClickCategoryAmount,
-} = useInteraction()
+} = useKaimemoSummary()
 </script>
 
 <template>
-  <HouseholdTile :householdBooks="householdBooks" v-model="selectedHouseholdBook" />
+  <HouseHoldTile :householdBooks="householdBooks" v-model="selectedHouseholdBook" />
   <div class="min-h-screen bg-primary-bg">
     <div class="sticky top-14 z-10 backdrop-blur-md bg-white/90 shadow-soft p-4">
       <MonthlyHeader
