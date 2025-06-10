@@ -4,7 +4,7 @@ import { useRouter } from 'vue-router'
 import { BaseModal, TheForm, PrimaryButton, SecondaryButton, PlusButton } from '@/shared/ui'
 import { ShoppingMemoItem } from '@/entities/shopping'
 import TagFilter from './TagFilter.vue'
-import { HouseholdTile } from '@/entities/household'
+import { HouseHoldTile } from '@/features/shopping'
 
 const router = useRouter()
 const {
@@ -27,7 +27,7 @@ const [tag, tagProps] = defineField('tag')
 </script>
 
 <template>
-  <HouseholdTile :householdBooks="householdBooks" v-model="selectedHouseholdBook" />
+  <HouseHoldTile :householdBooks="householdBooks" v-model="selectedHouseholdBook" />
 
   <div>
     <TagFilter v-model="selectedFilters" :categoryLimit="selectedCategoryLimit" />

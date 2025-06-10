@@ -1,14 +1,13 @@
 import { DELETE, GET, POST } from '@/shared/api'
 import type { components } from '@/shared/api/v1'
 import { computed, onMounted, ref, watch } from 'vue'
-import { schema, type KaimemoSummarySchema } from '../types'
 import { toTypedSchema } from '@vee-validate/zod'
 import { useForm } from 'vee-validate'
 import { useAmountSummaryStore } from '@/features/kaimemo'
 import { useSessionStore } from '@/entities/session/model/session-store'
 import { analyzeSchema, type AnalyzeSchema } from '@/features/analyze'
 
-export const useInteraction = () => {
+export const useKaimemoSummary = () => {
   // TODO : provide, injectで共通的に処理したい
   const loading = ref<boolean>(true)
   const isOpenModal = ref<boolean>(false)
@@ -25,10 +24,6 @@ export const useInteraction = () => {
   const selectedCategoryNumber = ref<number>(0)
   const videoRef = ref<HTMLVideoElement | null>(null)
   const stream = ref<MediaStream | null>(null)
-
-  const { defineField, errors, handleSubmit, resetForm } = useForm<KaimemoSummarySchema>({
-    validationSchema: toTypedSchema(schema),
-  })
 
   const {
     defineField: defineTagField,
@@ -82,11 +77,12 @@ export const useInteraction = () => {
 
   const onClickAddAmountModal = () => {
     isOpenModal.value = true
-    resetForm()
   }
 
   const onClickCloseAmountModal = () => {
     isOpenModal.value = false
+
+    fetchShoppingRecords()
   }
 
   const onClickMonthlyPrev = () => {
@@ -137,34 +133,6 @@ export const useInteraction = () => {
     return summarizeShoppingAmounts.value?.shoppingAmounts.filter(
       (shoppingAmount) => shoppingAmount.category.id === selectedCategoryNumber.value,
     )
-  })
-
-  const onClickCreateShoppingRecord = handleSubmit(async (values) => {
-    console.log(values)
-
-    const { error } = await POST('/household/{householdID}/shopping/record', {
-      body: {
-        householdID: householdBooks.value[0].id,
-        categoryID: values.tag,
-        amount: values.amount,
-        date: values.date,
-        memo: values.memo ?? '',
-      },
-      params: {
-        path: {
-          // TODO : ユーザーが選択したhouseholdBookのidを取得
-          householdID: selectedHouseholdBook.value.id,
-        },
-      },
-    })
-
-    if (error) {
-      console.error(error)
-      return
-    }
-
-    fetchShoppingRecords()
-    isOpenModal.value = false
   })
 
   const onClickDeleteAmountRecord = async () => {
@@ -271,7 +239,6 @@ export const useInteraction = () => {
     videoRef,
     loading,
     operatingCurrentDate,
-    errors,
     categories,
     summarizeShoppingAmounts,
     summarizeCategoryLimitAmount,
@@ -281,7 +248,6 @@ export const useInteraction = () => {
     selectedCategoryNumber,
     defineTagField,
     tagErrors,
-    defineField,
     onClickAddAmountModal,
     onClickCloseAmountModal,
     onClickMonthlyPrev,
@@ -289,7 +255,6 @@ export const useInteraction = () => {
     onClickWeeklyPrev,
     onClickWeeklyNext,
     onClickDeleteAmountRecord,
-    onClickCreateShoppingRecord,
     onClickCloseDeleteConfirmModal,
     onClickOpenDeleteConfirmModal,
     onClickCategoryAmount,
