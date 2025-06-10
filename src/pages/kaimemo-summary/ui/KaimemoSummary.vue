@@ -9,8 +9,11 @@ import {
   PlusButton,
 } from '@/shared/ui'
 import { GridCol3 } from '@/shared/ui/layouts'
+// TODO: features/kaimemo-summaryという状態にしたい
 import { useInteraction } from '../hooks/useInteraction'
+// TODO: expense、というfeaturesの"shoppingCategoryBudgetRemain"としたい
 import { ShoppingAmountItem, ShoppingCategoryBudgetRemain } from '@/entities/shopping'
+// TODO: expense、というfeaturesの"monthlyHeader"としたい
 import MonthlyHeader from './MonthlyHeader.vue'
 import { HouseholdTile } from '@/entities/household'
 import { ref } from 'vue'

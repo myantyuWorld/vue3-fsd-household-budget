@@ -16,6 +16,9 @@ const SummaryIcon = defineAsyncComponent(() => import('@/shared/ui/icons/Summary
 const LogoutIcon = defineAsyncComponent(() => import('@/shared/ui/icons/LogoutIcon.vue'))
 const UserSkeleton = defineAsyncComponent(() => import('@/shared/ui/icons/UserSkeleton.vue'))
 const ProfileIcon = defineAsyncComponent(() => import('@/shared/ui/icons/ProfileIcon.vue'))
+const ExpenseCalendarIcon = defineAsyncComponent(
+  () => import('@/shared/ui/icons/ExpenseCalendarIcon.vue'),
+)
 
 onMounted(async () => {
   try {
@@ -85,6 +88,9 @@ const logout = async () => {
           </router-link>
           <router-link to="/summary" class="text-gray-600 hover:text-primary-dark">
             <SummaryIcon />
+          </router-link>
+          <router-link to="/expense-calender" class="text-gray-600 hover:text-primary-dark">
+            <ExpenseCalendarIcon />
           </router-link>
           <router-link to="/profile" class="text-gray-600 hover:text-primary-dark">
             <ProfileIcon />

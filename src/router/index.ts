@@ -5,6 +5,7 @@ import { KaimemoSummaryPage } from '@/pages/kaimemo-summary'
 import { SummaryCalender } from '@/pages/summary-calender'
 import { authGuard } from '@/app/router/auth-guard'
 import { ProfilePage } from '@/pages/profile'
+import { ExpenseCalendarPage } from '@/pages/expense-calender'
 
 // デフォルトのメタ情報を定義
 const defaultMeta = {
@@ -84,6 +85,15 @@ const routes = [
     meta: {
       ...defaultMeta,
       title: 'プロフィール',
+    },
+  },
+  {
+    path: '/expense-calender',
+    name: 'expense-calender',
+    component: ExpenseCalendarPage,
+    meta: {
+      ...defaultMeta,
+      title: '家計簿',
     },
   },
 ]
