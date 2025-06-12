@@ -3,12 +3,10 @@ const props = withDefaults(
   defineProps<{
     isOpen: boolean
     title: string
-    verticalPosition?: 'top-0' | 'bottom-0' | 'top-10' | 'bottom-50' | 'top-20' | 'bottom-10'
-    horizontalPosition?: 'left-0' | 'right-0'
+    position?: 'center' | 'top' | 'bottom'
   }>(),
   {
-    verticalPosition: 'bottom-0',
-    horizontalPosition: 'right-0',
+    position: 'center',
   },
 )
 
@@ -22,8 +20,7 @@ defineEmits<{
     <div
       tabindex="-1"
       aria-hidden="true"
-      class="w-full overflow-y-auto overflow-x-hidden fixed z-50 justify-center items-center md:inset-0 max-h-full backdrop-blur-sm"
-      :class="[props.verticalPosition, props.horizontalPosition]"
+      class="fixed inset-0 z-50 flex items-center justify-center w-full h-full overflow-y-auto overflow-x-hidden backdrop-blur-sm"
       v-show="props.isOpen"
     >
       <div class="relative p-4 w-full max-w-2xl max-h-full">

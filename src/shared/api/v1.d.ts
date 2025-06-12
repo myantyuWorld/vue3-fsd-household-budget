@@ -737,6 +737,187 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/admin/informations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * お知らせ一覧取得
+         * @description お知らせ一覧を取得する
+         */
+        get: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                200: components["responses"]["GetInformations"];
+                401: components["responses"]["UnauthorizedError"];
+                default: components["responses"]["GeneralError"];
+            };
+        };
+        put?: never;
+        /**
+         * お知らせ追加
+         * @description お知らせを追加する
+         */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        title: string;
+                        content: string;
+                        /** @enum {string} */
+                        category: "bug_report" | "feature_request" | "other";
+                    };
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                401: components["responses"]["UnauthorizedError"];
+                default: components["responses"]["GeneralError"];
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/informations/{id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /**
+         * お知らせ更新
+         * @description お知らせを更新する
+         */
+        put: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: number;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        title: string;
+                        content: string;
+                        /** @enum {string} */
+                        category: "bug_report" | "feature_request" | "other";
+                    };
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                401: components["responses"]["UnauthorizedError"];
+                default: components["responses"]["GeneralError"];
+            };
+        };
+        post?: never;
+        /**
+         * お知らせ削除
+         * @description お知らせを削除する
+         */
+        delete: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                401: components["responses"]["UnauthorizedError"];
+                default: components["responses"]["GeneralError"];
+            };
+        };
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/admin/informations/{id}/publish": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * お知らせ公開
+         * @description お知らせを公開する
+         */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    id: number;
+                };
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                401: components["responses"]["UnauthorizedError"];
+                default: components["responses"]["GeneralError"];
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -845,6 +1026,14 @@ export interface components {
             receiptImageURL: string;
             items: components["schemas"]["ReceiptAnalyzeResultItem"][];
         };
+        Information: {
+            id: number;
+            title: string;
+            content: string;
+            isPublished: boolean;
+            /** @enum {string} */
+            category: "bug_report" | "feature_request" | "other";
+        };
     };
     responses: {
         /** @description レシート分析結果取得 */
@@ -920,6 +1109,15 @@ export interface components {
             };
             content: {
                 "application/json": components["schemas"]["HouseholdBook"];
+            };
+        };
+        /** @description お知らせ一覧取得 */
+        GetInformations: {
+            headers: {
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": components["schemas"]["Information"][];
             };
         };
     };

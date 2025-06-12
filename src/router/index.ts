@@ -6,10 +6,16 @@ import { SummaryCalender } from '@/pages/summary-calender'
 import { authGuard } from '@/app/router/auth-guard'
 import { ProfilePage } from '@/pages/profile'
 import { ExpenseCalendarPage } from '@/pages/expense-calender'
+import { AdminInformationPage } from '@/pages/admin/information'
 
 // デフォルトのメタ情報を定義
 const defaultMeta = {
   layout: 'default',
+  requiresAuth: true,
+}
+
+const adminMeta = {
+  layout: 'admin',
   requiresAuth: true,
 }
 
@@ -94,6 +100,15 @@ const routes = [
     meta: {
       ...defaultMeta,
       title: '家計簿',
+    },
+  },
+  {
+    path: '/admin/informations',
+    name: 'admin-informations',
+    component: AdminInformationPage,
+    meta: {
+      ...adminMeta,
+      title: '管理者',
     },
   },
 ]
