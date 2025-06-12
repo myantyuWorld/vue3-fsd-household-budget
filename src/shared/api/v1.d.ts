@@ -737,6 +737,70 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/user/informations": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * お知らせ一覧取得
+         * @description お知らせ一覧を取得する
+         */
+        get: {
+            parameters: {
+                query?: {
+                    isPublished?: boolean;
+                };
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody?: never;
+            responses: {
+                200: components["responses"]["GetUserInformations"];
+                401: components["responses"]["UnauthorizedError"];
+                default: components["responses"]["GeneralError"];
+            };
+        };
+        put?: never;
+        /**
+         * お知らせ既読
+         * @description お知らせを既読にする
+         */
+        post: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path?: never;
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        informationIDs: number[];
+                    };
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                401: components["responses"]["UnauthorizedError"];
+                default: components["responses"]["GeneralError"];
+            };
+        };
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/admin/informations": {
         parameters: {
             query?: never;
@@ -1034,6 +1098,14 @@ export interface components {
             /** @enum {string} */
             category: "bug_report" | "feature_request" | "other";
         };
+        UserInformation: {
+            id: number;
+            title: string;
+            content: string;
+            isRead: boolean;
+            /** @enum {string} */
+            category: "bug_report" | "feature_request" | "other";
+        };
     };
     responses: {
         /** @description レシート分析結果取得 */
@@ -1118,6 +1190,15 @@ export interface components {
             };
             content: {
                 "application/json": components["schemas"]["Information"][];
+            };
+        };
+        /** @description お知らせ一覧取得 */
+        GetUserInformations: {
+            headers: {
+                [name: string]: unknown;
+            };
+            content: {
+                "application/json": components["schemas"]["UserInformation"][];
             };
         };
     };
