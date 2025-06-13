@@ -37,53 +37,5 @@ const { isLoading, onClickLogin } = useInteraction()
         <span v-else class="text-white">LINEでログイン</span>
       </button>
     </div>
-
-    <!-- HACK: 今後、お知らせを追加する場合はここに追加する -->
-    <div
-      class="mt-8 p-4 bg-white dark:bg-gray-800 rounded-xl shadow-lg w-full max-h-[400px] overflow-y-auto"
-    >
-      <h3
-        class="text-lg font-semibold mb-1 text-gray-800 dark:text-gray-200 bg-white dark:bg-gray-800 py-2"
-      >
-        お知らせ
-      </h3>
-      <div class="space-y-4">
-        <div class="p-3 bg-green-50 dark:bg-green-900/30 rounded-lg">
-          <p class="text-base font-bold text-green-800 dark:text-green-200">2025/06/XX</p>
-          <p class="text-base font-bold text-green-800 dark:text-green-200">
-            🎉 レシート分析結果を買い物金額行から閲覧できるようになりました！
-          </p>
-          <p class="text-sm text-gray-600 dark:text-gray-200">
-            買い物金額行をタップすることで、レシート分析結果を閲覧できます。
-          </p>
-        </div>
-      </div>
-      <hr class="my-4 border-gray-200 dark:border-gray-700" />
-      <div class="space-y-4">
-        <div class="p-3 bg-green-50 dark:bg-green-900/30 rounded-lg">
-          <p class="text-base font-bold text-green-800 dark:text-green-200">2025/06/06</p>
-          <p class="text-base font-bold text-green-800 dark:text-green-200">
-            🎉 レシート解析機能が追加されました！
-          </p>
-          <p class="text-sm text-gray-600 dark:text-gray-200">
-            レシートの分析を実施した者を支出に反映する機能を追加しました。
-            <br />
-            ※但し、分析結果の買い物のレシート、品物リスト表示機能はまだ実装していません。
-          </p>
-        </div>
-      </div>
-      <hr class="my-4 border-gray-200 dark:border-gray-700" />
-      <div class="space-y-4">
-        <div class="p-3 bg-green-50 dark:bg-green-900/30 rounded-lg">
-          <p class="text-base font-bold text-green-800 dark:text-green-200">2025/06/01</p>
-          <p class="text-base font-bold text-green-800 dark:text-green-200">
-            🎉 システムからのお知らせを表示できるようになりました！
-          </p>
-          <p class="text-sm text-gray-600 dark:text-gray-200">
-            今後は、この部分に新機能や、バグ修正のお知らせを表示します。
-          </p>
-        </div>
-      </div>
-    </div>
   </div>
 </template>
