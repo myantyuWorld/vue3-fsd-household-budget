@@ -1,6 +1,4 @@
-<script setup lang="ts">
-
-</script>
+<script setup lang="ts"></script>
 <template>
   <button
     data-modal-hide="default-modal"

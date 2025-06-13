@@ -1,7 +1,7 @@
 <script setup lang="ts">
-defineProps<{
-  title: string
-}>()
+  defineProps<{
+    title: string
+  }>()
 </script>
 
 <template>
@@ -11,11 +11,16 @@ defineProps<{
         <div class="flex justify-between h-16">
           <div class="flex">
             <div class="flex-shrink-0 flex items-center">
-              <h2 class="text-xl font-bold text-gray-900">Kaimemo!管理者画面</h2>
+              <h2 class="text-xl font-bold text-gray-900">
+                Kaimemo!管理者画面
+              </h2>
             </div>
           </div>
           <div class="flex items-center">
-            <router-link to="/" class="text-gray-600 hover:text-gray-900">
+            <router-link
+              to="/"
+              class="text-gray-600 hover:text-gray-900"
+            >
               ホームに戻る
             </router-link>
           </div>

@@ -1,1 +1,1 @@
-export { default as KaimemoSummaryPage } from './ui/KaimemoSummary.vue';
+export { default as KaimemoSummaryPage } from './ui/KaimemoSummary.vue'

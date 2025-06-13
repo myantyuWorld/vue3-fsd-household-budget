@@ -1,20 +1,20 @@
 <script setup lang="ts">
-withDefaults(
-  defineProps<{
-    bottom?: number
-    right?: number
-    isFixed?: boolean
-  }>(),
-  {
-    bottom: 20,
-    right: 4,
-    isFixed: true,
-  },
-)
+  withDefaults(
+    defineProps<{
+      bottom?: number
+      right?: number
+      isFixed?: boolean
+    }>(),
+    {
+      bottom: 20,
+      right: 4,
+      isFixed: true
+    }
+  )
 
-defineEmits<{
-  click: []
-}>()
+  defineEmits<{
+    click: []
+  }>()
 </script>
 
 <template>
@@ -39,7 +39,14 @@ defineEmits<{
         stroke-width="2"
         d="M24 8h-4l-2-2h-4l-2 2H8a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V10a2 2 0 0 0-2-2zm0 14H8V10h16v12z"
       />
-      <circle cx="16" cy="16" r="4" fill="none" stroke="currentColor" stroke-width="2" />
+      <circle
+        cx="16"
+        cy="16"
+        r="4"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      />
     </svg>
   </button>
 </template>

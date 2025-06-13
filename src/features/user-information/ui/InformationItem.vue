@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import type { components } from '@/shared/api/v1'
-import { ref } from 'vue'
-import InformationCategoryBadge from '@/entities/information/ui/InformationCategoryBadge.vue'
+  import type { components } from '@/shared/api/v1'
+  import { ref } from 'vue'
+  import InformationCategoryBadge from '@/entities/information/ui/InformationCategoryBadge.vue'
 
-defineProps<{
-  information: components['schemas']['UserInformation']
-}>()
+  defineProps<{
+    information: components['schemas']['UserInformation']
+  }>()
 
-const isExpanded = ref(false)
+  const isExpanded = ref(false)
 </script>
 
 <template>
@@ -19,18 +19,27 @@ const isExpanded = ref(false)
         <div class="space-y-1">
           <div class="flex items-center gap-2">
             <InformationCategoryBadge :category="information.category" />
-            <div class="text-lg font-semibold text-gray-800">{{ information.title }}</div>
+            <div class="text-lg font-semibold text-gray-800">
+              {{ information.title }}
+            </div>
             <span
               :class="[
                 'px-3 py-1 rounded-full text-xs font-medium',
-                information.isRead ? 'bg-gray-100 text-gray-600' : 'bg-blue-100 text-blue-600',
+                information.isRead
+                  ? 'bg-gray-100 text-gray-600'
+                  : 'bg-blue-100 text-blue-600'
               ]"
               class="ml-auto"
             >
               {{ information.isRead ? '既読' : '未読' }}
             </span>
           </div>
-          <div class="text-sm text-gray-600 break-words" :class="{ 'line-clamp-2': !isExpanded }">
+          <div
+            class="text-sm text-gray-600 break-words"
+            :class="{
+              'line-clamp-2': !isExpanded
+            }"
+          >
             {{ information.content }}
           </div>
           <a

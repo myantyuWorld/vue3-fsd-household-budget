@@ -16,6 +16,6 @@ export const useInteraction = () => {
 
   return {
     isLoading,
-    onClickLogin,
+    onClickLogin
   }
 }

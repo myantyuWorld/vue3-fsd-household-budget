@@ -1,64 +1,79 @@
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted, ref } from 'vue'
-import { useSessionStore } from '@/entities/session/model/session-store'
-import { useNotificationStore } from '@/entities/notification/model/notification-store'
-import { defineAsyncComponent } from 'vue'
-defineProps<{
-  title: string
-}>()
+  import { computed, onMounted, onUnmounted, ref } from 'vue'
+  import { useSessionStore } from '@/entities/session/model/session-store'
+  import { useNotificationStore } from '@/entities/notification/model/notification-store'
+  import { defineAsyncComponent } from 'vue'
+  defineProps<{
+    title: string
+  }>()
 
-const sessionStore = useSessionStore()
-const notificationStore = useNotificationStore()
-const user = computed(() => sessionStore.user)
-const isUserLoaded = ref(false)
+  const sessionStore = useSessionStore()
+  const notificationStore = useNotificationStore()
+  const user = computed(() => sessionStore.user)
+  const isUserLoaded = ref(false)
 
-// 定期的な更新のためのインターバルID
-let updateInterval: number | null = null
+  // 定期的な更新のためのインターバルID
+  let updateInterval: number | null = null
 
-// 定期的なお知らせの更新
-const startPeriodicUpdate = () => {
-  // 5分ごとに更新（300000ミリ秒）
-  updateInterval = window.setInterval(() => {
-    notificationStore.fetchNotifications()
-  }, 300000)
-}
-
-// 遅延読み込みコンポーネント
-const ShoppingIcon = defineAsyncComponent(() => import('@/shared/ui/icons/ShoppingIcon.vue'))
-const SummaryIcon = defineAsyncComponent(() => import('@/shared/ui/icons/SummaryIcon.vue'))
-const LogoutIcon = defineAsyncComponent(() => import('@/shared/ui/icons/LogoutIcon.vue'))
-const UserSkeleton = defineAsyncComponent(() => import('@/shared/ui/icons/UserSkeleton.vue'))
-const ProfileIcon = defineAsyncComponent(() => import('@/shared/ui/icons/ProfileIcon.vue'))
-const ExpenseCalendarIcon = defineAsyncComponent(
-  () => import('@/shared/ui/icons/ExpenseCalendarIcon.vue'),
-)
-const InformationIcon = defineAsyncComponent(() => import('@/shared/ui/icons/InformationIcon.vue'))
-
-onMounted(async () => {
-  try {
-    await Promise.all([sessionStore.fetchUser(), notificationStore.fetchNotifications()])
-    isUserLoaded.value = true
-    startPeriodicUpdate()
-  } catch (error) {
-    console.error('Failed to load user:', error)
+  // 定期的なお知らせの更新
+  const startPeriodicUpdate = () => {
+    // 5分ごとに更新（300000ミリ秒）
+    updateInterval = window.setInterval(() => {
+      notificationStore.fetchNotifications()
+    }, 300000)
   }
-})
 
-// コンポーネントのアンマウント時にインターバルをクリア
-onUnmounted(() => {
-  if (updateInterval !== null) {
-    clearInterval(updateInterval)
-    updateInterval = null
-  }
-})
+  // 遅延読み込みコンポーネント
+  const ShoppingIcon = defineAsyncComponent(
+    () => import('@/shared/ui/icons/ShoppingIcon.vue')
+  )
+  const SummaryIcon = defineAsyncComponent(
+    () => import('@/shared/ui/icons/SummaryIcon.vue')
+  )
+  const LogoutIcon = defineAsyncComponent(
+    () => import('@/shared/ui/icons/LogoutIcon.vue')
+  )
+  const UserSkeleton = defineAsyncComponent(
+    () => import('@/shared/ui/icons/UserSkeleton.vue')
+  )
+  const ProfileIcon = defineAsyncComponent(
+    () => import('@/shared/ui/icons/ProfileIcon.vue')
+  )
+  const ExpenseCalendarIcon = defineAsyncComponent(
+    () => import('@/shared/ui/icons/ExpenseCalendarIcon.vue')
+  )
+  const InformationIcon = defineAsyncComponent(
+    () => import('@/shared/ui/icons/InformationIcon.vue')
+  )
 
-const logout = async () => {
-  try {
-    await sessionStore.logout()
-  } catch (error) {
-    console.error('Failed to logout:', error)
+  onMounted(async () => {
+    try {
+      await Promise.all([
+        sessionStore.fetchUser(),
+        notificationStore.fetchNotifications()
+      ])
+      isUserLoaded.value = true
+      startPeriodicUpdate()
+    } catch (error) {
+      console.error('Failed to load user:', error)
+    }
+  })
+
+  // コンポーネントのアンマウント時にインターバルをクリア
+  onUnmounted(() => {
+    if (updateInterval !== null) {
+      clearInterval(updateInterval)
+      updateInterval = null
+    }
+  })
+
+  const logout = async () => {
+    try {
+      await sessionStore.logout()
+    } catch (error) {
+      console.error('Failed to logout:', error)
+    }
   }
-}
 </script>
 
 <template>
@@ -116,13 +131,22 @@ const logout = async () => {
           >
             <ShoppingIcon />
           </router-link>
-          <router-link to="/summary" class="text-gray-600 hover:text-primary-dark">
+          <router-link
+            to="/summary"
+            class="text-gray-600 hover:text-primary-dark"
+          >
             <SummaryIcon />
           </router-link>
-          <router-link to="/expense-calender" class="text-gray-600 hover:text-primary-dark">
+          <router-link
+            to="/expense-calender"
+            class="text-gray-600 hover:text-primary-dark"
+          >
             <ExpenseCalendarIcon />
           </router-link>
-          <router-link to="/profile" class="text-gray-600 hover:text-primary-dark">
+          <router-link
+            to="/profile"
+            class="text-gray-600 hover:text-primary-dark"
+          >
             <ProfileIcon />
           </router-link>
         </div>
@@ -132,7 +156,7 @@ const logout = async () => {
 </template>
 
 <style scoped>
-.router-link-active {
-  @apply text-blue-600;
-}
+  .router-link-active {
+    @apply text-blue-600;
+  }
 </style>

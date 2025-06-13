@@ -16,9 +16,9 @@ export const useInteraction = () => {
       body: {
         informationIDs:
           informations.value
-            ?.filter((information) => !information.isRead)
-            .map((information) => information.id) ?? [],
-      },
+            ?.filter(information => !information.isRead)
+            .map(information => information.id) ?? []
+      }
     })
 
     await notificationStore.fetchNotifications()
@@ -29,6 +29,6 @@ export const useInteraction = () => {
   return {
     isRead,
     isReadAll,
-    informations,
+    informations
   }
 }

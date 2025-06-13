@@ -1,34 +1,27 @@
 <script setup lang="ts">
-import { formatYearMonth } from '@/shared/util/string'
-import { GridCol2 } from '@/shared/ui/layouts'
+  import { formatYearMonth } from '@/shared/util/string'
+  import { GridCol2 } from '@/shared/ui/layouts'
 
-defineProps<{
-  operatingCurrentDate: Date
-  summarizeAmount: number
-  summarizeCategoryLimitAmount: number
-}>()
+  defineProps<{
+    operatingCurrentDate: Date
+    summarizeAmount: number
+    summarizeCategoryLimitAmount: number
+  }>()
 
-defineEmits<{
-  clickMonthlyPrev: []
-  clickMonthlyNext: []
-}>()
+  defineEmits<{
+    clickMonthlyPrev: []
+    clickMonthlyNext: []
+  }>()
 </script>
 
 <template>
   <div class="max-w-4xl mx-auto flex items-center justify-between">
     <button
       @click="$emit('clickMonthlyPrev')"
-      class="group flex items-center justify-center w-8 h-8 rounded-full bg-gradient-to-r from-primary-bg to-primary-light text-primary hover:from-primary-light hover:to-primary transform hover:scale-110 transition-all duration-300 shadow-soft hover:shadow-lg"
+      class="group flex items-center justify-center w-8 h-8 rounded-full bg-gradient-to-r from-primary-bg to-primary-light text-primary hover:from-primary-light hover:to-primary transform hover:scale-110 transition-all shadow-soft hover:shadow-lg"
+      aria-label="前の月"
     >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        class="group-hover:translate-x-1 transition-transform duration-300"
-      >
-        <path fill="currentColor" d="M15.41 7.41L14 6l-6 6l6 6l1.41-1.41L10.83 12z" />
-      </svg>
+      <span class="text-2xl font-bold select-none">&lt;</span>
     </button>
 
     <div class="flex items-center">
@@ -59,16 +52,9 @@ defineEmits<{
     <button
       @click="$emit('clickMonthlyNext')"
       class="group flex items-center justify-center w-8 h-8 rounded-full bg-gradient-to-r from-primary-bg to-primary-light text-primary hover:from-primary-light hover:to-primary transform hover:scale-110 transition-all duration-300 shadow-soft hover:shadow-lg"
+      aria-label="次の月"
     >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="24"
-        height="24"
-        viewBox="0 0 24 24"
-        class="group-hover:translate-x-1 transition-transform duration-300"
-      >
-        <path fill="currentColor" d="M10.59 16.59L12 18l6-6l-6-6l-1.41 1.41L13.17 12z" />
-      </svg>
+      <span class="text-2xl font-bold select-none">&gt;</span>
     </button>
   </div>
 
@@ -76,7 +62,9 @@ defineEmits<{
     <div class="bg-white dark:bg-gray-800 rounded-xl p-4 shadow-md">
       <div class="text-center">
         <p class="text-sm text-gray-600">今月の支出</p>
-        <p class="text-2xl font-bold text-primary">¥{{ summarizeAmount.toLocaleString() }}</p>
+        <p class="text-2xl font-bold text-primary">
+          ¥{{ summarizeAmount.toLocaleString() }}
+        </p>
       </div>
     </div>
 

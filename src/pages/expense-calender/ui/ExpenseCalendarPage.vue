@@ -1,28 +1,34 @@
 <script setup lang="ts">
-import { ExpenseCalendar } from '@/features/expense-calendar'
-import { useKaimemoSummary } from '@/features/shopping'
-import MonthlyHeader from '@/features/shopping/ui/MonthlyHeader.vue'
-import ShoppingCategoryBudgetRemain from '@/entities/shopping/ui/ShoppingCategoryBudgetRemain.vue'
-import { GridCol3 } from '@/shared/ui/layouts'
+  import { ExpenseCalendar } from '@/features/expense-calendar'
+  import { useKaimemoSummary } from '@/features/shopping'
+  import MonthlyHeader from '@/features/shopping/ui/MonthlyHeader.vue'
+  import ShoppingCategoryBudgetRemain from '@/entities/shopping/ui/ShoppingCategoryBudgetRemain.vue'
+  import { GridCol3 } from '@/shared/ui/layouts'
+  import HouseHoldTile from '@/features/shopping/ui/HouseHoldTile.vue'
 
-const {
-  operatingCurrentDate,
-  summarizeShoppingAmounts,
-  summarizeCategoryLimitAmount,
-  householdBooks,
-  selectedHouseholdBook,
-  selectedShoppingAmounts,
-  selectedCategoryNumber,
-  onClickMonthlyPrev,
-  onClickMonthlyNext,
-  onClickCategoryAmount,
-} = useKaimemoSummary()
+  const {
+    operatingCurrentDate,
+    summarizeShoppingAmounts,
+    summarizeCategoryLimitAmount,
+    householdBooks,
+    selectedHouseholdBook,
+    selectedShoppingAmounts,
+    selectedCategoryNumber,
+    onClickMonthlyPrev,
+    onClickMonthlyNext,
+    onClickCategoryAmount
+  } = useKaimemoSummary()
 </script>
 
 <template>
-  <HouseHoldTile :householdBooks="householdBooks" v-model="selectedHouseholdBook" />
+  <HouseHoldTile
+    :householdBooks="householdBooks"
+    v-model="selectedHouseholdBook"
+  />
   <div class="min-h-screen bg-primary-bg">
-    <div class="sticky top-14 z-10 backdrop-blur-md bg-white/90 shadow-soft p-4">
+    <div
+      class="sticky top-14 z-10 backdrop-blur-md bg-white/90 shadow-soft p-4"
+    >
       <MonthlyHeader
         :operatingCurrentDate="operatingCurrentDate"
         :summarizeAmount="summarizeShoppingAmounts?.totalAmount ?? 0"

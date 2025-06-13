@@ -1,18 +1,18 @@
 <script setup lang="ts">
-const props = withDefaults(
-  defineProps<{
-    isOpen: boolean
-    title: string
-    position?: 'center' | 'top' | 'bottom'
-  }>(),
-  {
-    position: 'center',
-  },
-)
+  const props = withDefaults(
+    defineProps<{
+      isOpen: boolean
+      title: string
+      position?: 'center' | 'top' | 'bottom'
+    }>(),
+    {
+      position: 'center'
+    }
+  )
 
-defineEmits<{
-  closeModal: []
-}>()
+  defineEmits<{
+    closeModal: []
+  }>()
 </script>
 
 <template>
@@ -64,8 +64,10 @@ defineEmits<{
             <slot name="modalBody"></slot>
           </div>
 
-          <div class="flex items-center p-6 border-t border-primary-light/50 rounded-b-2xl">
-            <slot name="buttons"> </slot>
+          <div
+            class="flex items-center p-6 border-t border-primary-light/50 rounded-b-2xl"
+          >
+            <slot name="buttons"></slot>
           </div>
         </div>
       </div>
@@ -74,14 +76,14 @@ defineEmits<{
 </template>
 
 <style lang="css" scoped>
-.modal-enter-active,
-.modal-leave-active {
-  transition: all 0.3s ease;
-}
+  .modal-enter-active,
+  .modal-leave-active {
+    transition: all 0.3s ease;
+  }
 
-.modal-enter-from,
-.modal-leave-to {
-  opacity: 0;
-  transform: scale(0.95);
-}
+  .modal-enter-from,
+  .modal-leave-to {
+    opacity: 0;
+    transform: scale(0.95);
+  }
 </style>

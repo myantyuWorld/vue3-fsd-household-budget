@@ -45,10 +45,10 @@ export const useSessionStore = defineStore('session', {
 
     async fetchUser() {
       this.isLoading = true
-      
+
       try {
         const { data, error } = await GET('/line/me', {
-          param : {}
+          param: {}
         })
 
         if (data) {
@@ -77,4 +77,4 @@ export const useSessionStore = defineStore('session', {
       }
     }
   }
-}) 
+})

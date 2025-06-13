@@ -8,7 +8,8 @@ export const useNotificationStore = defineStore('notification', () => {
   const isLoading = ref(false)
 
   const unreadCount = computed(() => {
-    return notifications.value.filter((notification) => !notification.isRead).length
+    return notifications.value.filter(notification => !notification.isRead)
+      .length
   })
 
   const fetchNotifications = async () => {
@@ -43,7 +44,7 @@ export const useNotificationStore = defineStore('notification', () => {
     notifications,
     isLoading,
     unreadCount,
-    fetchNotifications,
+    fetchNotifications
     // markAsRead,
   }
 })

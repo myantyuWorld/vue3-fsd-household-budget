@@ -1,22 +1,22 @@
 <script setup lang="ts">
-import { TheCard, PlusButton } from '@/shared/ui'
-import CategoryLimits from './CategoryLimits.vue'
-import type { components } from '@/shared/api/v1'
-import { ref } from 'vue'
+  import { TheCard, PlusButton } from '@/shared/ui'
+  import CategoryLimits from './CategoryLimits.vue'
+  import type { components } from '@/shared/api/v1'
+  import { ref } from 'vue'
 
-defineProps<{
-  householdBook: components['schemas']['HouseholdBook']
-}>()
+  defineProps<{
+    householdBook: components['schemas']['HouseholdBook']
+  }>()
 
-defineEmits<{
-  click: [householdBookID: number]
-}>()
+  defineEmits<{
+    click: [householdBookID: number]
+  }>()
 
-const isShow = ref(false)
-const onClickShow = () => {
-  console.log('aaa')
-  isShow.value = !isShow.value
-}
+  const isShow = ref(false)
+  const onClickShow = () => {
+    console.log('aaa')
+    isShow.value = !isShow.value
+  }
 </script>
 
 <template>
@@ -26,7 +26,9 @@ const onClickShow = () => {
     <div class="p-2">
       <div class="flex items-center justify-between mb-3">
         <div>
-          <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-200 tracking-tight">
+          <h3
+            class="text-xl font-semibold text-gray-800 dark:text-gray-200 tracking-tight"
+          >
             カテゴリー別予算
           </h3>
           <p class="text-sm text-gray-600 dark:text-gray-400 mt-2">
@@ -55,7 +57,10 @@ const onClickShow = () => {
         <CategoryLimits :categoryLimits="householdBook.categoryLimit" />
       </template>
       <div class="flex justify-end mt-6">
-        <PlusButton @click="$emit('click', householdBook.id)" :isFixed="false" />
+        <PlusButton
+          @click="$emit('click', householdBook.id)"
+          :isFixed="false"
+        />
       </div>
     </div>
   </TheCard>

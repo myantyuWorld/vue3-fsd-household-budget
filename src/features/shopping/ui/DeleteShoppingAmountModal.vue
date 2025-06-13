@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { BaseModal, PrimaryButton, SecondaryButton } from '@/shared/ui'
+  import { BaseModal, PrimaryButton, SecondaryButton } from '@/shared/ui'
 
-const props = defineProps<{
-  isOpen: boolean
-}>()
+  const props = defineProps<{
+    isOpen: boolean
+  }>()
 
-const emit = defineEmits<{
-  (e: 'close'): void
-  (e: 'delete'): void
-}>()
+  const emit = defineEmits<{
+    (e: 'close'): void
+    (e: 'delete'): void
+  }>()
 </script>
 
 <template>
@@ -21,7 +21,9 @@ const emit = defineEmits<{
     horizontalPosition="left-0"
   >
     <template #modalBody>
-      <div class="space-y-8 bg-gradient-to-br from-primary-bg to-white/50 rounded-2xl">
+      <div
+        class="space-y-8 bg-gradient-to-br from-primary-bg to-white/50 rounded-2xl"
+      >
         <p class="text-gray-800">本当に削除しますか？</p>
       </div>
     </template>

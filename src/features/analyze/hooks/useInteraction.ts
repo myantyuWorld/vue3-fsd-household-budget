@@ -11,57 +11,57 @@ export const useInteraction = () => {
       {
         id: 0,
         name: 'ホゲホゲ',
-        amount: 100,
+        amount: 100
       },
       {
         id: 1,
         name: 'フガフガ',
-        amount: 9999,
+        amount: 9999
       },
       {
         id: 2,
         name: 'ホゲホゲ3',
-        amount: 10000,
+        amount: 10000
       },
       {
         id: 3,
         name: 'ホゲホゲ4',
-        amount: 10000,
+        amount: 10000
       },
       {
         id: 4,
         name: 'ホゲホゲ5',
-        amount: 10000,
+        amount: 10000
       },
       {
         id: 5,
         name: 'ホゲホゲ6',
-        amount: 10000,
+        amount: 10000
       },
       {
         id: 6,
         name: 'ホゲホゲ7',
-        amount: 10000,
+        amount: 10000
       },
       {
         id: 7,
         name: 'ホゲホゲ8',
-        amount: 10000,
+        amount: 10000
       },
       {
         id: 8,
         name: 'ホゲホゲ9',
-        amount: 10000,
+        amount: 10000
       },
       {
         id: 9,
         name: 'ホゲホゲ10',
-        amount: 10000,
-      },
-    ],
+        amount: 10000
+      }
+    ]
   })
 
   return {
-    receiptAnalyze,
+    receiptAnalyze
   }
 }

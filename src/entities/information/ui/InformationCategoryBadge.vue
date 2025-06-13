@@ -1,13 +1,13 @@
 <script setup lang="ts">
-defineProps<{
-  category: 'bug_report' | 'feature_request' | 'other'
-}>()
+  defineProps<{
+    category: 'bug_report' | 'feature_request' | 'other'
+  }>()
 
-const categoryMap = {
-  bug_report: '不具合修正',
-  feature_request: '機能追加',
-  other: 'その他',
-}
+  const categoryMap = {
+    bug_report: '不具合修正',
+    feature_request: '機能追加',
+    other: 'その他'
+  }
 </script>
 
 <template>

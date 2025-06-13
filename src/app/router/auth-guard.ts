@@ -1,7 +1,7 @@
 import type { NavigationGuard } from 'vue-router'
 import { useSessionStore } from '@/entities/session/model/session-store'
 
-export const authGuard: NavigationGuard = async (to) => {
+export const authGuard: NavigationGuard = async to => {
   const sessionStore = useSessionStore()
   const publicPages = ['/login', '/line/callback']
   const authRequired = !publicPages.includes(to.path)
@@ -26,4 +26,4 @@ export const authGuard: NavigationGuard = async (to) => {
   }
 
   return true
-} 
+}

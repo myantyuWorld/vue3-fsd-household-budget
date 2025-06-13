@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import type { components } from '@/shared/api/v1'
-import { ShoppingCategoryIcon } from '@/entities/shopping'
+  import type { components } from '@/shared/api/v1'
+  import { ShoppingCategoryIcon } from '@/entities/shopping'
 
-defineProps<{
-  shoppingMemo: components['schemas']['ShoppingMemo']
-}>()
+  defineProps<{
+    shoppingMemo: components['schemas']['ShoppingMemo']
+  }>()
 
-defineEmits<{
-  click: [id: number]
-}>()
+  defineEmits<{
+    click: [id: number]
+  }>()
 </script>
 
 <template>
@@ -17,11 +17,18 @@ defineEmits<{
   >
     <div class="flex items-center gap-4">
       <div class="bg-primary-bg rounded-full">
-        <ShoppingCategoryIcon :categoryName="shoppingMemo.category.name" class="text-primary" />
+        <ShoppingCategoryIcon
+          :categoryName="shoppingMemo.category.name"
+          class="text-primary"
+        />
       </div>
       <div>
-        <p class="font-medium text-gray-800">{{ shoppingMemo.title }}</p>
-        <p class="text-sm text-gray-600">{{ shoppingMemo.memo }}</p>
+        <p class="font-medium text-gray-800">
+          {{ shoppingMemo.title }}
+        </p>
+        <p class="text-sm text-gray-600">
+          {{ shoppingMemo.memo }}
+        </p>
       </div>
     </div>
     <div>

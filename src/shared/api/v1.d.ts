@@ -4,1208 +4,1208 @@
  */
 
 export interface paths {
-    "/line/login": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * LINEログイン
-         * @description LINEログイン
-         */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description LINE認証画面に遷移し、ログインに成功した場合、LINE Developerにて指定したCallbackURLに遷移する。 CallBackURLに遷移後、システムに該当するLINEUserIDにひもづくユーザー情報が存在しない場合、ユーザー登録を行い、 フロントエンドのホーム画面にリダイレクトを行う */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/line/me": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * LINEログイン
-         * @description LINEログイン
-         */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["FetchMe"];
-                400: components["responses"]["UnauthorizedError"];
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/line/logout": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * LINEログアウト
-         * @description LINEログアウト
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/kaimemo": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * 買い物一覧取得
-         * @description 全件取得する
-         */
-        get: {
-            parameters: {
-                query?: {
-                    tempUserID?: string;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["GetKaimemos"];
-            };
-        };
-        put?: never;
-        /**
-         * 買い物追加
-         * @description 買い物を追加する
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody: {
-                content: {
-                    "application/json": {
-                        tempUserID: string;
-                        name: string;
-                        tag: string;
-                    };
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                401: components["responses"]["UnauthorizedError"];
-                404: components["responses"]["NotFoundError"];
-                default: components["responses"]["GeneralError"];
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/kaimemo/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        /**
-         * 買い物削除
-         * @description 買い物を削除する
-         */
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    id: string;
-                };
-                cookie?: never;
-            };
-            requestBody: {
-                content: {
-                    "application/json": {
-                        tempUserID: string;
-                    };
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                401: components["responses"]["UnauthorizedError"];
-                404: components["responses"]["NotFoundError"];
-                default: components["responses"]["GeneralError"];
-            };
-        };
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/kaimemo/summary": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * 買い物集計
-         * @description 買い物を集計する
-         */
-        get: {
-            parameters: {
-                query?: {
-                    tempUserID?: string;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["GetKaimemoSummary"];
-            };
-        };
-        put?: never;
-        /**
-         * 買い物集計
-         * @description 買い物を集計する
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody: {
-                content: {
-                    "application/json": {
-                        tempUserID: string;
-                        /** @example 食費 */
-                        tag: string;
-                        /** @example 2020-01-01 */
-                        date: string;
-                        /** @example 1000 */
-                        amount: number;
-                    };
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                401: components["responses"]["UnauthorizedError"];
-                404: components["responses"]["NotFoundError"];
-                default: components["responses"]["GeneralError"];
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/kaimemo/summary/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        /**
-         * 買い物削除
-         * @description 買い物を削除する
-         */
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    id: string;
-                };
-                cookie?: never;
-            };
-            requestBody: {
-                content: {
-                    "application/json": {
-                        tempUserID: string;
-                    };
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                401: components["responses"]["UnauthorizedError"];
-                404: components["responses"]["NotFoundError"];
-                default: components["responses"]["GeneralError"];
-            };
-        };
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/household/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * 家計簿取得
-         * @description 家計簿を取得する
-         */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    id: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["GetHousehold"];
-                401: components["responses"]["UnauthorizedError"];
-                404: components["responses"]["NotFoundError"];
-                default: components["responses"]["GeneralError"];
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/household/user/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * 家計簿ユーザー取得
-         * @description 家計簿ユーザーを取得する
-         */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    id: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["FetchMe"];
-                401: components["responses"]["UnauthorizedError"];
-                404: components["responses"]["NotFoundError"];
-                default: components["responses"]["GeneralError"];
-            };
-        };
-        put?: never;
-        /**
-         * 家計簿追加
-         * @description 家計簿を追加する
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    id: number;
-                };
-                cookie?: never;
-            };
-            requestBody: {
-                content: {
-                    "application/json": {
-                        title: string;
-                        description: string;
-                    };
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                401: components["responses"]["UnauthorizedError"];
-                404: components["responses"]["NotFoundError"];
-                default: components["responses"]["GeneralError"];
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/household/{householdID}/category": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * 家計簿カテゴリ追加
-         * @description 家計簿カテゴリを追加する
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    householdID: number;
-                };
-                cookie?: never;
-            };
-            requestBody: {
-                content: {
-                    "application/json": {
-                        categoryName: string;
-                        categoryLimitAmount: number;
-                    };
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                401: components["responses"]["UnauthorizedError"];
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/household/{householdID}/shopping/record": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * 買い物記録取得
-         * @description 買い物記録を取得する
-         */
-        get: {
-            parameters: {
-                query?: {
-                    date?: string;
-                };
-                header?: never;
-                path: {
-                    householdID: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["GetShoppingRecord"];
-                401: components["responses"]["UnauthorizedError"];
-                404: components["responses"]["NotFoundError"];
-                default: components["responses"]["GeneralError"];
-            };
-        };
-        put?: never;
-        /**
-         * 買い物記録追加
-         * @description 買い物記録を追加する
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    householdID: number;
-                };
-                cookie?: never;
-            };
-            requestBody: {
-                content: {
-                    "application/json": {
-                        householdID: number;
-                        categoryID: number;
-                        amount: number;
-                        date: string;
-                        memo: string;
-                    };
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                401: components["responses"]["UnauthorizedError"];
-                404: components["responses"]["NotFoundError"];
-                default: components["responses"]["GeneralError"];
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/household/{householdID}/shopping/record/{shoppingID}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        post?: never;
-        /**
-         * 買い物記録削除
-         * @description 買い物記録を削除する
-         */
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    householdID: number;
-                    shoppingID: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                401: components["responses"]["UnauthorizedError"];
-                404: components["responses"]["NotFoundError"];
-                default: components["responses"]["GeneralError"];
-            };
-        };
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/household/{householdID}/share/{inviteUserID}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * 家計簿共有
-         * @description 家計簿を共有する
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    householdID: number;
-                    inviteUserID: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                401: components["responses"]["UnauthorizedError"];
-                404: components["responses"]["NotFoundError"];
-                default: components["responses"]["GeneralError"];
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/openai/analyze/{householdID}/receipt/reception": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * レシート分析受付
-         * @description レシート分析を受け付ける
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    householdID: number;
-                };
-                cookie?: never;
-            };
-            requestBody: {
-                content: {
-                    "application/json": {
-                        imageData: string;
-                        categoryID: number;
-                    };
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                401: components["responses"]["UnauthorizedError"];
-                404: components["responses"]["NotFoundError"];
-                default: components["responses"]["GeneralError"];
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/openai/analyze/receipt/result/{receiptAnalyzeID}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * レシート分析結果取得
-         * @description レシート分析結果を取得する
-         */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    receiptAnalyzeID: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["GetReceiptAnalyzeResult"];
-                401: components["responses"]["UnauthorizedError"];
-                404: components["responses"]["NotFoundError"];
-                default: components["responses"]["GeneralError"];
-            };
-        };
-        put?: never;
-        post?: never;
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/user/informations": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * お知らせ一覧取得
-         * @description お知らせ一覧を取得する
-         */
-        get: {
-            parameters: {
-                query?: {
-                    isPublished?: boolean;
-                };
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["GetUserInformations"];
-                401: components["responses"]["UnauthorizedError"];
-                default: components["responses"]["GeneralError"];
-            };
-        };
-        put?: never;
-        /**
-         * お知らせ既読
-         * @description お知らせを既読にする
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody: {
-                content: {
-                    "application/json": {
-                        informationIDs: number[];
-                    };
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                401: components["responses"]["UnauthorizedError"];
-                default: components["responses"]["GeneralError"];
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/admin/informations": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        /**
-         * お知らせ一覧取得
-         * @description お知らせ一覧を取得する
-         */
-        get: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                200: components["responses"]["GetInformations"];
-                401: components["responses"]["UnauthorizedError"];
-                default: components["responses"]["GeneralError"];
-            };
-        };
-        put?: never;
-        /**
-         * お知らせ追加
-         * @description お知らせを追加する
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path?: never;
-                cookie?: never;
-            };
-            requestBody: {
-                content: {
-                    "application/json": {
-                        title: string;
-                        content: string;
-                        /** @enum {string} */
-                        category: "bug_report" | "feature_request" | "other";
-                    };
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                401: components["responses"]["UnauthorizedError"];
-                default: components["responses"]["GeneralError"];
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/admin/informations/{id}": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        /**
-         * お知らせ更新
-         * @description お知らせを更新する
-         */
-        put: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    id: number;
-                };
-                cookie?: never;
-            };
-            requestBody: {
-                content: {
-                    "application/json": {
-                        title: string;
-                        content: string;
-                        /** @enum {string} */
-                        category: "bug_report" | "feature_request" | "other";
-                    };
-                };
-            };
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                401: components["responses"]["UnauthorizedError"];
-                default: components["responses"]["GeneralError"];
-            };
-        };
-        post?: never;
-        /**
-         * お知らせ削除
-         * @description お知らせを削除する
-         */
-        delete: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    id: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                401: components["responses"]["UnauthorizedError"];
-                default: components["responses"]["GeneralError"];
-            };
-        };
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-    "/admin/informations/{id}/publish": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * お知らせ公開
-         * @description お知らせを公開する
-         */
-        post: {
-            parameters: {
-                query?: never;
-                header?: never;
-                path: {
-                    id: number;
-                };
-                cookie?: never;
-            };
-            requestBody?: never;
-            responses: {
-                /** @description OK */
-                200: {
-                    headers: {
-                        [name: string]: unknown;
-                    };
-                    content?: never;
-                };
-                401: components["responses"]["UnauthorizedError"];
-                default: components["responses"]["GeneralError"];
-            };
-        };
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
-}
-export type webhooks = Record<string, never>;
-export interface components {
-    schemas: {
-        UserAccount: {
-            id: number;
-            name: string;
-            pictureURL: string;
-        };
-        FetchMe: {
-            id: number;
-            userID: string;
-            name: string;
-            pictureURL: string;
-            householdBooks: components["schemas"]["HouseholdBook"][];
-        };
-        KaimemoSummary: {
-            monthlySummaries: components["schemas"]["MonthlySummary"][];
-            weeklySummaries: components["schemas"]["WeeklySummary"][];
-        };
-        TagSummary: {
-            [key: string]: number;
-        };
-        MonthlySummary: {
-            month: string;
-            /** @example 10000 */
-            totalAmount: number;
-            tagSummary: components["schemas"]["TagSummary"];
-        };
-        WeeklySummary: {
-            weekStart: string;
-            weekEnd: string;
-            totalAmount: number;
-            items: components["schemas"]["KaimemoAmount"][];
-        };
-        KaimemoAmount: {
-            id: string;
-            /** @example 2020-01-01 */
-            date: string;
+  '/line/login': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /**
+     * LINEログイン
+     * @description LINEログイン
+     */
+    get: {
+      parameters: {
+        query?: never
+        header?: never
+        path?: never
+        cookie?: never
+      }
+      requestBody?: never
+      responses: {
+        /** @description LINE認証画面に遷移し、ログインに成功した場合、LINE Developerにて指定したCallbackURLに遷移する。 CallBackURLに遷移後、システムに該当するLINEUserIDにひもづくユーザー情報が存在しない場合、ユーザー登録を行い、 フロントエンドのホーム画面にリダイレクトを行う */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content?: never
+        }
+      }
+    }
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/line/me': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /**
+     * LINEログイン
+     * @description LINEログイン
+     */
+    get: {
+      parameters: {
+        query?: never
+        header?: never
+        path?: never
+        cookie?: never
+      }
+      requestBody?: never
+      responses: {
+        200: components['responses']['FetchMe']
+        400: components['responses']['UnauthorizedError']
+      }
+    }
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/line/logout': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    /**
+     * LINEログアウト
+     * @description LINEログアウト
+     */
+    post: {
+      parameters: {
+        query?: never
+        header?: never
+        path?: never
+        cookie?: never
+      }
+      requestBody?: never
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content?: never
+        }
+      }
+    }
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/kaimemo': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /**
+     * 買い物一覧取得
+     * @description 全件取得する
+     */
+    get: {
+      parameters: {
+        query?: {
+          tempUserID?: string
+        }
+        header?: never
+        path?: never
+        cookie?: never
+      }
+      requestBody?: never
+      responses: {
+        200: components['responses']['GetKaimemos']
+      }
+    }
+    put?: never
+    /**
+     * 買い物追加
+     * @description 買い物を追加する
+     */
+    post: {
+      parameters: {
+        query?: never
+        header?: never
+        path?: never
+        cookie?: never
+      }
+      requestBody: {
+        content: {
+          'application/json': {
+            tempUserID: string
+            name: string
+            tag: string
+          }
+        }
+      }
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content?: never
+        }
+        401: components['responses']['UnauthorizedError']
+        404: components['responses']['NotFoundError']
+        default: components['responses']['GeneralError']
+      }
+    }
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/kaimemo/{id}': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    post?: never
+    /**
+     * 買い物削除
+     * @description 買い物を削除する
+     */
+    delete: {
+      parameters: {
+        query?: never
+        header?: never
+        path: {
+          id: string
+        }
+        cookie?: never
+      }
+      requestBody: {
+        content: {
+          'application/json': {
+            tempUserID: string
+          }
+        }
+      }
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content?: never
+        }
+        401: components['responses']['UnauthorizedError']
+        404: components['responses']['NotFoundError']
+        default: components['responses']['GeneralError']
+      }
+    }
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/kaimemo/summary': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /**
+     * 買い物集計
+     * @description 買い物を集計する
+     */
+    get: {
+      parameters: {
+        query?: {
+          tempUserID?: string
+        }
+        header?: never
+        path?: never
+        cookie?: never
+      }
+      requestBody?: never
+      responses: {
+        200: components['responses']['GetKaimemoSummary']
+      }
+    }
+    put?: never
+    /**
+     * 買い物集計
+     * @description 買い物を集計する
+     */
+    post: {
+      parameters: {
+        query?: never
+        header?: never
+        path?: never
+        cookie?: never
+      }
+      requestBody: {
+        content: {
+          'application/json': {
+            tempUserID: string
             /** @example 食費 */
-            tag: string;
+            tag: string
+            /** @example 2020-01-01 */
+            date: string
             /** @example 1000 */
-            amount: number;
-        };
-        Kaimemo: {
-            id: string;
-            name: string;
-            tag: string;
-            done: boolean;
-        };
-        HouseholdBook: {
-            id: number;
-            userID: number;
-            title: string;
-            description: string;
-            categoryLimit: components["schemas"]["CategoryLimit"][];
-            users: components["schemas"]["UserAccount"][];
-        };
-        CategoryLimit: {
-            id: number;
-            categoryID: number;
-            limitAmount: number;
-            category: components["schemas"]["Category"];
-        };
-        Category: {
-            id: number;
-            name: string;
-            color: string;
-        };
-        ShoppingMemo: {
-            id: number;
-            householdID: number;
-            categoryID: number;
-            title: string;
-            memo: string;
-            isCompleted: boolean;
-            category: components["schemas"]["Category"];
-        };
-        ShoppingRecord: {
-            id: number;
-            amount: number;
-            date: string;
-            memo: string;
-            category: components["schemas"]["Category"];
-            analyze_id: number;
-            receipt_analyze_results: components["schemas"]["ReceiptAnalyzeResult"];
-        };
-        CategoryAmount: {
-            category: components["schemas"]["Category"];
-            amount: number;
-            limitAmount: number;
-        };
-        SummarizeShoppingAmount: {
-            shoppingAmounts: components["schemas"]["ShoppingRecord"][];
-            totalAmount: number;
-            categoryAmounts: components["schemas"]["CategoryAmount"][];
-        };
-        ReceiptAnalyzeResultItem: {
-            id: number;
-            name: string;
-            amount: number;
-        };
-        ReceiptAnalyzeResult: {
-            id: number;
-            totalAmount: number;
-            receiptImageURL: string;
-            items: components["schemas"]["ReceiptAnalyzeResultItem"][];
-        };
-        Information: {
-            id: number;
-            title: string;
-            content: string;
-            isPublished: boolean;
+            amount: number
+          }
+        }
+      }
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content?: never
+        }
+        401: components['responses']['UnauthorizedError']
+        404: components['responses']['NotFoundError']
+        default: components['responses']['GeneralError']
+      }
+    }
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/kaimemo/summary/{id}': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    post?: never
+    /**
+     * 買い物削除
+     * @description 買い物を削除する
+     */
+    delete: {
+      parameters: {
+        query?: never
+        header?: never
+        path: {
+          id: string
+        }
+        cookie?: never
+      }
+      requestBody: {
+        content: {
+          'application/json': {
+            tempUserID: string
+          }
+        }
+      }
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content?: never
+        }
+        401: components['responses']['UnauthorizedError']
+        404: components['responses']['NotFoundError']
+        default: components['responses']['GeneralError']
+      }
+    }
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/household/{id}': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /**
+     * 家計簿取得
+     * @description 家計簿を取得する
+     */
+    get: {
+      parameters: {
+        query?: never
+        header?: never
+        path: {
+          id: number
+        }
+        cookie?: never
+      }
+      requestBody?: never
+      responses: {
+        200: components['responses']['GetHousehold']
+        401: components['responses']['UnauthorizedError']
+        404: components['responses']['NotFoundError']
+        default: components['responses']['GeneralError']
+      }
+    }
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/household/user/{id}': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /**
+     * 家計簿ユーザー取得
+     * @description 家計簿ユーザーを取得する
+     */
+    get: {
+      parameters: {
+        query?: never
+        header?: never
+        path: {
+          id: number
+        }
+        cookie?: never
+      }
+      requestBody?: never
+      responses: {
+        200: components['responses']['FetchMe']
+        401: components['responses']['UnauthorizedError']
+        404: components['responses']['NotFoundError']
+        default: components['responses']['GeneralError']
+      }
+    }
+    put?: never
+    /**
+     * 家計簿追加
+     * @description 家計簿を追加する
+     */
+    post: {
+      parameters: {
+        query?: never
+        header?: never
+        path: {
+          id: number
+        }
+        cookie?: never
+      }
+      requestBody: {
+        content: {
+          'application/json': {
+            title: string
+            description: string
+          }
+        }
+      }
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content?: never
+        }
+        401: components['responses']['UnauthorizedError']
+        404: components['responses']['NotFoundError']
+        default: components['responses']['GeneralError']
+      }
+    }
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/household/{householdID}/category': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    /**
+     * 家計簿カテゴリ追加
+     * @description 家計簿カテゴリを追加する
+     */
+    post: {
+      parameters: {
+        query?: never
+        header?: never
+        path: {
+          householdID: number
+        }
+        cookie?: never
+      }
+      requestBody: {
+        content: {
+          'application/json': {
+            categoryName: string
+            categoryLimitAmount: number
+          }
+        }
+      }
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content?: never
+        }
+        401: components['responses']['UnauthorizedError']
+      }
+    }
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/household/{householdID}/shopping/record': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /**
+     * 買い物記録取得
+     * @description 買い物記録を取得する
+     */
+    get: {
+      parameters: {
+        query?: {
+          date?: string
+        }
+        header?: never
+        path: {
+          householdID: number
+        }
+        cookie?: never
+      }
+      requestBody?: never
+      responses: {
+        200: components['responses']['GetShoppingRecord']
+        401: components['responses']['UnauthorizedError']
+        404: components['responses']['NotFoundError']
+        default: components['responses']['GeneralError']
+      }
+    }
+    put?: never
+    /**
+     * 買い物記録追加
+     * @description 買い物記録を追加する
+     */
+    post: {
+      parameters: {
+        query?: never
+        header?: never
+        path: {
+          householdID: number
+        }
+        cookie?: never
+      }
+      requestBody: {
+        content: {
+          'application/json': {
+            householdID: number
+            categoryID: number
+            amount: number
+            date: string
+            memo: string
+          }
+        }
+      }
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content?: never
+        }
+        401: components['responses']['UnauthorizedError']
+        404: components['responses']['NotFoundError']
+        default: components['responses']['GeneralError']
+      }
+    }
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/household/{householdID}/shopping/record/{shoppingID}': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    post?: never
+    /**
+     * 買い物記録削除
+     * @description 買い物記録を削除する
+     */
+    delete: {
+      parameters: {
+        query?: never
+        header?: never
+        path: {
+          householdID: number
+          shoppingID: number
+        }
+        cookie?: never
+      }
+      requestBody?: never
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content?: never
+        }
+        401: components['responses']['UnauthorizedError']
+        404: components['responses']['NotFoundError']
+        default: components['responses']['GeneralError']
+      }
+    }
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/household/{householdID}/share/{inviteUserID}': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    /**
+     * 家計簿共有
+     * @description 家計簿を共有する
+     */
+    post: {
+      parameters: {
+        query?: never
+        header?: never
+        path: {
+          householdID: number
+          inviteUserID: number
+        }
+        cookie?: never
+      }
+      requestBody?: never
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content?: never
+        }
+        401: components['responses']['UnauthorizedError']
+        404: components['responses']['NotFoundError']
+        default: components['responses']['GeneralError']
+      }
+    }
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/openai/analyze/{householdID}/receipt/reception': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    /**
+     * レシート分析受付
+     * @description レシート分析を受け付ける
+     */
+    post: {
+      parameters: {
+        query?: never
+        header?: never
+        path: {
+          householdID: number
+        }
+        cookie?: never
+      }
+      requestBody: {
+        content: {
+          'application/json': {
+            imageData: string
+            categoryID: number
+          }
+        }
+      }
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content?: never
+        }
+        401: components['responses']['UnauthorizedError']
+        404: components['responses']['NotFoundError']
+        default: components['responses']['GeneralError']
+      }
+    }
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/openai/analyze/receipt/result/{receiptAnalyzeID}': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /**
+     * レシート分析結果取得
+     * @description レシート分析結果を取得する
+     */
+    get: {
+      parameters: {
+        query?: never
+        header?: never
+        path: {
+          receiptAnalyzeID: number
+        }
+        cookie?: never
+      }
+      requestBody?: never
+      responses: {
+        200: components['responses']['GetReceiptAnalyzeResult']
+        401: components['responses']['UnauthorizedError']
+        404: components['responses']['NotFoundError']
+        default: components['responses']['GeneralError']
+      }
+    }
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/user/informations': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /**
+     * お知らせ一覧取得
+     * @description お知らせ一覧を取得する
+     */
+    get: {
+      parameters: {
+        query?: {
+          isPublished?: boolean
+        }
+        header?: never
+        path?: never
+        cookie?: never
+      }
+      requestBody?: never
+      responses: {
+        200: components['responses']['GetUserInformations']
+        401: components['responses']['UnauthorizedError']
+        default: components['responses']['GeneralError']
+      }
+    }
+    put?: never
+    /**
+     * お知らせ既読
+     * @description お知らせを既読にする
+     */
+    post: {
+      parameters: {
+        query?: never
+        header?: never
+        path?: never
+        cookie?: never
+      }
+      requestBody: {
+        content: {
+          'application/json': {
+            informationIDs: number[]
+          }
+        }
+      }
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content?: never
+        }
+        401: components['responses']['UnauthorizedError']
+        default: components['responses']['GeneralError']
+      }
+    }
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/admin/informations': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /**
+     * お知らせ一覧取得
+     * @description お知らせ一覧を取得する
+     */
+    get: {
+      parameters: {
+        query?: never
+        header?: never
+        path?: never
+        cookie?: never
+      }
+      requestBody?: never
+      responses: {
+        200: components['responses']['GetInformations']
+        401: components['responses']['UnauthorizedError']
+        default: components['responses']['GeneralError']
+      }
+    }
+    put?: never
+    /**
+     * お知らせ追加
+     * @description お知らせを追加する
+     */
+    post: {
+      parameters: {
+        query?: never
+        header?: never
+        path?: never
+        cookie?: never
+      }
+      requestBody: {
+        content: {
+          'application/json': {
+            title: string
+            content: string
             /** @enum {string} */
-            category: "bug_report" | "feature_request" | "other";
-        };
-        UserInformation: {
-            id: number;
-            title: string;
-            content: string;
-            isRead: boolean;
+            category: 'bug_report' | 'feature_request' | 'other'
+          }
+        }
+      }
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content?: never
+        }
+        401: components['responses']['UnauthorizedError']
+        default: components['responses']['GeneralError']
+      }
+    }
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/admin/informations/{id}': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    /**
+     * お知らせ更新
+     * @description お知らせを更新する
+     */
+    put: {
+      parameters: {
+        query?: never
+        header?: never
+        path: {
+          id: number
+        }
+        cookie?: never
+      }
+      requestBody: {
+        content: {
+          'application/json': {
+            title: string
+            content: string
             /** @enum {string} */
-            category: "bug_report" | "feature_request" | "other";
-        };
-    };
-    responses: {
-        /** @description レシート分析結果取得 */
-        GetReceiptAnalyzeResult: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["ReceiptAnalyzeResult"];
-            };
-        };
-        /** @description 買い物記録取得 */
-        GetShoppingRecord: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["SummarizeShoppingAmount"];
-            };
-        };
-        /** @description ユーザー情報取得 */
-        FetchMe: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["FetchMe"];
-            };
-        };
-        /** @description 週次集計 */
-        GetKaimemoSummary: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["KaimemoSummary"];
-            };
-        };
-        /** @description 買い物一覧取得 */
-        GetKaimemos: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["Kaimemo"][];
-            };
-        };
-        /** @description Access token is missing or invalid */
-        UnauthorizedError: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content?: never;
-        };
-        /** @description The specified resource was not found */
-        NotFoundError: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content?: never;
-        };
-        /** @description Unexpected error */
-        GeneralError: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content?: never;
-        };
-        /** @description 家計簿取得 */
-        GetHousehold: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["HouseholdBook"];
-            };
-        };
-        /** @description お知らせ一覧取得 */
-        GetInformations: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["Information"][];
-            };
-        };
-        /** @description お知らせ一覧取得 */
-        GetUserInformations: {
-            headers: {
-                [name: string]: unknown;
-            };
-            content: {
-                "application/json": components["schemas"]["UserInformation"][];
-            };
-        };
-    };
-    parameters: never;
-    requestBodies: never;
-    headers: never;
-    pathItems: never;
+            category: 'bug_report' | 'feature_request' | 'other'
+          }
+        }
+      }
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content?: never
+        }
+        401: components['responses']['UnauthorizedError']
+        default: components['responses']['GeneralError']
+      }
+    }
+    post?: never
+    /**
+     * お知らせ削除
+     * @description お知らせを削除する
+     */
+    delete: {
+      parameters: {
+        query?: never
+        header?: never
+        path: {
+          id: number
+        }
+        cookie?: never
+      }
+      requestBody?: never
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content?: never
+        }
+        401: components['responses']['UnauthorizedError']
+        default: components['responses']['GeneralError']
+      }
+    }
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/admin/informations/{id}/publish': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    /**
+     * お知らせ公開
+     * @description お知らせを公開する
+     */
+    post: {
+      parameters: {
+        query?: never
+        header?: never
+        path: {
+          id: number
+        }
+        cookie?: never
+      }
+      requestBody?: never
+      responses: {
+        /** @description OK */
+        200: {
+          headers: {
+            [name: string]: unknown
+          }
+          content?: never
+        }
+        401: components['responses']['UnauthorizedError']
+        default: components['responses']['GeneralError']
+      }
+    }
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
 }
-export type $defs = Record<string, never>;
-export type operations = Record<string, never>;
+export type webhooks = Record<string, never>
+export interface components {
+  schemas: {
+    UserAccount: {
+      id: number
+      name: string
+      pictureURL: string
+    }
+    FetchMe: {
+      id: number
+      userID: string
+      name: string
+      pictureURL: string
+      householdBooks: components['schemas']['HouseholdBook'][]
+    }
+    KaimemoSummary: {
+      monthlySummaries: components['schemas']['MonthlySummary'][]
+      weeklySummaries: components['schemas']['WeeklySummary'][]
+    }
+    TagSummary: {
+      [key: string]: number
+    }
+    MonthlySummary: {
+      month: string
+      /** @example 10000 */
+      totalAmount: number
+      tagSummary: components['schemas']['TagSummary']
+    }
+    WeeklySummary: {
+      weekStart: string
+      weekEnd: string
+      totalAmount: number
+      items: components['schemas']['KaimemoAmount'][]
+    }
+    KaimemoAmount: {
+      id: string
+      /** @example 2020-01-01 */
+      date: string
+      /** @example 食費 */
+      tag: string
+      /** @example 1000 */
+      amount: number
+    }
+    Kaimemo: {
+      id: string
+      name: string
+      tag: string
+      done: boolean
+    }
+    HouseholdBook: {
+      id: number
+      userID: number
+      title: string
+      description: string
+      categoryLimit: components['schemas']['CategoryLimit'][]
+      users: components['schemas']['UserAccount'][]
+    }
+    CategoryLimit: {
+      id: number
+      categoryID: number
+      limitAmount: number
+      category: components['schemas']['Category']
+    }
+    Category: {
+      id: number
+      name: string
+      color: string
+    }
+    ShoppingMemo: {
+      id: number
+      householdID: number
+      categoryID: number
+      title: string
+      memo: string
+      isCompleted: boolean
+      category: components['schemas']['Category']
+    }
+    ShoppingRecord: {
+      id: number
+      amount: number
+      date: string
+      memo: string
+      category: components['schemas']['Category']
+      analyze_id: number
+      receipt_analyze_results: components['schemas']['ReceiptAnalyzeResult']
+    }
+    CategoryAmount: {
+      category: components['schemas']['Category']
+      amount: number
+      limitAmount: number
+    }
+    SummarizeShoppingAmount: {
+      shoppingAmounts: components['schemas']['ShoppingRecord'][]
+      totalAmount: number
+      categoryAmounts: components['schemas']['CategoryAmount'][]
+    }
+    ReceiptAnalyzeResultItem: {
+      id: number
+      name: string
+      amount: number
+    }
+    ReceiptAnalyzeResult: {
+      id: number
+      totalAmount: number
+      receiptImageURL: string
+      items: components['schemas']['ReceiptAnalyzeResultItem'][]
+    }
+    Information: {
+      id: number
+      title: string
+      content: string
+      isPublished: boolean
+      /** @enum {string} */
+      category: 'bug_report' | 'feature_request' | 'other'
+    }
+    UserInformation: {
+      id: number
+      title: string
+      content: string
+      isRead: boolean
+      /** @enum {string} */
+      category: 'bug_report' | 'feature_request' | 'other'
+    }
+  }
+  responses: {
+    /** @description レシート分析結果取得 */
+    GetReceiptAnalyzeResult: {
+      headers: {
+        [name: string]: unknown
+      }
+      content: {
+        'application/json': components['schemas']['ReceiptAnalyzeResult']
+      }
+    }
+    /** @description 買い物記録取得 */
+    GetShoppingRecord: {
+      headers: {
+        [name: string]: unknown
+      }
+      content: {
+        'application/json': components['schemas']['SummarizeShoppingAmount']
+      }
+    }
+    /** @description ユーザー情報取得 */
+    FetchMe: {
+      headers: {
+        [name: string]: unknown
+      }
+      content: {
+        'application/json': components['schemas']['FetchMe']
+      }
+    }
+    /** @description 週次集計 */
+    GetKaimemoSummary: {
+      headers: {
+        [name: string]: unknown
+      }
+      content: {
+        'application/json': components['schemas']['KaimemoSummary']
+      }
+    }
+    /** @description 買い物一覧取得 */
+    GetKaimemos: {
+      headers: {
+        [name: string]: unknown
+      }
+      content: {
+        'application/json': components['schemas']['Kaimemo'][]
+      }
+    }
+    /** @description Access token is missing or invalid */
+    UnauthorizedError: {
+      headers: {
+        [name: string]: unknown
+      }
+      content?: never
+    }
+    /** @description The specified resource was not found */
+    NotFoundError: {
+      headers: {
+        [name: string]: unknown
+      }
+      content?: never
+    }
+    /** @description Unexpected error */
+    GeneralError: {
+      headers: {
+        [name: string]: unknown
+      }
+      content?: never
+    }
+    /** @description 家計簿取得 */
+    GetHousehold: {
+      headers: {
+        [name: string]: unknown
+      }
+      content: {
+        'application/json': components['schemas']['HouseholdBook']
+      }
+    }
+    /** @description お知らせ一覧取得 */
+    GetInformations: {
+      headers: {
+        [name: string]: unknown
+      }
+      content: {
+        'application/json': components['schemas']['Information'][]
+      }
+    }
+    /** @description お知らせ一覧取得 */
+    GetUserInformations: {
+      headers: {
+        [name: string]: unknown
+      }
+      content: {
+        'application/json': components['schemas']['UserInformation'][]
+      }
+    }
+  }
+  parameters: never
+  requestBodies: never
+  headers: never
+  pathItems: never
+}
+export type $defs = Record<string, never>
+export type operations = Record<string, never>

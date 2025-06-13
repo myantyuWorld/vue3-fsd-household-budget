@@ -1,20 +1,20 @@
 <script setup lang="ts">
-import { BaseModal, PrimaryButton } from '@/shared/ui'
-import type { components } from '@/shared/api/v1'
-import { computed } from 'vue'
+  import { BaseModal, PrimaryButton } from '@/shared/ui'
+  import type { components } from '@/shared/api/v1'
+  import { computed } from 'vue'
 
-const props = defineProps<{
-  isOpen: boolean
-  shoppingRecord: components['schemas']['ShoppingRecord']
-}>()
+  const props = defineProps<{
+    isOpen: boolean
+    shoppingRecord: components['schemas']['ShoppingRecord']
+  }>()
 
-const emit = defineEmits<{
-  (e: 'closeModal'): void
-}>()
+  const emit = defineEmits<{
+    (e: 'closeModal'): void
+  }>()
 
-const receiptURL = computed(() => {
-  return `${import.meta.env.VITE_S3_BUCKET_URL}/${props.shoppingRecord.receipt_analyze_results.receiptImageURL}`
-})
+  const receiptURL = computed(() => {
+    return `${import.meta.env.VITE_S3_BUCKET_URL}/${props.shoppingRecord.receipt_analyze_results.receiptImageURL}`
+  })
 </script>
 
 <template>
@@ -27,16 +27,25 @@ const receiptURL = computed(() => {
   >
     <template #modalBody>
       <div>
-        <img :src="receiptURL" alt="レシート画像" class="w-full h-auto" />
+        <img
+          :src="receiptURL"
+          alt="レシート画像"
+          class="w-full h-auto"
+        />
         <div
           class="max-h-[40vh] overflow-y-auto scrollbar-thin scrollbar-thumb-primary scrollbar-track-primary-bg"
         >
-          <div v-for="item in shoppingRecord.receipt_analyze_results.items" :key="item.id">
+          <div
+            v-for="item in shoppingRecord.receipt_analyze_results.items"
+            :key="item.id"
+          >
             <div
               class="flex items-center justify-between p-2 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 mb-2"
             >
               <div class="flex items-center gap-3">
-                <div class="w-8 h-8 bg-primary-bg rounded-full flex items-center justify-center">
+                <div
+                  class="w-8 h-8 bg-primary-bg rounded-full flex items-center justify-center"
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     class="h-5 w-5 text-primary"
@@ -48,9 +57,13 @@ const receiptURL = computed(() => {
                     />
                   </svg>
                 </div>
-                <p class="font-medium text-gray-800">{{ item.name }}</p>
+                <p class="font-medium text-gray-800">
+                  {{ item.name }}
+                </p>
               </div>
-              <p class="text-lg font-bold text-primary">{{ item.amount.toLocaleString() }}円</p>
+              <p class="text-lg font-bold text-primary">
+                {{ item.amount.toLocaleString() }}円
+              </p>
             </div>
           </div>
         </div>

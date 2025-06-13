@@ -15,14 +15,14 @@ export const useInteraction = ({ id }: Props) => {
 
     const store = useAmountSummaryStore()
     const calenderItems = store.summaries.weeklySummaries
-      .flatMap((summary) => summary.items)
-      .map((item) => createCalenderItem(item))
-      .filter((item) => Object.keys(item).length > 0)
+      .flatMap(summary => summary.items)
+      .map(item => createCalenderItem(item))
+      .filter(item => Object.keys(item).length > 0)
 
     calenderAttributes.value = calenderItems
   })
 
   return {
-    calenderAttributes,
+    calenderAttributes
   }
 }
