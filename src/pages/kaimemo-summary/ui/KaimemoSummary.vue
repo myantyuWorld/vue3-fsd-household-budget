@@ -90,16 +90,15 @@
       </GridCol3>
 
       <div class="grid grid-cols-1 gap-3">
-        <div
+        <template
           v-for="shoppingRecord in selectedShoppingAmounts"
           :key="shoppingRecord.id"
-          class="bg-white dark:bg-gray-800 rounded-xl p-2 shadow-lg hover:shadow-xl transition-all duration-300 border-1"
         >
           <ShoppingAmountItem
             :shoppingRecord="shoppingRecord"
             @click="onClickOpenDeleteConfirmModal(shoppingRecord.id)"
           />
-        </div>
+        </template>
       </div>
     </div>
     <PlusButton
