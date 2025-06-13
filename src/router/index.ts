@@ -7,6 +7,7 @@ import { authGuard } from '@/app/router/auth-guard'
 import { ProfilePage } from '@/pages/profile'
 import { ExpenseCalendarPage } from '@/pages/expense-calender'
 import { AdminInformationPage } from '@/pages/admin/information'
+import { UserInformationPage } from '@/pages/user-information'
 
 // デフォルトのメタ情報を定義
 const defaultMeta = {
@@ -109,6 +110,15 @@ const routes = [
     meta: {
       ...adminMeta,
       title: '管理者',
+    },
+  },
+  {
+    path: '/user/informations',
+    name: 'user-informations',
+    component: UserInformationPage,
+    meta: {
+      ...defaultMeta,
+      title: 'お知らせ',
     },
   },
 ]

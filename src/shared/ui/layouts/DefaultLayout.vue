@@ -1,14 +1,27 @@
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, onUnmounted, ref } from 'vue'
 import { useSessionStore } from '@/entities/session/model/session-store'
+import { useNotificationStore } from '@/entities/notification/model/notification-store'
 import { defineAsyncComponent } from 'vue'
 defineProps<{
   title: string
 }>()
 
 const sessionStore = useSessionStore()
+const notificationStore = useNotificationStore()
 const user = computed(() => sessionStore.user)
 const isUserLoaded = ref(false)
+
+// 定期的な更新のためのインターバルID
+let updateInterval: number | null = null
+
+// 定期的なお知らせの更新
+const startPeriodicUpdate = () => {
+  // 5分ごとに更新（300000ミリ秒）
+  updateInterval = window.setInterval(() => {
+    notificationStore.fetchNotifications()
+  }, 300000)
+}
 
 // 遅延読み込みコンポーネント
 const ShoppingIcon = defineAsyncComponent(() => import('@/shared/ui/icons/ShoppingIcon.vue'))
@@ -19,13 +32,23 @@ const ProfileIcon = defineAsyncComponent(() => import('@/shared/ui/icons/Profile
 const ExpenseCalendarIcon = defineAsyncComponent(
   () => import('@/shared/ui/icons/ExpenseCalendarIcon.vue'),
 )
+const InformationIcon = defineAsyncComponent(() => import('@/shared/ui/icons/InformationIcon.vue'))
 
 onMounted(async () => {
   try {
-    await sessionStore.fetchUser()
+    await Promise.all([sessionStore.fetchUser(), notificationStore.fetchNotifications()])
     isUserLoaded.value = true
+    startPeriodicUpdate()
   } catch (error) {
     console.error('Failed to load user:', error)
+  }
+})
+
+// コンポーネントのアンマウント時にインターバルをクリア
+onUnmounted(() => {
+  if (updateInterval !== null) {
+    clearInterval(updateInterval)
+    updateInterval = null
   }
 })
 
@@ -58,6 +81,13 @@ const logout = async () => {
               />
             </template>
             <UserSkeleton v-else />
+            <router-link to="/user/informations">
+              <button
+                class="p-3 rounded-full hover:bg-primary-light transition-colors duration-300"
+              >
+                <InformationIcon :unreadCount="notificationStore.unreadCount" />
+              </button>
+            </router-link>
             <button
               @click="logout"
               class="p-3 rounded-full hover:bg-primary-light transition-colors duration-300"
