@@ -3,7 +3,7 @@ import Component from './ShoppingAmountItem.vue'
 
 const meta: Meta<typeof Component> = {
   component: Component,
-  tags: ['autodocs'],
+  tags: ['autodocs']
 }
 
 export default meta
@@ -20,15 +20,15 @@ export const Primary: Story = {
       category: {
         id: 1,
         name: 'テスト',
-        color: '#000000',
+        color: '#000000'
       },
       analyze_id: 1,
       receipt_analyze_results: {
         id: 1,
         totalAmount: 1000,
         receiptImageURL: 'test.jpg',
-        items: [],
-      },
-    },
-  },
+        items: []
+      }
+    }
+  }
 }

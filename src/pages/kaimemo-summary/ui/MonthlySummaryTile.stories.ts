@@ -7,8 +7,8 @@ const meta: Meta<typeof Component> = {
   args: {
     tag: '食費',
     currentExpense: 10000,
-    availableAmount: 50000,
-  },
+    availableAmount: 50000
+  }
 }
 
 export default meta

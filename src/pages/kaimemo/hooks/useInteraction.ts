@@ -8,19 +8,20 @@ import type { components } from '@/shared/api/v1'
 
 export const WebSocketMethodMap = {
   CreateKaimemo: '1',
-  RemoveKaimemo: '2',
+  RemoveKaimemo: '2'
 }
 
 export const useInteraction = (router?: Router) => {
   const sessionStore = useSessionStore()
   const selectedHouseholdBook = ref<components['schemas']['HouseholdBook']>(
-    sessionStore.user.householdBooks[0],
+    sessionStore.user.householdBooks[0]
   )
   const items = ref<components['schemas']['ShoppingMemo'][]>()
   const isOpenModal = ref(false)
   const selectedFilters = ref<number>()
   const tempUserID =
-    (router?.currentRoute.value.query.share as string) ?? localStorage.getItem('tempUserID')
+    (router?.currentRoute.value.query.share as string) ??
+    localStorage.getItem('tempUserID')
   let ws: WebSocket
 
   // TODO : provide, injectで共通的に処理したい
@@ -32,10 +33,10 @@ export const useInteraction = (router?: Router) => {
 
   watch(selectedHouseholdBook, () => {
     ws = new WebSocket(
-      `${import.meta.env.VITE_WEBSOCKET_URL_KAIMEMO}?tempUserID=${selectedHouseholdBook.value.id}`,
+      `${import.meta.env.VITE_WEBSOCKET_URL_KAIMEMO}?tempUserID=${selectedHouseholdBook.value.id}`
     )
 
-    ws.onmessage = (event) => {
+    ws.onmessage = event => {
       console.log(JSON.parse(event.data))
       items.value = JSON.parse(event.data)
 
@@ -43,17 +44,18 @@ export const useInteraction = (router?: Router) => {
     }
   })
 
-  const { defineField, errors, handleSubmit, setValues } = useForm<KaimemoSchema>({
-    validationSchema: toTypedSchema(schema),
-  })
+  const { defineField, errors, handleSubmit, setValues } =
+    useForm<KaimemoSchema>({
+      validationSchema: toTypedSchema(schema)
+    })
 
   onMounted(async () => {
     localStorage.setItem('tempUserID', tempUserID)
     ws = new WebSocket(
-      `${import.meta.env.VITE_WEBSOCKET_URL_KAIMEMO}?tempUserID=${selectedHouseholdBook.value.id}`,
+      `${import.meta.env.VITE_WEBSOCKET_URL_KAIMEMO}?tempUserID=${selectedHouseholdBook.value.id}`
     )
 
-    ws.onmessage = (event) => {
+    ws.onmessage = event => {
       // TODO : カテゴリ名も取得する
       items.value = JSON.parse(event.data)
 
@@ -73,29 +75,29 @@ export const useInteraction = (router?: Router) => {
     isOpenModal.value = false
   }
 
-  const onClickAddItem = handleSubmit(async (values) => {
+  const onClickAddItem = handleSubmit(async values => {
     ws.send(
       JSON.stringify({
         methodType: WebSocketMethodMap.CreateKaimemo,
         householdBookID: selectedHouseholdBook.value.id,
-        ...values,
-      }),
+        ...values
+      })
     )
 
     setValues({
-      name: '',
+      name: ''
     })
   })
 
   const onClickArchiveItem = async (id: number) => {
-    items.value = items.value?.filter((item) => item.id !== id)
+    items.value = items.value?.filter(item => item.id !== id)
 
     ws.send(
       JSON.stringify({
         methodType: WebSocketMethodMap.RemoveKaimemo,
         // tempUserID: tempUserID,
-        id: id,
-      }),
+        id: id
+      })
     )
   }
 
@@ -107,7 +109,7 @@ export const useInteraction = (router?: Router) => {
     navigator.share({
       title: 'kaimemo!',
       text: 'リンクを共有し、買い物メモを共有しよう！',
-      url: shareURL,
+      url: shareURL
     })
   }
 
@@ -115,7 +117,9 @@ export const useInteraction = (router?: Router) => {
     if (!selectedFilters.value) {
       return items.value
     }
-    return items.value?.filter((item) => selectedFilters.value === item.categoryID)
+    return items.value?.filter(
+      item => selectedFilters.value === item.categoryID
+    )
   })
 
   const householdBooks = computed(() => {
@@ -143,6 +147,6 @@ export const useInteraction = (router?: Router) => {
     onClickCloseAddItemModal,
     onClickAddItem,
     onClickArchiveItem,
-    onClickShare,
+    onClickShare
   }
 }

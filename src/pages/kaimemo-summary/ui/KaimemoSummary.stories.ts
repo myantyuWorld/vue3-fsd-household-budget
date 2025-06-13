@@ -1,5 +1,9 @@
 import { type Meta, type StoryObj } from '@storybook/vue3'
-import { VueQueryPlugin, QueryClient, type VueQueryPluginOptions } from '@tanstack/vue-query'
+import {
+  VueQueryPlugin,
+  QueryClient,
+  type VueQueryPluginOptions
+} from '@tanstack/vue-query'
 import { createPinia, setActivePinia } from 'pinia'
 import { createRouter, createWebHistory } from 'vue-router'
 import { mswLoader } from 'msw-storybook-addon'
@@ -8,7 +12,7 @@ import Component from './KaimemoSummary.vue'
 import { http, HttpResponse } from 'msw'
 const queryClient = new QueryClient()
 const vueQueryPluginOptions: VueQueryPluginOptions = {
-  queryClient,
+  queryClient
 }
 
 const pinia = createPinia()
@@ -34,15 +38,15 @@ sessionStore.$patch({
           limitAmount: 10000,
           category: {
             id: 1,
-            name: '食費',
-          },
-        },
+            name: '食費'
+          }
+        }
       ],
-      users: [],
-    })),
+      users: []
+    }))
   },
   isAuthenticated: true,
-  isLoading: false,
+  isLoading: false
 })
 
 // Routerのモック
@@ -52,31 +56,31 @@ const router = createRouter({
     {
       path: '/kaimemo',
       name: 'kaimemo',
-      component: Component,
-    },
-  ],
+      component: Component
+    }
+  ]
 })
 
 // ルーターを初期化（queryパラメータを含める）
 router.push({
   path: '/kaimemo',
   query: {
-    tempUserID: 'test-temp-user-id',
-  },
+    tempUserID: 'test-temp-user-id'
+  }
 })
 
 const meta: Meta<typeof Component> = {
   component: Component,
   tags: ['autodocs'],
   decorators: [
-    (story) => ({
+    story => ({
       components: { story },
       plugins: [[VueQueryPlugin, vueQueryPluginOptions], pinia, router],
       provide: {
-        router: router,
+        router: router
       },
-      template: '<story />',
-    }),
+      template: '<story />'
+    })
   ],
   parameters: {
     msw: {
@@ -87,7 +91,7 @@ const meta: Meta<typeof Component> = {
             console.log('MSW intercepted request:', {
               url: request.url,
               params,
-              method: request.method,
+              method: request.method
             })
 
             const url = new URL(request.url)
@@ -96,7 +100,9 @@ const meta: Meta<typeof Component> = {
 
             if (!date || !householdID) {
               console.log('MSW validation failed:', { date, householdID })
-              return new HttpResponse(null, { status: 400 })
+              return new HttpResponse(null, {
+                status: 400
+              })
             }
 
             console.log('MSW returning mock response')
@@ -107,49 +113,67 @@ const meta: Meta<typeof Component> = {
                   amount: 1000,
                   date: date,
                   memo: 'テスト',
-                  category: { id: 1, name: '食費' },
-                  analyze_id: 1,
+                  category: {
+                    id: 1,
+                    name: '食費'
+                  },
+                  analyze_id: 1
                 },
                 {
                   id: 2,
                   amount: 2000,
                   date: date,
                   memo: 'テスト2',
-                  category: { id: 2, name: '日用品' },
+                  category: {
+                    id: 2,
+                    name: '日用品'
+                  }
                 },
                 {
                   id: 3,
                   amount: 3000,
                   date: date,
                   memo: 'テスト3',
-                  category: { id: 3, name: '交通費' },
-                },
+                  category: {
+                    id: 3,
+                    name: '交通費'
+                  }
+                }
               ],
               totalAmount: 6000,
               categoryAmounts: [
                 {
-                  category: { id: 1, name: '食費' },
+                  category: {
+                    id: 1,
+                    name: '食費'
+                  },
                   amount: 1000,
-                  limitAmount: 55000,
+                  limitAmount: 55000
                 },
                 {
-                  category: { id: 2, name: '日用品' },
+                  category: {
+                    id: 2,
+                    name: '日用品'
+                  },
                   amount: 2000,
-                  limitAmount: 10000,
+                  limitAmount: 10000
                 },
                 {
-                  category: { id: 3, name: '交通費' },
+                  category: {
+                    id: 3,
+                    name: '交通費'
+                  },
                   amount: 3000,
-                  limitAmount: 10000,
-                },
-              ],
+                  limitAmount: 10000
+                }
+              ]
             })
-          },
-        ),
-      ],
-    },
+          }
+        )
+      ]
+    }
   },
-  loaders: [mswLoader],
+  loaders: [mswLoader]
 }
 
 export default meta

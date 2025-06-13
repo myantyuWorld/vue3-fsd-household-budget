@@ -1,4 +1,4 @@
-import {  POST } from './client'
+import { POST } from './client'
 
 export const authApi = {
   // async login() {
@@ -8,10 +8,10 @@ export const authApi = {
 
   async logout() {
     await POST('/line/logout', {})
-  },
+  }
 
   // async getMe(): Promise<User> {
   //   const response = await client.GET('/line/me')
   //   return response.user
   // }
-} 
+}

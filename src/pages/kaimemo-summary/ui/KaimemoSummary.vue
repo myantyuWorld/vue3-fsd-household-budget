@@ -1,65 +1,73 @@
 <script setup lang="ts">
-import {
-  BaseModal,
-  PrimaryButton,
-  SecondaryButton,
-  TheForm,
-  CameraButton,
-  PencilButton,
-  PlusButton,
-} from '@/shared/ui'
-import { GridCol3 } from '@/shared/ui/layouts'
-import { ShoppingAmountItem, ShoppingCategoryBudgetRemain } from '@/entities/shopping'
-import { ref } from 'vue'
-import {
-  DeleteShoppingAmountModal,
-  CreateShoppingAmountModal,
-  MonthlyHeader,
-  HouseHoldTile,
-  useKaimemoSummary,
-} from '@/features/shopping'
+  import {
+    BaseModal,
+    PrimaryButton,
+    SecondaryButton,
+    TheForm,
+    CameraButton,
+    PencilButton,
+    PlusButton
+  } from '@/shared/ui'
+  import { GridCol3 } from '@/shared/ui/layouts'
+  import {
+    ShoppingAmountItem,
+    ShoppingCategoryBudgetRemain
+  } from '@/entities/shopping'
+  import { ref } from 'vue'
+  import {
+    DeleteShoppingAmountModal,
+    CreateShoppingAmountModal,
+    MonthlyHeader,
+    HouseHoldTile,
+    useKaimemoSummary
+  } from '@/features/shopping'
 
-const {
-  isOpenModal,
-  operatingCurrentDate,
-  categories,
-  summarizeShoppingAmounts,
-  summarizeCategoryLimitAmount,
-  householdBooks,
-  selectedHouseholdBook,
-  selectedShoppingAmounts,
-  selectedCategoryNumber,
-  isOpenDeleteModal,
-  isOpenReceiptAnalyzeModal,
-  videoRef,
-  defineTagField,
-  tagErrors,
-  onClickAddAmountModal,
-  onClickCloseAmountModal,
-  onClickMonthlyPrev,
-  onClickMonthlyNext,
-  onClickDeleteAmountRecord,
-  onClickCloseDeleteConfirmModal,
-  onClickOpenDeleteConfirmModal,
-  onClickCategoryAmount,
-  handleReceiptAnalyzeReception,
-  onClickOpenReceiptAnalyzeModal,
-  onClickCloseReceiptAnalyzeModal,
-} = useKaimemoSummary()
+  const {
+    isOpenModal,
+    operatingCurrentDate,
+    categories,
+    summarizeShoppingAmounts,
+    summarizeCategoryLimitAmount,
+    householdBooks,
+    selectedHouseholdBook,
+    selectedShoppingAmounts,
+    selectedCategoryNumber,
+    isOpenDeleteModal,
+    isOpenReceiptAnalyzeModal,
+    videoRef,
+    defineTagField,
+    tagErrors,
+    onClickAddAmountModal,
+    onClickCloseAmountModal,
+    onClickMonthlyPrev,
+    onClickMonthlyNext,
+    onClickDeleteAmountRecord,
+    onClickCloseDeleteConfirmModal,
+    onClickOpenDeleteConfirmModal,
+    onClickCategoryAmount,
+    handleReceiptAnalyzeReception,
+    onClickOpenReceiptAnalyzeModal,
+    onClickCloseReceiptAnalyzeModal
+  } = useKaimemoSummary()
 
-const [analyzeTag, analyzeTagProps] = defineTagField('tag')
+  const [analyzeTag, analyzeTagProps] = defineTagField('tag')
 
-const isExpanded = ref(false)
+  const isExpanded = ref(false)
 
-const toggleExpand = () => {
-  isExpanded.value = !isExpanded.value
-}
+  const toggleExpand = () => {
+    isExpanded.value = !isExpanded.value
+  }
 </script>
 
 <template>
-  <HouseHoldTile :householdBooks="householdBooks" v-model="selectedHouseholdBook" />
+  <HouseHoldTile
+    :householdBooks="householdBooks"
+    v-model="selectedHouseholdBook"
+  />
   <div class="min-h-screen bg-primary-bg">
-    <div class="sticky top-14 z-10 backdrop-blur-md bg-white/90 shadow-soft p-4">
+    <div
+      class="sticky top-14 z-10 backdrop-blur-md bg-white/90 shadow-soft p-4"
+    >
       <MonthlyHeader
         :operatingCurrentDate="operatingCurrentDate"
         :summarizeAmount="summarizeShoppingAmounts?.totalAmount ?? 0"
@@ -94,7 +102,10 @@ const toggleExpand = () => {
         </div>
       </div>
     </div>
-    <PlusButton @click="toggleExpand" class="fixed bottom-20 right-4" />
+    <PlusButton
+      @click="toggleExpand"
+      class="fixed bottom-20 right-4"
+    />
     <div v-show="isExpanded">
       <PencilButton
         @click="onClickAddAmountModal"
@@ -132,15 +143,25 @@ const toggleExpand = () => {
       horizontalPosition="left-0"
     >
       <template #modalBody>
-        <video ref="videoRef" autoplay playsinline class="w-full h-full"></video>
+        <video
+          ref="videoRef"
+          autoplay
+          playsinline
+          class="w-full h-full"
+        ></video>
         <TheForm label="カテゴリ">
           <select
             class="w-full p-4 border border-primary-light rounded-xl focus:border-primary focus:ring-2 focus:ring-primary-light bg-white/90 text-base"
-            :class="{ 'border-red-500 bg-red-50/80': tagErrors.tag }"
+            :class="{
+              'border-red-500 bg-red-50/80': tagErrors.tag
+            }"
             v-model="analyzeTag"
             v-bind="analyzeTagProps"
           >
-            <template v-for="categoryLimit in categories" :key="categoryLimit.category.id">
+            <template
+              v-for="categoryLimit in categories"
+              :key="categoryLimit.category.id"
+            >
               <option :value="categoryLimit.category.id">
                 {{ categoryLimit.category.name }}
               </option>

@@ -1,6 +1,6 @@
 export const formatAmount = (amount: number) => {
   const formatter = new Intl.NumberFormat('ja-JP', {
-    currency: 'JPY',
+    currency: 'JPY'
   })
   return formatter.format(amount)
 }

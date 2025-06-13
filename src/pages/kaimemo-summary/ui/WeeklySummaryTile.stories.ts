@@ -14,17 +14,17 @@ const meta: Meta<typeof Component> = {
           id: '1',
           date: '2023-07-10',
           tag: '食費',
-          amount: 0,
+          amount: 0
         },
         {
           id: '1',
           date: '2023-07-10',
           tag: '日用品',
-          amount: 9999,
-        },
-      ],
-    },
-  },
+          amount: 9999
+        }
+      ]
+    }
+  }
 }
 
 export default meta

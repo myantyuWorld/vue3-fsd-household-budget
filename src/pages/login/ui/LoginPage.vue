@@ -1,11 +1,13 @@
 <script setup lang="ts">
-import { useInteraction } from '@/pages/login/hooks/useInteraction'
+  import { useInteraction } from '@/pages/login/hooks/useInteraction'
 
-const { isLoading, onClickLogin } = useInteraction()
+  const { isLoading, onClickLogin } = useInteraction()
 </script>
 
 <template>
-  <div class="min-h-screen bg-primary-bg flex flex-col items-center justify-center p-4">
+  <div
+    class="min-h-screen bg-primary-bg flex flex-col items-center justify-center p-4"
+  >
     <div class="card w-full max-w-md text-center space-y-8">
       <h2
         class="text-4xl font-bold bg-gradient-to-r from-primary via-primary-dark to-primary-light bg-clip-text text-transparent"
@@ -30,11 +32,19 @@ const { isLoading, onClickLogin } = useInteraction()
             class="h-6 w-6 text-white group-hover:text-white transition-colors duration-300"
           />
         </span>
-        <span v-if="isLoading" class="flex items-center gap-2 text-white">
+        <span
+          v-if="isLoading"
+          class="flex items-center gap-2 text-white"
+        >
           <i-mdi-loading class="animate-spin h-5 w-5" />
           ログイン中...
         </span>
-        <span v-else class="text-white">LINEでログイン</span>
+        <span
+          v-else
+          class="text-white"
+        >
+          LINEでログイン
+        </span>
       </button>
     </div>
   </div>

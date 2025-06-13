@@ -13,7 +13,7 @@ export const useInteraction = () => {
     console.log('onMounted')
 
     const { data, error } = await GET('/admin/informations', {
-      params: {},
+      params: {}
     })
     if (error) console.log(error)
     information.value = data
@@ -25,29 +25,33 @@ export const useInteraction = () => {
     },
     close: () => {
       isOpenInformationModal.value = false
-    },
+    }
   }
 
   const handleUpdatePublishInformationModal = {
     open: (id: number) => {
       console.log('open', id)
-      selectedInformation.value = information.value?.find((info) => info.id === id)
+      selectedInformation.value = information.value?.find(
+        info => info.id === id
+      )
       isOpenUpdatePublishInformationModal.value = true
     },
     close: () => {
       isOpenUpdatePublishInformationModal.value = false
-    },
+    }
   }
 
   const handleDeleteConfirmModal = {
     open: (id: number) => {
       console.log('open', id)
-      selectedInformation.value = information.value?.find((info) => info.id === id)
+      selectedInformation.value = information.value?.find(
+        info => info.id === id
+      )
       isOpenDeleteConfirmModal.value = true
     },
     close: () => {
       isOpenDeleteConfirmModal.value = false
-    },
+    }
   }
 
   return {
@@ -58,6 +62,6 @@ export const useInteraction = () => {
     isOpenDeleteConfirmModal,
     handleInformationModal,
     handleUpdatePublishInformationModal,
-    handleDeleteConfirmModal,
+    handleDeleteConfirmModal
   }
 }

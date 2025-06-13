@@ -7,16 +7,16 @@ export const useInteraction = () => {
       key: 'test',
       attributes: {
         color: 'red',
-        content: 'test',
+        content: 'test'
       },
       customData: {
         color: 'red',
-        description: 'test',
-      },
-    },
+        description: 'test'
+      }
+    }
   ])
 
   return {
-    calenderAttributes,
+    calenderAttributes
   }
 }

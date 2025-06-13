@@ -3,7 +3,7 @@ import Component from './TheButton.vue'
 
 const meta: Meta<typeof Component> = {
   component: Component,
-  tags: ['autodocs'],
+  tags: ['autodocs']
 }
 
 export default meta

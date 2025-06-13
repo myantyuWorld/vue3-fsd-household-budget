@@ -14,7 +14,7 @@ const updateSW = registerSW({
   },
   onOfflineReady() {
     alert('アプリはオフラインでも使用できます！')
-  },
+  }
 })
 
 const pinia = createPinia()

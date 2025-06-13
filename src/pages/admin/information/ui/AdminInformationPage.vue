@@ -1,26 +1,26 @@
 <script setup lang="ts">
-import { useInteraction } from '@/features/admin/information/hooks/useInteraction'
-import {
-  InformationModal,
-  UpdatePublishInformationModal,
-  InformationTable,
-  DeleteConfirmModal,
-} from '@/features/admin/information'
-import { PrimaryButton } from '@/shared/ui'
-import { ref } from 'vue'
+  import { useInteraction } from '@/features/admin/information/hooks/useInteraction'
+  import {
+    InformationModal,
+    UpdatePublishInformationModal,
+    InformationTable,
+    DeleteConfirmModal
+  } from '@/features/admin/information'
+  import { PrimaryButton } from '@/shared/ui'
+  import { ref } from 'vue'
 
-const {
-  information,
-  selectedInformation,
-  isOpenInformationModal,
-  isOpenUpdatePublishInformationModal,
-  isOpenDeleteConfirmModal,
-  handleInformationModal,
-  handleUpdatePublishInformationModal,
-  handleDeleteConfirmModal,
-} = useInteraction()
+  const {
+    information,
+    selectedInformation,
+    isOpenInformationModal,
+    isOpenUpdatePublishInformationModal,
+    isOpenDeleteConfirmModal,
+    handleInformationModal,
+    handleUpdatePublishInformationModal,
+    handleDeleteConfirmModal
+  } = useInteraction()
 
-const selectedPublishStatus = ref(false)
+  const selectedPublishStatus = ref(false)
 </script>
 
 <template>
@@ -30,9 +30,12 @@ const selectedPublishStatus = ref(false)
       <h2 class="text-lg font-medium text-gray-900 mb-4">検索条件</h2>
       <div class="flex gap-4">
         <div>
-          <label for="publishStatus" class="block text-sm font-medium text-gray-700"
-            >公開状態</label
+          <label
+            for="publishStatus"
+            class="block text-sm font-medium text-gray-700"
           >
+            公開状態
+          </label>
           <select
             id="publishStatus"
             v-model="selectedPublishStatus"
@@ -46,13 +49,17 @@ const selectedPublishStatus = ref(false)
       </div>
     </div>
     <div class="mb-4 flex justify-end">
-      <PrimaryButton @click="handleInformationModal.open">新規追加</PrimaryButton>
+      <PrimaryButton @click="handleInformationModal.open">
+        新規追加
+      </PrimaryButton>
     </div>
 
     <div class="overflow-x-auto">
       <InformationTable
         :information="information"
-        @openUpdatePublishInformationModal="handleUpdatePublishInformationModal.open($event)"
+        @openUpdatePublishInformationModal="
+          handleUpdatePublishInformationModal.open($event)
+        "
         @openDeleteConfirmModal="handleDeleteConfirmModal.open($event)"
       />
     </div>

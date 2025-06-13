@@ -5,5 +5,5 @@
 </template>
 
 <script setup lang="ts">
-// コンポーネントのロジックは不要
-</script> 
+  // コンポーネントのロジックは不要
+</script>

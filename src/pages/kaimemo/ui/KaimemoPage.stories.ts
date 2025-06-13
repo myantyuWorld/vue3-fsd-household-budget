@@ -1,5 +1,9 @@
 import { type Meta, type StoryObj } from '@storybook/vue3'
-import { VueQueryPlugin, QueryClient, type VueQueryPluginOptions } from '@tanstack/vue-query'
+import {
+  VueQueryPlugin,
+  QueryClient,
+  type VueQueryPluginOptions
+} from '@tanstack/vue-query'
 import { createPinia, setActivePinia } from 'pinia'
 import { createRouter, createWebHistory } from 'vue-router'
 import { http, HttpResponse } from 'msw'
@@ -9,7 +13,7 @@ import { useSessionStore } from '@/entities/session/model/session-store'
 
 const queryClient = new QueryClient()
 const vueQueryPluginOptions: VueQueryPluginOptions = {
-  queryClient,
+  queryClient
 }
 
 const pinia = createPinia()
@@ -36,16 +40,16 @@ sessionStore.$patch({
             limitAmount: 10000,
             category: {
               id: 1,
-              name: '食費',
-            },
-          },
+              name: '食費'
+            }
+          }
         ],
-        users: [],
-      },
-    ],
+        users: []
+      }
+    ]
   },
   isAuthenticated: true,
-  isLoading: false,
+  isLoading: false
 })
 
 // Routerのモック
@@ -55,46 +59,61 @@ const router = createRouter({
     {
       path: '/kaimemo',
       name: 'kaimemo',
-      component: Component,
-    },
-  ],
+      component: Component
+    }
+  ]
 })
 
 // ルーターを初期化（queryパラメータを含める）
 router.push({
   path: '/kaimemo',
   query: {
-    tempUserID: 'test-temp-user-id',
-  },
+    tempUserID: 'test-temp-user-id'
+  }
 })
 
 const meta: Meta<typeof Component> = {
   component: Component,
   tags: ['autodocs'],
   decorators: [
-    (story) => ({
+    story => ({
       components: { story },
       plugins: [[VueQueryPlugin, vueQueryPluginOptions], pinia, router],
       provide: {
-        router: router,
+        router: router
       },
-      template: '<story />',
-    }),
+      template: '<story />'
+    })
   ],
   parameters: {
     msw: {
       handlers: [
         http.get('/api/items', () => {
           return HttpResponse.json([
-            { id: '1', name: '牛乳', tag: '食費', done: false },
-            { id: '2', name: 'パン', tag: '食費', done: false },
-            { id: '3', name: '洗剤', tag: '日用品', done: false },
+            {
+              id: '1',
+              name: '牛乳',
+              tag: '食費',
+              done: false
+            },
+            {
+              id: '2',
+              name: 'パン',
+              tag: '食費',
+              done: false
+            },
+            {
+              id: '3',
+              name: '洗剤',
+              tag: '日用品',
+              done: false
+            }
           ])
-        }),
-      ],
-    },
+        })
+      ]
+    }
   },
-  loaders: [mswLoader],
+  loaders: [mswLoader]
 }
 
 export default meta
@@ -107,12 +126,27 @@ export const Primary: Story = {
       handlers: [
         http.get('/api/items', () => {
           return HttpResponse.json([
-            { id: '1', name: '牛乳', tag: '食費', done: false },
-            { id: '2', name: 'パン', tag: '食費', done: false },
-            { id: '3', name: '洗剤', tag: '日用品', done: false },
+            {
+              id: '1',
+              name: '牛乳',
+              tag: '食費',
+              done: false
+            },
+            {
+              id: '2',
+              name: 'パン',
+              tag: '食費',
+              done: false
+            },
+            {
+              id: '3',
+              name: '洗剤',
+              tag: '日用品',
+              done: false
+            }
           ])
-        }),
-      ],
-    },
-  },
+        })
+      ]
+    }
+  }
 }

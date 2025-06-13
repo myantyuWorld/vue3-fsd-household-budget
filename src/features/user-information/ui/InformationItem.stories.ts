@@ -3,7 +3,7 @@ import Component from './InformationItem.vue'
 
 const meta: Meta<typeof Component> = {
   component: Component,
-  tags: ['autodocs'],
+  tags: ['autodocs']
 }
 
 export default meta
@@ -18,9 +18,9 @@ export const Primary: Story = {
       content:
         'あああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああ',
       isRead: false,
-      category: 'bug_report',
-    },
-  },
+      category: 'bug_report'
+    }
+  }
 }
 
 export const Secondar: Story = {
@@ -31,9 +31,9 @@ export const Secondar: Story = {
       content:
         'ああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああ',
       isRead: true,
-      category: 'feature_request',
-    },
-  },
+      category: 'feature_request'
+    }
+  }
 }
 
 export const Third: Story = {
@@ -44,7 +44,7 @@ export const Third: Story = {
       content:
         'ああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああああ',
       isRead: true,
-      category: 'other',
-    },
-  },
+      category: 'other'
+    }
+  }
 }

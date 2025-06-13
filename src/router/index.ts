@@ -12,18 +12,18 @@ import { UserInformationPage } from '@/pages/user-information'
 // デフォルトのメタ情報を定義
 const defaultMeta = {
   layout: 'default',
-  requiresAuth: true,
+  requiresAuth: true
 }
 
 const adminMeta = {
   layout: 'admin',
-  requiresAuth: true,
+  requiresAuth: true
 }
 
 // 認証不要のメタ情報を定義
 const authMeta = {
   layout: 'auth',
-  requiresAuth: false,
+  requiresAuth: false
 }
 
 // ルート定義を分離
@@ -34,8 +34,8 @@ const routes = [
     component: () => import('@/pages/login/ui/LoginPage.vue'),
     meta: {
       ...authMeta,
-      title: 'ログイン',
-    },
+      title: 'ログイン'
+    }
   },
   {
     path: '/line/callback',
@@ -43,8 +43,8 @@ const routes = [
     component: () => import('@/pages/login/ui/LineCallback.vue'),
     meta: {
       ...authMeta,
-      title: 'ログイン',
-    },
+      title: 'ログイン'
+    }
   },
   {
     path: '/share',
@@ -52,8 +52,8 @@ const routes = [
     component: SharePage,
     meta: {
       ...defaultMeta,
-      title: '家計簿共有',
-    },
+      title: '家計簿共有'
+    }
   },
   {
     path: '/kaimemo',
@@ -61,8 +61,8 @@ const routes = [
     component: KaimemoPage,
     meta: {
       ...defaultMeta,
-      title: '家計簿',
-    },
+      title: '家計簿'
+    }
   },
   {
     path: '/summary',
@@ -70,20 +70,20 @@ const routes = [
     component: KaimemoSummaryPage,
     meta: {
       ...defaultMeta,
-      title: '家計簿',
-    },
+      title: '家計簿'
+    }
   },
   {
     path: '/summary/calender/:date',
     name: 'summary-calender',
     component: SummaryCalender,
     props: (router: { params: { date: string } }) => ({
-      date: router.params.date,
+      date: router.params.date
     }),
     meta: {
       ...defaultMeta,
-      title: '家計簿',
-    },
+      title: '家計簿'
+    }
   },
   {
     path: '/profile',
@@ -91,8 +91,8 @@ const routes = [
     component: ProfilePage,
     meta: {
       ...defaultMeta,
-      title: 'プロフィール',
-    },
+      title: 'プロフィール'
+    }
   },
   {
     path: '/expense-calender',
@@ -100,8 +100,8 @@ const routes = [
     component: ExpenseCalendarPage,
     meta: {
       ...defaultMeta,
-      title: '家計簿',
-    },
+      title: '家計簿'
+    }
   },
   {
     path: '/admin/informations',
@@ -109,8 +109,8 @@ const routes = [
     component: AdminInformationPage,
     meta: {
       ...adminMeta,
-      title: '管理者',
-    },
+      title: '管理者'
+    }
   },
   {
     path: '/user/informations',
@@ -118,15 +118,15 @@ const routes = [
     component: UserInformationPage,
     meta: {
       ...defaultMeta,
-      title: 'お知らせ',
-    },
-  },
+      title: 'お知らせ'
+    }
+  }
 ]
 
 // ルーターの作成
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes,
+  routes
 })
 
 // 認証ガードを追加

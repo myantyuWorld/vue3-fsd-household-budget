@@ -7,8 +7,8 @@ export const usePublishedInformation = () => {
 
     const { data, error } = await POST(`/admin/informations/{id}/publish`, {
       params: {
-        path: { id },
-      },
+        path: { id }
+      }
     })
     if (error) console.log(error)
     console.log(data)
@@ -18,6 +18,6 @@ export const usePublishedInformation = () => {
   }
 
   return {
-    onClickUpdatePublishInformation,
+    onClickUpdatePublishInformation
   }
 }

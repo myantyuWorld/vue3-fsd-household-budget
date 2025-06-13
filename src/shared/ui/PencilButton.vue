@@ -1,20 +1,20 @@
 <script setup lang="ts">
-withDefaults(
-  defineProps<{
-    bottom?: number
-    right?: number
-    isFixed?: boolean
-  }>(),
-  {
-    bottom: 20,
-    right: 4,
-    isFixed: true,
-  },
-)
+  withDefaults(
+    defineProps<{
+      bottom?: number
+      right?: number
+      isFixed?: boolean
+    }>(),
+    {
+      bottom: 20,
+      right: 4,
+      isFixed: true
+    }
+  )
 
-defineEmits<{
-  click: []
-}>()
+  defineEmits<{
+    click: []
+  }>()
 </script>
 
 <template>

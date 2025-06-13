@@ -1,37 +1,42 @@
 <script setup lang="ts">
-import type { components } from '@/shared/api/v1'
-import ShoppingCategoryIcon from './ShoppingCategoryIcon.vue'
-import { ReceiptAnalyzeResultModal } from '@/features/analyze'
-import { ref } from 'vue'
+  import type { components } from '@/shared/api/v1'
+  import ShoppingCategoryIcon from './ShoppingCategoryIcon.vue'
+  import { ReceiptAnalyzeResultModal } from '@/features/analyze'
+  import { ref } from 'vue'
 
-const props = defineProps<{
-  shoppingRecord: components['schemas']['ShoppingRecord']
-}>()
+  const props = defineProps<{
+    shoppingRecord: components['schemas']['ShoppingRecord']
+  }>()
 
-const isOpenReceiptAnalyzeResultModal = ref<boolean>(false)
+  const isOpenReceiptAnalyzeResultModal = ref<boolean>(false)
 
-const handleReceiptAnalyzeResult = {
-  openModal: () => {
-    if (props.shoppingRecord.analyze_id === 0) {
-      return
+  const handleReceiptAnalyzeResult = {
+    openModal: () => {
+      if (props.shoppingRecord.analyze_id === 0) {
+        return
+      }
+      isOpenReceiptAnalyzeResultModal.value = true
+    },
+    closeModal: () => {
+      isOpenReceiptAnalyzeResultModal.value = false
     }
-    isOpenReceiptAnalyzeResultModal.value = true
-  },
-  closeModal: () => {
-    isOpenReceiptAnalyzeResultModal.value = false
-  },
-}
+  }
 
-defineEmits<{
-  click: [id: number]
-}>()
+  defineEmits<{
+    click: [id: number]
+  }>()
 </script>
 <template>
-  <div class="flex items-center justify-between" @click="handleReceiptAnalyzeResult.openModal">
+  <div
+    class="flex items-center justify-between"
+    @click="handleReceiptAnalyzeResult.openModal"
+  >
     <div class="flex items-center gap-3">
       <ShoppingCategoryIcon :categoryName="shoppingRecord.category.name" />
       <div>
-        <p class="text-sm text-gray-500 dark:text-gray-400">{{ shoppingRecord.date }}</p>
+        <p class="text-sm text-gray-500 dark:text-gray-400">
+          {{ shoppingRecord.date }}
+        </p>
         <p class="font-medium text-gray-700 dark:text-gray-200">
           {{ shoppingRecord.category.name }}
         </p>

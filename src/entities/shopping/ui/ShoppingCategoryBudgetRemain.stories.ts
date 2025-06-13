@@ -9,13 +9,13 @@ const meta: Meta<typeof Component> = {
       category: {
         id: 1,
         name: '食費',
-        color: '#000000',
+        color: '#000000'
       },
       amount: 10000,
-      limitAmount: 10000,
+      limitAmount: 10000
     },
-    limitAmount: 10000,
-  },
+    limitAmount: 10000
+  }
 }
 
 export default meta

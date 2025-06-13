@@ -1,30 +1,36 @@
 <script setup lang="ts">
-import { TheForm, TheCard, PrimaryButton, SecondaryButton, BaseModal } from '@/shared/ui'
-import { useInteraction } from '../hooks/useInteraction'
-import HouseHoldHeaderTile from './HouseHoldHeaderTile.vue'
-import HouseHoldCategories from './HouseHoldCategories.vue'
+  import {
+    TheForm,
+    TheCard,
+    PrimaryButton,
+    SecondaryButton,
+    BaseModal
+  } from '@/shared/ui'
+  import { useInteraction } from '../hooks/useInteraction'
+  import HouseHoldHeaderTile from './HouseHoldHeaderTile.vue'
+  import HouseHoldCategories from './HouseHoldCategories.vue'
 
-const {
-  user,
-  defineField,
-  errors,
-  isOpenModalAddCategory,
-  isOpenModalAddHousehold,
-  defineFieldHousehold,
-  errorsHousehold,
-  onClickOpenAddHouseholdModal,
-  onClickCloseAddHouseholdModal,
-  onClickOpenAddCategoryModal,
-  onClickCloseAddItemModal,
-  handleAddCategory,
-  handleAddHousehold,
-  handleShareHouseHoldLink,
-} = useInteraction()
+  const {
+    user,
+    defineField,
+    errors,
+    isOpenModalAddCategory,
+    isOpenModalAddHousehold,
+    defineFieldHousehold,
+    errorsHousehold,
+    onClickOpenAddHouseholdModal,
+    onClickCloseAddHouseholdModal,
+    onClickOpenAddCategoryModal,
+    onClickCloseAddItemModal,
+    handleAddCategory,
+    handleAddHousehold,
+    handleShareHouseHoldLink
+  } = useInteraction()
 
-const [name, nameProps] = defineField('name')
-const [limitAmount, limitAmountProps] = defineField('limitAmount')
-const [title, titleProps] = defineFieldHousehold('title')
-const [description, descriptionProps] = defineFieldHousehold('description')
+  const [name, nameProps] = defineField('name')
+  const [limitAmount, limitAmountProps] = defineField('limitAmount')
+  const [title, titleProps] = defineFieldHousehold('title')
+  const [description, descriptionProps] = defineFieldHousehold('description')
 </script>
 
 <template>
@@ -44,18 +50,28 @@ const [description, descriptionProps] = defineFieldHousehold('description')
           ></div>
         </div>
         <div>
-          <h1 class="text-2xl font-bold text-gray-900 dark:text-white tracking-tight">
+          <h1
+            class="text-2xl font-bold text-gray-900 dark:text-white tracking-tight"
+          >
             {{ user.name }}
           </h1>
-          <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">プロフィール</p>
+          <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
+            プロフィール
+          </p>
         </div>
       </div>
     </TheCard>
 
     <!-- 家計簿セクション -->
-    <TheCard class="bg-white dark:bg-gray-800 shadow-2xl rounded-xl backdrop-blur-sm">
+    <TheCard
+      class="bg-white dark:bg-gray-800 shadow-2xl rounded-xl backdrop-blur-sm"
+    >
       <ul class="space-y-2">
-        <li v-for="householdBook in user.householdBooks" :key="householdBook.id" class="space-y-2">
+        <li
+          v-for="householdBook in user.householdBooks"
+          :key="householdBook.id"
+          class="space-y-2"
+        >
           <HouseHoldHeaderTile
             :householdBook="householdBook"
             @share="handleShareHouseHoldLink(householdBook.id)"
@@ -86,21 +102,29 @@ const [description, descriptionProps] = defineFieldHousehold('description')
             <input
               type="text"
               class="w-full p-4 border-2 border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 mt-1 transition-all duration-300 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm text-base"
-              :class="{ 'bg-red-50/80 border-red-500': errors.name }"
+              :class="{
+                'bg-red-50/80 border-red-500': errors.name
+              }"
               v-model="name"
               v-bind="nameProps"
             />
-            <p class="mt-2 text-sm text-red-600 dark:text-red-500">{{ errors.name }}</p>
+            <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+              {{ errors.name }}
+            </p>
           </TheForm>
           <TheForm label="上限値">
             <input
               type="number"
               class="w-full p-4 border-2 border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 mt-1 transition-all duration-300 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm text-base"
-              :class="{ 'bg-red-50/80 border-red-500': errors.limitAmount }"
+              :class="{
+                'bg-red-50/80 border-red-500': errors.limitAmount
+              }"
               v-model="limitAmount"
               v-bind="limitAmountProps"
             />
-            <p class="mt-2 text-sm text-red-600 dark:text-red-500">{{ errors.limitAmount }}</p>
+            <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+              {{ errors.limitAmount }}
+            </p>
           </TheForm>
         </div>
       </template>
@@ -112,7 +136,7 @@ const [description, descriptionProps] = defineFieldHousehold('description')
           >
             閉じる
           </SecondaryButton>
-          <PrimaryButton @click="handleAddCategory"> 追加 </PrimaryButton>
+          <PrimaryButton @click="handleAddCategory">追加</PrimaryButton>
         </div>
       </template>
     </BaseModal>
@@ -131,7 +155,9 @@ const [description, descriptionProps] = defineFieldHousehold('description')
             v-model="title"
             v-bind="titleProps"
           />
-          <p class="mt-2 text-sm text-red-600 dark:text-red-500">{{ errorsHousehold.title }}</p>
+          <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+            {{ errorsHousehold.title }}
+          </p>
         </TheForm>
         <TheForm label="説明">
           <textarea
@@ -145,8 +171,10 @@ const [description, descriptionProps] = defineFieldHousehold('description')
         </TheForm>
       </template>
       <template #buttons>
-        <PrimaryButton @click="handleAddHousehold"> 追加 </PrimaryButton>
-        <SecondaryButton @click="onClickCloseAddHouseholdModal"> 閉じる </SecondaryButton>
+        <PrimaryButton @click="handleAddHousehold">追加</PrimaryButton>
+        <SecondaryButton @click="onClickCloseAddHouseholdModal">
+          閉じる
+        </SecondaryButton>
       </template>
     </BaseModal>
   </div>

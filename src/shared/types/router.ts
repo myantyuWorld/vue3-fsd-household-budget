@@ -5,4 +5,4 @@ export type AppRouteRecordRaw = RouteRecordRaw & {
     layout?: 'default' | 'auth'
     requiresAuth?: boolean
   }
-} 
+}

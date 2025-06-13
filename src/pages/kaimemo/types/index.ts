@@ -1,3 +1,2 @@
-export { schema } from './schema';
-export type { KaimemoSchema } from './schema';
-
+export { schema } from './schema'
+export type { KaimemoSchema } from './schema'

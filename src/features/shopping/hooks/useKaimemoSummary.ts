@@ -15,11 +15,12 @@ export const useKaimemoSummary = () => {
   const isOpenReceiptAnalyzeModal = ref<boolean>(false)
   const deleteId = ref<number>(0)
   const operatingCurrentDate = ref<Date>(new Date())
-  const summarizeShoppingAmounts = ref<components['schemas']['SummarizeShoppingAmount']>()
+  const summarizeShoppingAmounts =
+    ref<components['schemas']['SummarizeShoppingAmount']>()
   const store = useAmountSummaryStore()
   const sessionStore = useSessionStore()
   const selectedHouseholdBook = ref<components['schemas']['HouseholdBook']>(
-    sessionStore.user.householdBooks[0],
+    sessionStore.user.householdBooks[0]
   )
   const selectedCategoryNumber = ref<number>(0)
   const videoRef = ref<HTMLVideoElement | null>(null)
@@ -28,9 +29,9 @@ export const useKaimemoSummary = () => {
   const {
     defineField: defineTagField,
     errors: tagErrors,
-    handleSubmit: handleTagSubmit,
+    handleSubmit: handleTagSubmit
   } = useForm<AnalyzeSchema>({
-    validationSchema: toTypedSchema(analyzeSchema),
+    validationSchema: toTypedSchema(analyzeSchema)
   })
 
   const householdBooks = computed(() => {
@@ -51,15 +52,20 @@ export const useKaimemoSummary = () => {
   })
 
   const fetchShoppingRecords = async () => {
-    const { data, error } = await GET('/household/{householdID}/shopping/record', {
-      params: {
-        // TODO : ユーザーが選択したhouseholdBookのidを取得
-        path: { householdID: selectedHouseholdBook.value.id },
-        query: {
-          date: operatingCurrentDate.value.toISOString().split('T')[0],
-        },
-      },
-    })
+    const { data, error } = await GET(
+      '/household/{householdID}/shopping/record',
+      {
+        params: {
+          // TODO : ユーザーが選択したhouseholdBookのidを取得
+          path: {
+            householdID: selectedHouseholdBook.value.id
+          },
+          query: {
+            date: operatingCurrentDate.value.toISOString().split('T')[0]
+          }
+        }
+      }
+    )
     if (error) {
       console.error(error)
       return []
@@ -87,7 +93,10 @@ export const useKaimemoSummary = () => {
 
   const onClickMonthlyPrev = () => {
     operatingCurrentDate.value = new Date(
-      operatingCurrentDate.value.setMonth(operatingCurrentDate.value.getMonth() - 1, 1),
+      operatingCurrentDate.value.setMonth(
+        operatingCurrentDate.value.getMonth() - 1,
+        1
+      )
     )
   }
 
@@ -122,7 +131,10 @@ export const useKaimemoSummary = () => {
     if (!categories.value) {
       return 0
     }
-    return categories.value.reduce((acc, category) => acc + category.limitAmount, 0)
+    return categories.value.reduce(
+      (acc, category) => acc + category.limitAmount,
+      0
+    )
   })
 
   const selectedShoppingAmounts = computed(() => {
@@ -131,16 +143,23 @@ export const useKaimemoSummary = () => {
     }
 
     return summarizeShoppingAmounts.value?.shoppingAmounts.filter(
-      (shoppingAmount) => shoppingAmount.category.id === selectedCategoryNumber.value,
+      shoppingAmount =>
+        shoppingAmount.category.id === selectedCategoryNumber.value
     )
   })
 
   const onClickDeleteAmountRecord = async () => {
-    const { error } = await DELETE('/household/{householdID}/shopping/record/{shoppingID}', {
-      params: {
-        path: { householdID: selectedHouseholdBook.value.id, shoppingID: deleteId.value },
-      },
-    })
+    const { error } = await DELETE(
+      '/household/{householdID}/shopping/record/{shoppingID}',
+      {
+        params: {
+          path: {
+            householdID: selectedHouseholdBook.value.id,
+            shoppingID: deleteId.value
+          }
+        }
+      }
+    )
 
     if (error) {
       console.error(error)
@@ -173,16 +192,19 @@ export const useKaimemoSummary = () => {
     isOpenReceiptAnalyzeModal.value = true
     try {
       const devices = await navigator.mediaDevices.enumerateDevices()
-      const videoDevices = devices.filter((device) => device.kind === 'videoinput')
+      const videoDevices = devices.filter(
+        device => device.kind === 'videoinput'
+      )
       const backCamera =
-        videoDevices.find((device) => device.label.toLowerCase().includes('back')) ||
-        videoDevices[0]
+        videoDevices.find(device =>
+          device.label.toLowerCase().includes('back')
+        ) || videoDevices[0]
 
       stream.value = await navigator.mediaDevices.getUserMedia({
         video: {
           deviceId: backCamera?.deviceId,
-          facingMode: 'environment',
-        },
+          facingMode: 'environment'
+        }
       })
       videoRef.value!.srcObject = stream.value
       await videoRef.value!.play()
@@ -193,10 +215,10 @@ export const useKaimemoSummary = () => {
 
   const onClickCloseReceiptAnalyzeModal = () => {
     isOpenReceiptAnalyzeModal.value = false
-    stream.value?.getTracks().forEach((track) => track.stop())
+    stream.value?.getTracks().forEach(track => track.stop())
   }
 
-  const handleReceiptAnalyzeReception = handleTagSubmit(async (values) => {
+  const handleReceiptAnalyzeReception = handleTagSubmit(async values => {
     console.log('receipt analyze reception', values)
 
     const canvas = document.createElement('canvas')
@@ -208,17 +230,22 @@ export const useKaimemoSummary = () => {
     const base64 = canvas.toDataURL('image/jpeg')
     console.log('撮影した画像のbase64:', base64)
 
-    stream.value?.getTracks().forEach((track) => track.stop())
+    stream.value?.getTracks().forEach(track => track.stop())
 
-    const { data, error } = await POST('/openai/analyze/{householdID}/receipt/reception', {
-      body: {
-        imageData: base64,
-        categoryID: values.tag,
-      },
-      params: {
-        path: { householdID: selectedHouseholdBook.value.id },
-      },
-    })
+    const { data, error } = await POST(
+      '/openai/analyze/{householdID}/receipt/reception',
+      {
+        body: {
+          imageData: base64,
+          categoryID: values.tag
+        },
+        params: {
+          path: {
+            householdID: selectedHouseholdBook.value.id
+          }
+        }
+      }
+    )
 
     if (error) {
       console.error(error)
@@ -260,6 +287,6 @@ export const useKaimemoSummary = () => {
     onClickCategoryAmount,
     handleReceiptAnalyzeReception,
     onClickOpenReceiptAnalyzeModal,
-    onClickCloseReceiptAnalyzeModal,
+    onClickCloseReceiptAnalyzeModal
   }
 }
