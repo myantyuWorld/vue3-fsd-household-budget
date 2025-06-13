@@ -4,6 +4,7 @@
   import MonthlyHeader from '@/features/shopping/ui/MonthlyHeader.vue'
   import ShoppingCategoryBudgetRemain from '@/entities/shopping/ui/ShoppingCategoryBudgetRemain.vue'
   import { GridCol3 } from '@/shared/ui/layouts'
+  import HouseHoldTile from '@/features/shopping/ui/HouseHoldTile.vue'
 
   const {
     operatingCurrentDate,
