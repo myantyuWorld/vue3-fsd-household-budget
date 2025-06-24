@@ -5,7 +5,6 @@
     ChatMessageList
   } from '@/features/chat'
   import { useInteraction } from '@/features/chat/hooks/useInteraction'
-
   const {
     messages,
     newMessage,
