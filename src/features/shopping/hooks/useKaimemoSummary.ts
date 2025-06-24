@@ -25,6 +25,7 @@ export const useKaimemoSummary = () => {
   const selectedCategoryNumber = ref<number>(0)
   const videoRef = ref<HTMLVideoElement | null>(null)
   const stream = ref<MediaStream | null>(null)
+  const sortByAmount = ref<boolean>(false)
 
   const {
     defineField: defineTagField,
@@ -138,14 +139,24 @@ export const useKaimemoSummary = () => {
   })
 
   const selectedShoppingAmounts = computed(() => {
-    if (selectedCategoryNumber.value === 0) {
-      return summarizeShoppingAmounts.value?.shoppingAmounts
+    let filteredAmounts = summarizeShoppingAmounts.value?.shoppingAmounts
+
+    if (selectedCategoryNumber.value !== 0) {
+      filteredAmounts = filteredAmounts?.filter(
+        shoppingAmount =>
+          shoppingAmount.category.id === selectedCategoryNumber.value
+      )
     }
 
-    return summarizeShoppingAmounts.value?.shoppingAmounts.filter(
-      shoppingAmount =>
-        shoppingAmount.category.id === selectedCategoryNumber.value
-    )
+    if (!filteredAmounts) {
+      return []
+    }
+
+    if (sortByAmount.value) {
+      return [...filteredAmounts].sort((a, b) => b.amount - a.amount)
+    }
+
+    return filteredAmounts
   })
 
   const onClickDeleteAmountRecord = async () => {
@@ -218,6 +229,10 @@ export const useKaimemoSummary = () => {
     stream.value?.getTracks().forEach(track => track.stop())
   }
 
+  const onClickToggleSortByAmount = () => {
+    sortByAmount.value = !sortByAmount.value
+  }
+
   const handleReceiptAnalyzeReception = handleTagSubmit(async values => {
     console.log('receipt analyze reception', values)
 
@@ -273,6 +288,7 @@ export const useKaimemoSummary = () => {
     selectedHouseholdBook,
     selectedShoppingAmounts,
     selectedCategoryNumber,
+    sortByAmount,
     defineTagField,
     tagErrors,
     onClickAddAmountModal,
@@ -285,6 +301,7 @@ export const useKaimemoSummary = () => {
     onClickCloseDeleteConfirmModal,
     onClickOpenDeleteConfirmModal,
     onClickCategoryAmount,
+    onClickToggleSortByAmount,
     handleReceiptAnalyzeReception,
     onClickOpenReceiptAnalyzeModal,
     onClickCloseReceiptAnalyzeModal
