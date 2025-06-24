@@ -8,6 +8,7 @@ import { ProfilePage } from '@/pages/profile'
 import { ExpenseCalendarPage } from '@/pages/expense-calender'
 import { AdminInformationPage } from '@/pages/admin/information'
 import { UserInformationPage } from '@/pages/user-information'
+import { ChatMessagePage } from '@/pages/chat'
 
 // デフォルトのメタ情報を定義
 const defaultMeta = {
@@ -119,6 +120,15 @@ const routes = [
     meta: {
       ...defaultMeta,
       title: 'お知らせ'
+    }
+  },
+  {
+    path: '/chat',
+    name: 'chat',
+    component: ChatMessagePage,
+    meta: {
+      ...defaultMeta,
+      title: 'チャット'
     }
   }
 ]

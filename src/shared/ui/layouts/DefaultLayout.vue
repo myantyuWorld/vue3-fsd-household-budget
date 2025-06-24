@@ -45,7 +45,9 @@
   const InformationIcon = defineAsyncComponent(
     () => import('@/shared/ui/icons/InformationIcon.vue')
   )
-
+  const ChatIcon = defineAsyncComponent(
+    () => import('@/shared/ui/icons/ChatIcon.vue')
+  )
   onMounted(async () => {
     try {
       await Promise.all([
@@ -136,6 +138,12 @@
             class="text-gray-600 hover:text-primary-dark"
           >
             <SummaryIcon />
+          </router-link>
+          <router-link
+            to="/chat"
+            class="text-gray-600 hover:text-primary-dark"
+          >
+            <ChatIcon />
           </router-link>
           <router-link
             to="/expense-calender"
