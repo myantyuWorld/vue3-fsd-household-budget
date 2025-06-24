@@ -4,7 +4,7 @@
     ChatMessageInput,
     ChatMessageList
   } from '@/features/chat'
-  import { useInteraction } from '@/features/chat/hooks/useinteraction'
+  import { useInteraction } from '@/features/chat/hooks/useInteraction'
 
   const {
     messages,

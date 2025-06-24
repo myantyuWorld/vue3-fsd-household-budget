@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import type { ChatMessagePresenter } from '../types/chat-message'
-  import { formatDateFromDate } from '@/shared/util/string'
+  import { formatDateFromDateTime } from '@/shared/util/string'
 
   defineProps<{
     message: ChatMessagePresenter
@@ -48,7 +48,7 @@
             AI回答
           </span>
           <p class="text-xs text-gray-400 dark:text-gray-500">
-            {{ formatDateFromDate(new Date(message.created_at)) }}
+            {{ formatDateFromDateTime(new Date(message.created_at)) }}
           </p>
         </div>
 
