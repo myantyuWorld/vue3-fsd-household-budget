@@ -32,6 +32,7 @@
     selectedHouseholdBook,
     selectedShoppingAmounts,
     selectedCategoryNumber,
+    sortByAmount,
     isOpenDeleteModal,
     isOpenReceiptAnalyzeModal,
     videoRef,
@@ -45,6 +46,7 @@
     onClickCloseDeleteConfirmModal,
     onClickOpenDeleteConfirmModal,
     onClickCategoryAmount,
+    onClickToggleSortByAmount,
     handleReceiptAnalyzeReception,
     onClickOpenReceiptAnalyzeModal,
     onClickCloseReceiptAnalyzeModal
@@ -88,6 +90,19 @@
           @clickCategoryLimit="onClickCategoryAmount"
         />
       </GridCol3>
+
+      <div class="flex justify-end mb-4">
+        <SecondaryButton
+          @click="onClickToggleSortByAmount"
+          class="px-4 py-2 rounded-lg border border-gray-300 hover:bg-gray-50 transition-colors duration-200"
+          :class="{
+            'bg-primary text-white border-primary hover:bg-primary-dark': sortByAmount,
+            'bg-white text-gray-700': !sortByAmount
+          }"
+        >
+          {{ sortByAmount ? '日付順' : '金額順' }}
+        </SecondaryButton>
+      </div>
 
       <div class="grid grid-cols-1 gap-3">
         <template
