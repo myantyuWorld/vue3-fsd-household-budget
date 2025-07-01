@@ -71,6 +71,7 @@
         <TheForm label="日付">
           <input
             type="date"
+            placeholder="支出日を選択してください"
             class="w-full p-4 border border-primary-light rounded-xl focus:border-primary focus:ring-2 focus:ring-primary-light bg-white/90 text-base"
             :class="{
               'border-red-500 bg-red-50/80': errors.date
@@ -92,6 +93,7 @@
             v-model="tag"
             v-bind="tagProps"
           >
+            <option value="" disabled>カテゴリを選択してください</option>
             <template
               v-for="categoryLimit in categories"
               :key="categoryLimit.category.id"
@@ -109,6 +111,7 @@
         <TheForm label="金額">
           <input
             type="number"
+            placeholder="金額を入力してください（例：1000）"
             class="w-full p-4 border border-primary-light rounded-xl focus:border-primary focus:ring-2 focus:ring-primary-light bg-white/90 text-base"
             :class="{
               'border-red-500 bg-red-50/80': errors.amount
@@ -123,6 +126,7 @@
 
         <TheForm label="メモ">
           <textarea
+            placeholder="メモを入力してください（任意）"
             class="w-full p-4 border border-primary-light rounded-xl focus:border-primary focus:ring-2 focus:ring-primary-light bg-white/90 min-h-[100px] text-base"
             :class="{
               'border-red-500 bg-red-50/80': errors.memo

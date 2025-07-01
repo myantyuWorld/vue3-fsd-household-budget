@@ -4,12 +4,11 @@
 
   const props = defineProps<{
     categoryAmount: components['schemas']['CategoryAmount']
-    limitAmount: number
     selectedCategoryNumber: number
   }>()
 
   const availableAmount = computed(() => {
-    return props.limitAmount - props.categoryAmount.amount
+    return props.categoryAmount.limitAmount - props.categoryAmount.amount
   })
 
   defineEmits<{
