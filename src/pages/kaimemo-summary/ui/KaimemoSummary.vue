@@ -85,7 +85,6 @@
           v-for="categoryAmount in summarizeShoppingAmounts?.categoryAmounts"
           :key="categoryAmount.category.id"
           :categoryAmount="categoryAmount"
-          :limitAmount="categoryAmount.limitAmount"
           :selectedCategoryNumber="selectedCategoryNumber"
           @clickCategoryLimit="onClickCategoryAmount"
         />

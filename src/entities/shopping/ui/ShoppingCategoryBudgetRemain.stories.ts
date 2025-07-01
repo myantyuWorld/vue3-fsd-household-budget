@@ -12,9 +12,9 @@ const meta: Meta<typeof Component> = {
         color: '#000000'
       },
       amount: 10000,
-      limitAmount: 10000
+      limitAmount: 30000
     },
-    limitAmount: 10000
+    selectedCategoryNumber: 0
   }
 }
 
