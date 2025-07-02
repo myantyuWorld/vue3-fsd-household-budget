@@ -2,6 +2,8 @@ name: dev-deploy-frontend
 
 on:
   push:
+    branches:
+      - main
     tags:
       - 'dev-*'
 
