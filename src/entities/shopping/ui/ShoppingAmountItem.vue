@@ -54,12 +54,21 @@
           <p class="font-medium text-gray-700 dark:text-gray-200">
             {{ shoppingRecord.category?.name || '' }}
           </p>
-          <p class="text-sm text-gray-600 dark:text-gray-300 truncate">
-            {{
-              (shoppingRecord.memo || '').length > 10
-                ? (shoppingRecord.memo || '').slice(0, 10) + '...'
-                : (shoppingRecord.memo || '')
-            }}
+          <p class="text-sm text-gray-600 dark:text-gray-300">
+            <span class="md:hidden">
+              {{
+                (shoppingRecord.memo || '').length > 20
+                  ? (shoppingRecord.memo || '').slice(0, 20) + '...'
+                  : (shoppingRecord.memo || '')
+              }}
+            </span>
+            <span class="hidden md:block">
+              {{
+                (shoppingRecord.memo || '').length > 40
+                  ? (shoppingRecord.memo || '').slice(0, 40) + '...'
+                  : (shoppingRecord.memo || '')
+              }}
+            </span>
           </p>
         </div>
       </div>
