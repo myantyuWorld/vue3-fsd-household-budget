@@ -1,5 +1,6 @@
 export { default as DeleteShoppingAmountModal } from './ui/DeleteShoppingAmountModal.vue'
 export { default as CreateShoppingAmountModal } from './ui/CreateShoppingAmountModal.vue'
+export { default as EditShoppingAmountModal } from './ui/EditShoppingAmountModal.vue'
 export { default as MonthlyHeader } from './ui/MonthlyHeader.vue'
 export { default as HouseHoldTile } from './ui/HouseHoldTile.vue'
 export { useKaimemoSummary } from './hooks/useKaimemoSummary'

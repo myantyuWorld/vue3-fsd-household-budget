@@ -11,9 +11,11 @@ export const useKaimemoSummary = () => {
   // TODO : provide, injectで共通的に処理したい
   const loading = ref<boolean>(true)
   const isOpenModal = ref<boolean>(false)
+  const isOpenEditModal = ref<boolean>(false)
   const isOpenDeleteModal = ref<boolean>(false)
   const isOpenReceiptAnalyzeModal = ref<boolean>(false)
   const deleteId = ref<number>(0)
+  const editRecord = ref<components['schemas']['ShoppingRecord'] | null>(null)
   const operatingCurrentDate = ref<Date>(new Date())
   const summarizeShoppingAmounts =
     ref<components['schemas']['SummarizeShoppingAmount']>()
@@ -88,6 +90,18 @@ export const useKaimemoSummary = () => {
 
   const onClickCloseAmountModal = () => {
     isOpenModal.value = false
+
+    fetchShoppingRecords()
+  }
+
+  const onClickEditAmountRecord = (record: components['schemas']['ShoppingRecord']) => {
+    editRecord.value = record
+    isOpenEditModal.value = true
+  }
+
+  const onClickCloseEditAmountModal = () => {
+    isOpenEditModal.value = false
+    editRecord.value = null
 
     fetchShoppingRecords()
   }
@@ -276,8 +290,10 @@ export const useKaimemoSummary = () => {
 
   return {
     isOpenModal,
+    isOpenEditModal,
     isOpenDeleteModal,
     isOpenReceiptAnalyzeModal,
+    editRecord,
     videoRef,
     loading,
     operatingCurrentDate,
@@ -293,6 +309,8 @@ export const useKaimemoSummary = () => {
     tagErrors,
     onClickAddAmountModal,
     onClickCloseAmountModal,
+    onClickEditAmountRecord,
+    onClickCloseEditAmountModal,
     onClickMonthlyPrev,
     onClickMonthlyNext,
     onClickWeeklyPrev,

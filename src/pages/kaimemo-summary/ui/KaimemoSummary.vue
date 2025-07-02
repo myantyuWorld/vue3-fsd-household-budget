@@ -17,6 +17,7 @@
   import {
     DeleteShoppingAmountModal,
     CreateShoppingAmountModal,
+    EditShoppingAmountModal,
     MonthlyHeader,
     HouseHoldTile,
     useKaimemoSummary
@@ -24,6 +25,7 @@
 
   const {
     isOpenModal,
+    isOpenEditModal,
     operatingCurrentDate,
     categories,
     summarizeShoppingAmounts,
@@ -35,11 +37,14 @@
     sortByAmount,
     isOpenDeleteModal,
     isOpenReceiptAnalyzeModal,
+    editRecord,
     videoRef,
     defineTagField,
     tagErrors,
     onClickAddAmountModal,
     onClickCloseAmountModal,
+    onClickEditAmountRecord,
+    onClickCloseEditAmountModal,
     onClickMonthlyPrev,
     onClickMonthlyNext,
     onClickDeleteAmountRecord,
@@ -111,6 +116,7 @@
           <ShoppingAmountItem
             :shoppingRecord="shoppingRecord"
             @click="onClickOpenDeleteConfirmModal(shoppingRecord.id)"
+            @edit="onClickEditAmountRecord"
           />
         </template>
       </div>
@@ -139,6 +145,14 @@
       :householdID="selectedHouseholdBook.id"
       :categories="categories"
       @close="onClickCloseAmountModal"
+    />
+
+    <EditShoppingAmountModal
+      :isOpen="isOpenEditModal"
+      :householdID="selectedHouseholdBook.id"
+      :categories="categories"
+      :shoppingRecord="editRecord"
+      @close="onClickCloseEditAmountModal"
     />
 
     <DeleteShoppingAmountModal
