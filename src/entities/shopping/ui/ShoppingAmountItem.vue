@@ -12,7 +12,7 @@
 
   const handleReceiptAnalyzeResult = {
     openModal: () => {
-      if (props.shoppingRecord.analyze_id === 0) {
+      if ((props.shoppingRecord.analyze_id || 0) === 0) {
         return
       }
       isOpenReceiptAnalyzeResultModal.value = true
@@ -24,6 +24,7 @@
 
   defineEmits<{
     click: [id: number]
+    edit: [record: components['schemas']['ShoppingRecord']]
   }>()
 </script>
 <template>
@@ -35,15 +36,15 @@
       @click="handleReceiptAnalyzeResult.openModal"
     >
       <div class="flex items-center flex-1 min-w-0">
-        <ShoppingCategoryIcon :categoryName="shoppingRecord.category.name" />
+        <ShoppingCategoryIcon :categoryName="shoppingRecord.category?.name || ''" />
         <div class="min-w-0">
           <div class="flex gap-2 flex-nowrap items-center min-w-0">
             <p class="text-sm text-gray-500 dark:text-gray-400 truncate">
-              {{ formatDateFromDate(new Date(shoppingRecord.date)) }}
+              {{ formatDateFromDate(new Date(shoppingRecord.date || '')) }}
             </p>
 
             <span
-              v-if="shoppingRecord.analyze_id !== 0"
+              v-if="(shoppingRecord.analyze_id || 0) !== 0"
               class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 whitespace-nowrap min-w-[48px] justify-center"
             >
               AI解析
@@ -51,31 +52,49 @@
           </div>
 
           <p class="font-medium text-gray-700 dark:text-gray-200">
-            {{ shoppingRecord.category.name }}
+            {{ shoppingRecord.category?.name || '' }}
           </p>
           <p class="text-sm text-gray-600 dark:text-gray-300 truncate">
             {{
-              shoppingRecord.memo.length > 10
-                ? shoppingRecord.memo.slice(0, 10) + '...'
-                : shoppingRecord.memo
+              (shoppingRecord.memo || '').length > 10
+                ? (shoppingRecord.memo || '').slice(0, 10) + '...'
+                : (shoppingRecord.memo || '')
             }}
           </p>
         </div>
       </div>
       <div class="text-right min-w-[80px] flex-shrink-0">
         <p class="text-xl font-bold text-indigo-600 dark:text-indigo-400">
-          ¥{{ shoppingRecord.amount.toLocaleString() }}
+          ¥{{ (shoppingRecord.amount || 0).toLocaleString() }}
         </p>
       </div>
-      <div class="ml-1 flex-shrink-0">
+      <div class="ml-1 flex-shrink-0 flex gap-1">
         <button
-          @click="$emit('click', shoppingRecord.id)"
-          class="text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-500 duration-300 bg-red-100 hover:bg-red-200 shadow-md hover:shadow-lg"
+          @click.stop="$emit('edit', shoppingRecord)"
+          class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-500 duration-300 bg-blue-100 hover:bg-blue-200 p-1 rounded shadow-md hover:shadow-lg"
+          title="編集"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+          >
+            <path
+              d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
+            />
+          </svg>
+        </button>
+        <button
+          @click.stop="$emit('click', shoppingRecord.id || 0)"
+          class="text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-500 duration-300 bg-red-100 hover:bg-red-200 p-1 rounded shadow-md hover:shadow-lg"
+          title="削除"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
             viewBox="0 0 24 24"
             fill="currentColor"
           >

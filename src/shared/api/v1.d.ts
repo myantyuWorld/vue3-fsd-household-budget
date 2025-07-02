@@ -150,9 +150,9 @@ export interface paths {
             requestBody: {
                 content: {
                     "application/json": {
-                        tempUserID: string;
-                        name: string;
-                        tag: string;
+                        tempUserID?: string;
+                        name?: string;
+                        tag?: string;
                     };
                 };
             };
@@ -201,7 +201,7 @@ export interface paths {
             requestBody: {
                 content: {
                     "application/json": {
-                        tempUserID: string;
+                        tempUserID?: string;
                     };
                 };
             };
@@ -263,13 +263,13 @@ export interface paths {
             requestBody: {
                 content: {
                     "application/json": {
-                        tempUserID: string;
+                        tempUserID?: string;
                         /** @example 食費 */
-                        tag: string;
+                        tag?: string;
                         /** @example 2020-01-01 */
-                        date: string;
+                        date?: string;
                         /** @example 1000 */
-                        amount: number;
+                        amount?: number;
                     };
                 };
             };
@@ -318,7 +318,7 @@ export interface paths {
             requestBody: {
                 content: {
                     "application/json": {
-                        tempUserID: string;
+                        tempUserID?: string;
                     };
                 };
             };
@@ -421,8 +421,8 @@ export interface paths {
             requestBody: {
                 content: {
                     "application/json": {
-                        title: string;
-                        description: string;
+                        title?: string;
+                        description?: string;
                     };
                 };
             };
@@ -470,8 +470,8 @@ export interface paths {
             requestBody: {
                 content: {
                     "application/json": {
-                        categoryName: string;
-                        categoryLimitAmount: number;
+                        categoryName?: string;
+                        categoryLimitAmount?: number;
                     };
                 };
             };
@@ -539,11 +539,11 @@ export interface paths {
             requestBody: {
                 content: {
                     "application/json": {
-                        householdID: number;
-                        categoryID: number;
-                        amount: number;
-                        date: string;
-                        memo: string;
+                        householdID?: number;
+                        categoryID?: number;
+                        amount?: number;
+                        date?: string;
+                        memo?: string;
                     };
                 };
             };
@@ -574,7 +574,44 @@ export interface paths {
             cookie?: never;
         };
         get?: never;
-        put?: never;
+        /**
+         * 買い物記録更新
+         * @description 買い物記録を更新する
+         */
+        put: {
+            parameters: {
+                query?: never;
+                header?: never;
+                path: {
+                    householdID: number;
+                    shoppingID: number;
+                };
+                cookie?: never;
+            };
+            requestBody: {
+                content: {
+                    "application/json": {
+                        categoryID: number;
+                        amount: number;
+                        /** Format: date */
+                        date: string;
+                        memo?: string;
+                    };
+                };
+            };
+            responses: {
+                /** @description OK */
+                200: {
+                    headers: {
+                        [name: string]: unknown;
+                    };
+                    content?: never;
+                };
+                401: components["responses"]["UnauthorizedError"];
+                404: components["responses"]["NotFoundError"];
+                default: components["responses"]["GeneralError"];
+            };
+        };
         post?: never;
         /**
          * 買い物記録削除
@@ -677,8 +714,8 @@ export interface paths {
             requestBody: {
                 content: {
                     "application/json": {
-                        imageData: string;
-                        categoryID: number;
+                        imageData?: string;
+                        categoryID?: number;
                     };
                 };
             };
@@ -779,7 +816,7 @@ export interface paths {
             requestBody: {
                 content: {
                     "application/json": {
-                        informationIDs: number[];
+                        informationIDs?: number[];
                     };
                 };
             };
@@ -841,10 +878,10 @@ export interface paths {
             requestBody: {
                 content: {
                     "application/json": {
-                        title: string;
-                        content: string;
+                        title?: string;
+                        content?: string;
                         /** @enum {string} */
-                        category: "bug_report" | "feature_request" | "other";
+                        category?: "bug_report" | "feature_request" | "other";
                     };
                 };
             };
@@ -890,10 +927,10 @@ export interface paths {
             requestBody: {
                 content: {
                     "application/json": {
-                        title: string;
-                        content: string;
+                        title?: string;
+                        content?: string;
                         /** @enum {string} */
-                        category: "bug_report" | "feature_request" | "other";
+                        category?: "bug_report" | "feature_request" | "other";
                     };
                 };
             };
@@ -1028,7 +1065,7 @@ export interface paths {
             requestBody: {
                 content: {
                     "application/json": {
-                        message: string;
+                        message?: string;
                     };
                 };
             };
@@ -1054,133 +1091,133 @@ export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
         UserAccount: {
-            id: number;
-            name: string;
-            pictureURL: string;
+            id?: number;
+            name?: string;
+            pictureURL?: string;
         };
         FetchMe: {
-            id: number;
-            userID: string;
-            name: string;
-            pictureURL: string;
-            householdBooks: components["schemas"]["HouseholdBook"][];
+            id?: number;
+            userID?: string;
+            name?: string;
+            pictureURL?: string;
+            householdBooks?: components["schemas"]["HouseholdBook"][];
         };
         KaimemoSummary: {
-            monthlySummaries: components["schemas"]["MonthlySummary"][];
-            weeklySummaries: components["schemas"]["WeeklySummary"][];
+            monthlySummaries?: components["schemas"]["MonthlySummary"][];
+            weeklySummaries?: components["schemas"]["WeeklySummary"][];
         };
         TagSummary: {
             [key: string]: number;
         };
         MonthlySummary: {
-            month: string;
+            month?: string;
             /** @example 10000 */
-            totalAmount: number;
-            tagSummary: components["schemas"]["TagSummary"];
+            totalAmount?: number;
+            tagSummary?: components["schemas"]["TagSummary"];
         };
         WeeklySummary: {
-            weekStart: string;
-            weekEnd: string;
-            totalAmount: number;
-            items: components["schemas"]["KaimemoAmount"][];
+            weekStart?: string;
+            weekEnd?: string;
+            totalAmount?: number;
+            items?: components["schemas"]["KaimemoAmount"][];
         };
         KaimemoAmount: {
-            id: string;
+            id?: string;
             /** @example 2020-01-01 */
-            date: string;
+            date?: string;
             /** @example 食費 */
-            tag: string;
+            tag?: string;
             /** @example 1000 */
-            amount: number;
+            amount?: number;
         };
         Kaimemo: {
-            id: string;
-            name: string;
-            tag: string;
-            done: boolean;
+            id?: string;
+            name?: string;
+            tag?: string;
+            done?: boolean;
         };
         HouseholdBook: {
-            id: number;
-            userID: number;
-            title: string;
-            description: string;
-            categoryLimit: components["schemas"]["CategoryLimit"][];
-            users: components["schemas"]["UserAccount"][];
+            id?: number;
+            userID?: number;
+            title?: string;
+            description?: string;
+            categoryLimit?: components["schemas"]["CategoryLimit"][];
+            users?: components["schemas"]["UserAccount"][];
         };
         CategoryLimit: {
-            id: number;
-            categoryID: number;
-            limitAmount: number;
-            category: components["schemas"]["Category"];
+            id?: number;
+            categoryID?: number;
+            limitAmount?: number;
+            category?: components["schemas"]["Category"];
         };
         Category: {
-            id: number;
-            name: string;
-            color: string;
+            id?: number;
+            name?: string;
+            color?: string;
         };
         ShoppingMemo: {
-            id: number;
-            householdID: number;
-            categoryID: number;
-            title: string;
-            memo: string;
-            isCompleted: boolean;
-            category: components["schemas"]["Category"];
+            id?: number;
+            householdID?: number;
+            categoryID?: number;
+            title?: string;
+            memo?: string;
+            isCompleted?: boolean;
+            category?: components["schemas"]["Category"];
         };
         ShoppingRecord: {
-            id: number;
-            amount: number;
-            date: string;
-            memo: string;
-            category: components["schemas"]["Category"];
-            analyze_id: number;
-            receipt_analyze_results: components["schemas"]["ReceiptAnalyzeResult"];
+            id?: number;
+            amount?: number;
+            date?: string;
+            memo?: string;
+            category?: components["schemas"]["Category"];
+            analyze_id?: number;
+            receipt_analyze_results?: components["schemas"]["ReceiptAnalyzeResult"];
         };
         CategoryAmount: {
-            category: components["schemas"]["Category"];
-            amount: number;
-            limitAmount: number;
+            category?: components["schemas"]["Category"];
+            amount?: number;
+            limitAmount?: number;
         };
         SummarizeShoppingAmount: {
-            shoppingAmounts: components["schemas"]["ShoppingRecord"][];
-            totalAmount: number;
-            categoryAmounts: components["schemas"]["CategoryAmount"][];
+            shoppingAmounts?: components["schemas"]["ShoppingRecord"][];
+            totalAmount?: number;
+            categoryAmounts?: components["schemas"]["CategoryAmount"][];
         };
         ReceiptAnalyzeResultItem: {
-            id: number;
-            name: string;
-            amount: number;
+            id?: number;
+            name?: string;
+            amount?: number;
         };
         ReceiptAnalyzeResult: {
-            id: number;
-            totalAmount: number;
-            receiptImageURL: string;
-            items: components["schemas"]["ReceiptAnalyzeResultItem"][];
+            id?: number;
+            totalAmount?: number;
+            receiptImageURL?: string;
+            items?: components["schemas"]["ReceiptAnalyzeResultItem"][];
         };
         Information: {
-            id: number;
-            title: string;
-            content: string;
-            isPublished: boolean;
+            id?: number;
+            title?: string;
+            content?: string;
+            isPublished?: boolean;
             /** @enum {string} */
-            category: "bug_report" | "feature_request" | "other";
+            category?: "bug_report" | "feature_request" | "other";
         };
         UserInformation: {
-            id: number;
-            title: string;
-            content: string;
-            isRead: boolean;
+            id?: number;
+            title?: string;
+            content?: string;
+            isRead?: boolean;
             /** @enum {string} */
-            category: "bug_report" | "feature_request" | "other";
+            category?: "bug_report" | "feature_request" | "other";
         };
         ChatMessage: {
-            id: number;
-            userID: number;
-            userName: string;
-            content: string;
+            id?: number;
+            userID?: number;
+            userName?: string;
+            content?: string;
             /** @enum {string} */
-            messageType: "user" | "ai";
-            createdAt: string;
+            messageType?: "user" | "ai";
+            createdAt?: string;
         };
     };
     responses: {
