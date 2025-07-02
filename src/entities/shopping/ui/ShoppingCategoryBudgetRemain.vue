@@ -8,7 +8,7 @@
   }>()
 
   const availableAmount = computed(() => {
-    return props.categoryAmount.limitAmount - props.categoryAmount.amount
+    return (props.categoryAmount.limitAmount || 0) - (props.categoryAmount.amount || 0)
   })
 
   defineEmits<{
@@ -16,7 +16,7 @@
   }>()
 
   const isSelected = computed(() => {
-    return props.selectedCategoryNumber === props.categoryAmount.category.id
+    return props.selectedCategoryNumber === (props.categoryAmount.category?.id || 0)
   })
 </script>
 
@@ -30,14 +30,14 @@
   >
     <div
       class="text-center space-y-2"
-      @click="$emit('clickCategoryLimit', categoryAmount.category.id)"
+      @click="$emit('clickCategoryLimit', categoryAmount.category?.id || 0)"
     >
       <p class="text-lg text-gray-500 dark:text-gray-400">
-        {{ categoryAmount.category.name }}
+        {{ categoryAmount.category?.name || '' }}
       </p>
       <div class="space-y-1">
         <p class="text-2xl font-bold text-indigo-600 dark:text-indigo-400">
-          ¥{{ categoryAmount.amount.toLocaleString() }}
+          ¥{{ (categoryAmount.amount || 0).toLocaleString() }}
         </p>
         <p
           :class="[

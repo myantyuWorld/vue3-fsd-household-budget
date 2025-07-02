@@ -37,9 +37,9 @@
     (newRecord) => {
       if (newRecord && props.isOpen) {
         setValues({
-          amount: newRecord.amount,
-          tag: newRecord.category.id,
-          date: newRecord.date,
+          amount: newRecord.amount || 0,
+          tag: newRecord.category?.id || 0,
+          date: newRecord.date || '',
           memo: newRecord.memo || ''
         })
       }
@@ -62,7 +62,7 @@
       params: {
         path: {
           householdID: props.householdID,
-          shoppingID: props.shoppingRecord.id
+          shoppingID: props.shoppingRecord.id || 0
         }
       }
     })
@@ -116,10 +116,10 @@
             <option value="" disabled>カテゴリを選択してください</option>
             <template
               v-for="categoryLimit in categories"
-              :key="categoryLimit.category.id"
+              :key="categoryLimit.category?.id || 0"
             >
-              <option :value="categoryLimit.category.id">
-                {{ categoryLimit.category.name }}
+              <option :value="categoryLimit.category?.id || 0">
+                {{ categoryLimit.category?.name || '' }}
               </option>
             </template>
           </select>

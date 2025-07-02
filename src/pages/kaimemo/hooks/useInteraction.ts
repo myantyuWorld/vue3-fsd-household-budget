@@ -14,7 +14,7 @@ export const WebSocketMethodMap = {
 export const useInteraction = (router?: Router) => {
   const sessionStore = useSessionStore()
   const selectedHouseholdBook = ref<components['schemas']['HouseholdBook']>(
-    sessionStore.user.householdBooks[0]
+    sessionStore.user.householdBooks?.[0] || {} as components['schemas']['HouseholdBook']
   )
   const items = ref<components['schemas']['ShoppingMemo'][]>()
   const isOpenModal = ref(false)
@@ -28,12 +28,12 @@ export const useInteraction = (router?: Router) => {
   const loading = ref<boolean>(true)
 
   const selectedCategoryLimit = computed(() => {
-    return selectedHouseholdBook.value.categoryLimit
+    return selectedHouseholdBook.value.categoryLimit || []
   })
 
   watch(selectedHouseholdBook, () => {
     ws = new WebSocket(
-      `${import.meta.env.VITE_WEBSOCKET_URL_KAIMEMO}?tempUserID=${selectedHouseholdBook.value.id}`
+      `${import.meta.env.VITE_WEBSOCKET_URL_KAIMEMO}?tempUserID=${selectedHouseholdBook.value.id || 0}`
     )
 
     ws.onmessage = event => {
@@ -52,7 +52,7 @@ export const useInteraction = (router?: Router) => {
   onMounted(async () => {
     localStorage.setItem('tempUserID', tempUserID)
     ws = new WebSocket(
-      `${import.meta.env.VITE_WEBSOCKET_URL_KAIMEMO}?tempUserID=${selectedHouseholdBook.value.id}`
+      `${import.meta.env.VITE_WEBSOCKET_URL_KAIMEMO}?tempUserID=${selectedHouseholdBook.value.id || 0}`
     )
 
     ws.onmessage = event => {
@@ -79,7 +79,7 @@ export const useInteraction = (router?: Router) => {
     ws.send(
       JSON.stringify({
         methodType: WebSocketMethodMap.CreateKaimemo,
-        householdBookID: selectedHouseholdBook.value.id,
+        householdBookID: selectedHouseholdBook.value.id || 0,
         ...values
       })
     )
@@ -118,17 +118,17 @@ export const useInteraction = (router?: Router) => {
       return items.value
     }
     return items.value?.filter(
-      item => selectedFilters.value === item.categoryID
+      item => selectedFilters.value === (item.categoryID || 0)
     )
   })
 
   const householdBooks = computed(() => {
-    return sessionStore.user.householdBooks
+    return sessionStore.user.householdBooks || []
   })
 
   const categories = computed(() => {
     // TODO : ユーザーが選択したhouseholdBookのcategoryLimitを取得
-    return householdBooks.value[0].categoryLimit
+    return householdBooks.value?.[0]?.categoryLimit || []
   })
 
   return {

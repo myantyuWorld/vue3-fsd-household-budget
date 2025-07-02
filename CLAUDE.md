@@ -28,6 +28,10 @@ AI運用5原則
 - 複数のissueを対応する場合は、そのissueごとに対応してコミットすること
 - テストが全てクリアした場合、Githubに対して、Pull Requestを作成お願いします。
 
+## pull request作成時のルール
+- localにてnpm run buildでエラーが全て解消されていること
+- ローカルでのテストが全てクリアされていること
+
 <project_memories>
 - FSDに従っているプロジェクトであり、今後の実装やテストの際に参考にする必要がある
     - https://feature-sliced.github.io/documentation/ja/docs/get-started/overview

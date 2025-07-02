@@ -13,7 +13,7 @@
   }>()
 
   const receiptURL = computed(() => {
-    return `${import.meta.env.VITE_S3_BUCKET_URL}/${props.shoppingRecord.receipt_analyze_results.receiptImageURL}`
+    return `${import.meta.env.VITE_S3_BUCKET_URL}/${props.shoppingRecord.receipt_analyze_results?.receiptImageURL || ''}`
   })
 </script>
 
@@ -36,8 +36,8 @@
           class="max-h-[40vh] overflow-y-auto scrollbar-thin scrollbar-thumb-primary scrollbar-track-primary-bg"
         >
           <div
-            v-for="item in shoppingRecord.receipt_analyze_results.items"
-            :key="item.id"
+            v-for="item in (shoppingRecord.receipt_analyze_results?.items || [])"
+            :key="item.id || 0"
           >
             <div
               class="flex items-center justify-between p-2 bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 mb-2"
@@ -58,11 +58,11 @@
                   </svg>
                 </div>
                 <p class="font-medium text-gray-800">
-                  {{ item.name }}
+                  {{ item.name || '' }}
                 </p>
               </div>
               <p class="text-lg font-bold text-primary">
-                {{ item.amount.toLocaleString() }}円
+                {{ (item.amount || 0).toLocaleString() }}円
               </p>
             </div>
           </div>

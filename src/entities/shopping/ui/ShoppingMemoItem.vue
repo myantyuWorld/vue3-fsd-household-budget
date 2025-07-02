@@ -18,22 +18,22 @@
     <div class="flex items-center gap-4">
       <div class="bg-primary-bg rounded-full">
         <ShoppingCategoryIcon
-          :categoryName="shoppingMemo.category.name"
+          :categoryName="shoppingMemo.category?.name || ''"
           class="text-primary"
         />
       </div>
       <div>
         <p class="font-medium text-gray-800">
-          {{ shoppingMemo.title }}
+          {{ shoppingMemo.title || '' }}
         </p>
         <p class="text-sm text-gray-600">
-          {{ shoppingMemo.memo }}
+          {{ shoppingMemo.memo || '' }}
         </p>
       </div>
     </div>
     <div>
       <button
-        @click="$emit('click', shoppingMemo.id)"
+        @click="$emit('click', shoppingMemo.id || 0)"
         class="text-primary hover:text-primary-dark p-2 rounded-full hover:bg-primary-bg transition-all duration-300"
       >
         <svg

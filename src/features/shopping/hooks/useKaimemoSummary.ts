@@ -22,7 +22,7 @@ export const useKaimemoSummary = () => {
   const store = useAmountSummaryStore()
   const sessionStore = useSessionStore()
   const selectedHouseholdBook = ref<components['schemas']['HouseholdBook']>(
-    sessionStore.user.householdBooks[0]
+    sessionStore.user.householdBooks?.[0] || {} as components['schemas']['HouseholdBook']
   )
   const selectedCategoryNumber = ref<number>(0)
   const videoRef = ref<HTMLVideoElement | null>(null)
@@ -38,12 +38,12 @@ export const useKaimemoSummary = () => {
   })
 
   const householdBooks = computed(() => {
-    return sessionStore.user.householdBooks
+    return sessionStore.user.householdBooks || []
   })
 
   const categories = computed(() => {
     // TODO : ユーザーが選択したhouseholdBookのcategoryLimitを取得
-    return selectedHouseholdBook.value.categoryLimit
+    return selectedHouseholdBook.value.categoryLimit || []
   })
 
   onMounted(async () => {
@@ -61,7 +61,7 @@ export const useKaimemoSummary = () => {
         params: {
           // TODO : ユーザーが選択したhouseholdBookのidを取得
           path: {
-            householdID: selectedHouseholdBook.value.id
+            householdID: selectedHouseholdBook.value.id || 0
           },
           query: {
             date: operatingCurrentDate.value.toISOString().split('T')[0]
@@ -147,7 +147,7 @@ export const useKaimemoSummary = () => {
       return 0
     }
     return categories.value.reduce(
-      (acc, category) => acc + category.limitAmount,
+      (acc, category) => acc + (category.limitAmount || 0),
       0
     )
   })
@@ -158,7 +158,7 @@ export const useKaimemoSummary = () => {
     if (selectedCategoryNumber.value !== 0) {
       filteredAmounts = filteredAmounts?.filter(
         shoppingAmount =>
-          shoppingAmount.category.id === selectedCategoryNumber.value
+          shoppingAmount.category?.id === selectedCategoryNumber.value
       )
     }
 
@@ -167,7 +167,7 @@ export const useKaimemoSummary = () => {
     }
 
     if (sortByAmount.value) {
-      return [...filteredAmounts].sort((a, b) => b.amount - a.amount)
+      return [...filteredAmounts].sort((a, b) => (b.amount || 0) - (a.amount || 0))
     }
 
     return filteredAmounts
@@ -179,7 +179,7 @@ export const useKaimemoSummary = () => {
       {
         params: {
           path: {
-            householdID: selectedHouseholdBook.value.id,
+            householdID: selectedHouseholdBook.value.id || 0,
             shoppingID: deleteId.value
           }
         }
@@ -270,7 +270,7 @@ export const useKaimemoSummary = () => {
         },
         params: {
           path: {
-            householdID: selectedHouseholdBook.value.id
+            householdID: selectedHouseholdBook.value.id || 0
           }
         }
       }

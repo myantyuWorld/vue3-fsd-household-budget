@@ -5,11 +5,11 @@ export const convertToChatMessagePresenter = (
   message: components['schemas']['ChatMessage']
 ) => {
   return {
-    id: message.id,
-    user_id: message.userID,
-    user_name: message.userName,
-    content: message.content,
-    message_type: message.messageType,
-    created_at: formatDateFromDateTime(new Date(message.createdAt))
+    id: message.id || 0,
+    user_id: message.userID || 0,
+    user_name: message.userName || '',
+    content: message.content || '',
+    message_type: message.messageType || 'user',
+    created_at: formatDateFromDateTime(new Date(message.createdAt || ''))
   }
 }
