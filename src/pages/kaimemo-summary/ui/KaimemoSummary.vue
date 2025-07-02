@@ -88,7 +88,7 @@
       <GridCol3>
         <ShoppingCategoryBudgetRemain
           v-for="categoryAmount in summarizeShoppingAmounts?.categoryAmounts"
-          :key="categoryAmount.category.id"
+          :key="categoryAmount.category?.id || 0"
           :categoryAmount="categoryAmount"
           :selectedCategoryNumber="selectedCategoryNumber"
           @clickCategoryLimit="onClickCategoryAmount"
@@ -115,7 +115,7 @@
         >
           <ShoppingAmountItem
             :shoppingRecord="shoppingRecord"
-            @click="onClickOpenDeleteConfirmModal(shoppingRecord.id)"
+            @click="onClickOpenDeleteConfirmModal(shoppingRecord.id || 0)"
             @edit="onClickEditAmountRecord"
           />
         </template>
@@ -142,14 +142,14 @@
 
     <CreateShoppingAmountModal
       :isOpen="isOpenModal"
-      :householdID="selectedHouseholdBook.id"
+      :householdID="selectedHouseholdBook.id || 0"
       :categories="categories"
       @close="onClickCloseAmountModal"
     />
 
     <EditShoppingAmountModal
       :isOpen="isOpenEditModal"
-      :householdID="selectedHouseholdBook.id"
+      :householdID="selectedHouseholdBook.id || 0"
       :categories="categories"
       :shoppingRecord="editRecord"
       @close="onClickCloseEditAmountModal"
@@ -187,10 +187,10 @@
           >
             <template
               v-for="categoryLimit in categories"
-              :key="categoryLimit.category.id"
+              :key="categoryLimit.category?.id || 0"
             >
-              <option :value="categoryLimit.category.id">
-                {{ categoryLimit.category.name }}
+              <option :value="categoryLimit.category?.id || 0">
+                {{ categoryLimit.category?.name || '' }}
               </option>
             </template>
           </select>

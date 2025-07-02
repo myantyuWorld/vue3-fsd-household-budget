@@ -30,7 +30,7 @@
         :isFixed="false"
       />
       <PrimaryButton
-        @click="emit('share', householdBook.id)"
+        @click="emit('share', householdBook.id || 0)"
         class="bg-green-600 hover:bg-green-700 transform hover:scale-105 transition-transform duration-300"
       >
         <ShareIcon class="w-6 h-6" />

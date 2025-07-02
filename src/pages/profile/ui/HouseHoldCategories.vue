@@ -54,11 +54,11 @@
         </button>
       </div>
       <template v-if="isShow">
-        <CategoryLimits :categoryLimits="householdBook.categoryLimit" />
+        <CategoryLimits :categoryLimits="householdBook.categoryLimit || []" />
       </template>
       <div class="flex justify-end mt-6">
         <PlusButton
-          @click="$emit('click', householdBook.id)"
+          @click="$emit('click', householdBook.id || 0)"
           :isFixed="false"
         />
       </div>

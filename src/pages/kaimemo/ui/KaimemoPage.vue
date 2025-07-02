@@ -94,10 +94,10 @@
           >
             <template
               v-for="categoryLimit in selectedCategoryLimit"
-              :key="categoryLimit.category.id"
+              :key="categoryLimit.category?.id || 0"
             >
-              <option :value="categoryLimit.category.id">
-                {{ categoryLimit.category.name }}
+              <option :value="categoryLimit.category?.id || 0">
+                {{ categoryLimit.category?.name || '' }}
               </option>
             </template>
           </select>

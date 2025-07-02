@@ -45,7 +45,7 @@
         <SummaryRecordHeader
           :startDate="weekStart"
           :endDate="weekEnd"
-          :weeklyAmount="weeklySummary.totalAmount"
+          :weeklyAmount="weeklySummary.totalAmount || 0"
         />
       </div>
       <button
@@ -66,13 +66,13 @@
         >
           <template
             v-for="item in weeklySummary.items"
-            :key="item.id"
+            :key="item.id || ''"
           >
             <SummaryRecordItem
-              :id="item.id"
-              :tag="item.tag"
-              :amount="item.amount"
-              :date="item.date"
+              :id="item.id || ''"
+              :tag="item.tag || ''"
+              :amount="item.amount || 0"
+              :date="item.date || ''"
               @click="$emit('onClickDeleteAmountRecord', $event)"
             />
           </template>

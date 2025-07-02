@@ -18,7 +18,7 @@
       <div class="flex items-center gap-3">
         <div class="space-y-1">
           <div class="flex items-center gap-2">
-            <InformationCategoryBadge :category="information.category" />
+            <InformationCategoryBadge :category="information.category || 'other'" />
             <div class="text-lg font-semibold text-gray-800">
               {{ information.title }}
             </div>
@@ -40,10 +40,10 @@
               'line-clamp-2': !isExpanded
             }"
           >
-            {{ information.content }}
+            {{ information.content || '' }}
           </div>
           <a
-            v-if="information.content.length > 20"
+            v-if="(information.content || '').length > 20"
             class="text-green-500 hover:text-green-700 text-sm mt-1 cursor-pointer block text-right"
             @click="isExpanded = !isExpanded"
           >

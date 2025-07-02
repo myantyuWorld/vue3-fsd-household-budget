@@ -42,7 +42,7 @@ export const useInteraction = () => {
         params: {
           path: {
             householdID: householdBookID.value,
-            inviteUserID: sessionStore.user.id
+            inviteUserID: sessionStore.user.id || 0
           }
         }
       }

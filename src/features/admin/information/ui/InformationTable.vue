@@ -36,7 +36,7 @@
       >
         <BaseTableCell>{{ item.id }}</BaseTableCell>
         <BaseTableCell>
-          <InformationCategoryBadge :category="item.category" />
+          <InformationCategoryBadge :category="item.category || 'other'" />
         </BaseTableCell>
         <BaseTableCell>{{ item.title }}</BaseTableCell>
         <BaseTableCell class="!whitespace-normal">
@@ -44,10 +44,10 @@
             <div
               :class="['break-words w-96', isExpanded ? '' : 'line-clamp-3']"
             >
-              {{ item.content }}
+              {{ item.content || '' }}
             </div>
             <button
-              v-if="item.content.length > 300"
+              v-if="(item.content || '').length > 300"
               class="text-indigo-600 hover:text-indigo-900 text-sm mt-1"
               @click="isExpanded = !isExpanded"
             >
@@ -64,13 +64,13 @@
           </button>
           <button
             class="text-red-600 hover:text-red-900 mr-2"
-            @click="$emit('openDeleteConfirmModal', item.id)"
+            @click="$emit('openDeleteConfirmModal', item.id || 0)"
           >
             削除
           </button>
           <button
             class="text-red-600 hover:text-red-900 mr-2"
-            @click="$emit('openUpdatePublishInformationModal', item.id)"
+            @click="$emit('openUpdatePublishInformationModal', item.id || 0)"
           >
             公開
           </button>

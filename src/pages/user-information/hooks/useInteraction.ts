@@ -17,7 +17,7 @@ export const useInteraction = () => {
         informationIDs:
           informations.value
             ?.filter(information => !information.isRead)
-            .map(information => information.id) ?? []
+            .map(information => information.id || 0) ?? []
       }
     })
 

@@ -96,10 +96,10 @@
             <option value="" disabled>カテゴリを選択してください</option>
             <template
               v-for="categoryLimit in categories"
-              :key="categoryLimit.category.id"
+              :key="categoryLimit.category?.id || 0"
             >
-              <option :value="categoryLimit.category.id">
-                {{ categoryLimit.category.name }}
+              <option :value="categoryLimit.category?.id || 0">
+                {{ categoryLimit.category?.name || '' }}
               </option>
             </template>
           </select>

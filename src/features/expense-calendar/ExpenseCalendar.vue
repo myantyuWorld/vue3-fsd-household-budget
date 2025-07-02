@@ -27,14 +27,14 @@
         selectedDate: new Date().toISOString().split('T')[0],
         views: [createViewMonthGrid(), createViewMonthAgenda()],
         events: newAmounts.map(shoppingAmount => ({
-          id: shoppingAmount.id,
+          id: shoppingAmount.id || 0,
           title:
-            shoppingAmount.category.name +
+            (shoppingAmount.category?.name || '') +
             ' ' +
-            shoppingAmount.amount.toLocaleString(),
+            (shoppingAmount.amount || 0).toLocaleString(),
           description: shoppingAmount.memo ?? '',
-          start: shoppingAmount.date,
-          end: shoppingAmount.date
+          start: shoppingAmount.date || '',
+          end: shoppingAmount.date || ''
         }))
       })
     },

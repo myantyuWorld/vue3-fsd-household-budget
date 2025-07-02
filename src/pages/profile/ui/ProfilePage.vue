@@ -74,13 +74,13 @@
         >
           <HouseHoldHeaderTile
             :householdBook="householdBook"
-            @share="handleShareHouseHoldLink(householdBook.id)"
+            @share="handleShareHouseHoldLink(householdBook.id || 0)"
             @add="onClickOpenAddHouseholdModal"
             v-model:title="householdBook.title"
           />
           <HouseHoldCategories
             :householdBook="householdBook"
-            @click="onClickOpenAddCategoryModal(householdBook.id)"
+            @click="onClickOpenAddCategoryModal(householdBook.id || 0)"
           />
         </li>
       </ul>

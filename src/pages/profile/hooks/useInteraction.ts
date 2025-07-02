@@ -81,7 +81,7 @@ export const useInteraction = () => {
     const err = await POST('/household/user/{id}', {
       params: {
         path: {
-          id: user.value.id
+          id: user.value.id || 0
         }
       },
       body: {

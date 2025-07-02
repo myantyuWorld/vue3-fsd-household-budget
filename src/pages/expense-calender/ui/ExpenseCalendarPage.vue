@@ -42,7 +42,7 @@
       <GridCol3>
         <ShoppingCategoryBudgetRemain
           v-for="categoryAmount in summarizeShoppingAmounts?.categoryAmounts"
-          :key="categoryAmount.category.id"
+          :key="categoryAmount.category?.id || 0"
           :categoryAmount="categoryAmount"
           :limitAmount="categoryAmount.limitAmount"
           :selectedCategoryNumber="selectedCategoryNumber"

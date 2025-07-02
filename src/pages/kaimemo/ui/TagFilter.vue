@@ -23,16 +23,16 @@
         class="flex-1 min-w-[100px] border-2 border-gray-200 dark:border-gray-700 rounded-lg"
       >
         <button
-          @click="clickFilter(item.category.id)"
+          @click="clickFilter(item.category?.id || 0)"
           class="w-full flex items-center justify-center gap-2 p-2 rounded-lg transition-all duration-200"
           :class="[
-            selectedFilters === item.category.id
+            selectedFilters === (item.category?.id || 0)
               ? 'bg-primary-bg dark:bg-primary-dark/30 ring-2 ring-primary-light dark:ring-primary-light text-white dark:text-primary-light font-bold'
               : 'hover:bg-primary-bg dark:hover:bg-primary-dark/30 text-white dark:text-primary-light'
           ]"
         >
           <span class="text-sm">
-            {{ item.category.name }}
+            {{ item.category?.name || '' }}
           </span>
         </button>
       </li>

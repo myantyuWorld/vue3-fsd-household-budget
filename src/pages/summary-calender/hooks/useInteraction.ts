@@ -14,8 +14,8 @@ export const useInteraction = ({ id }: Props) => {
     console.log(id)
 
     const store = useAmountSummaryStore()
-    const calenderItems = store.summaries.weeklySummaries
-      .flatMap(summary => summary.items)
+    const calenderItems = (store.summaries.weeklySummaries || [])
+      .flatMap(summary => summary.items || [])
       .map(item => createCalenderItem(item))
       .filter(item => Object.keys(item).length > 0)
 
