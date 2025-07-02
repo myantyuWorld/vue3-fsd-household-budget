@@ -80,6 +80,7 @@ export const useKaimemoSummary = () => {
     }
   }
 
+
   watch(operatingCurrentDate, () => {
     fetchShoppingRecords()
   })
@@ -171,6 +172,10 @@ export const useKaimemoSummary = () => {
     }
 
     return filteredAmounts
+  })
+
+  const currentWeekSummary = computed(() => {
+    return store.getCurrentWeekSummary(operatingCurrentDate.value)
   })
 
   const onClickDeleteAmountRecord = async () => {
@@ -305,6 +310,7 @@ export const useKaimemoSummary = () => {
     selectedShoppingAmounts,
     selectedCategoryNumber,
     sortByAmount,
+    currentWeekSummary,
     defineTagField,
     tagErrors,
     onClickAddAmountModal,
