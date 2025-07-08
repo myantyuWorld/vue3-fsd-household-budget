@@ -32,13 +32,15 @@ vi.mock('vee-validate', () => ({
 
 vi.mock('@/features/kaimemo', () => ({
   useAmountSummaryStore: vi.fn(() => ({
-    mutationShoppingRecords: vi.fn()
+    mutationShoppingRecords: vi.fn(),
+    getCurrentWeekSummary: vi.fn(() => null)
   }))
 }))
 
 vi.mock('@/entities/session/model/session-store', () => ({
   useSessionStore: vi.fn(() => ({
     user: {
+      userID: 'test-user-id',
       householdBooks: [
         {
           id: 1,
@@ -197,4 +199,5 @@ describe('useKaimemoSummary', () => {
       expect(selectedShoppingAmounts.value).toEqual(expected)
     })
   })
+
 })

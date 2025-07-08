@@ -11,7 +11,8 @@
   import { GridCol3 } from '@/shared/ui/layouts'
   import {
     ShoppingAmountItem,
-    ShoppingCategoryBudgetRemain
+    ShoppingCategoryBudgetRemain,
+    WeeklySummaryCard
   } from '@/entities/shopping'
   import { ref } from 'vue'
   import {
@@ -39,6 +40,7 @@
     isOpenReceiptAnalyzeModal,
     editRecord,
     videoRef,
+    currentWeekSummary,
     defineTagField,
     tagErrors,
     onClickAddAmountModal,
@@ -52,6 +54,8 @@
     onClickOpenDeleteConfirmModal,
     onClickCategoryAmount,
     onClickToggleSortByAmount,
+    onClickWeeklyPrev,
+    onClickWeeklyNext,
     handleReceiptAnalyzeReception,
     onClickOpenReceiptAnalyzeModal,
     onClickCloseReceiptAnalyzeModal
@@ -73,7 +77,7 @@
   />
   <div class="min-h-screen bg-primary-bg">
     <div
-      class="sticky top-14 z-10 backdrop-blur-md bg-white/90 shadow-soft p-4"
+      class="sticky top-14 z-10 backdrop-blur-md bg-white/50 shadow-soft p-4"
     >
       <MonthlyHeader
         :operatingCurrentDate="operatingCurrentDate"
@@ -81,6 +85,13 @@
         :summarizeCategoryLimitAmount="summarizeCategoryLimitAmount"
         @clickMonthlyPrev="onClickMonthlyPrev"
         @clickMonthlyNext="onClickMonthlyNext"
+      />
+      <div class="mb-2 mt-4"></div>
+      <WeeklySummaryCard 
+        :weeklySummary="currentWeekSummary || null"
+        :currentDate="operatingCurrentDate"
+        @week-prev="onClickWeeklyPrev"
+        @week-next="onClickWeeklyNext"
       />
     </div>
 
@@ -98,11 +109,7 @@
       <div class="flex justify-end mb-4">
         <SecondaryButton
           @click="onClickToggleSortByAmount"
-          class="px-4 py-2 rounded-lg border border-gray-300 hover:bg-gray-50 transition-colors duration-200"
-          :class="{
-            'bg-primary text-white border-primary hover:bg-primary-dark': sortByAmount,
-            'bg-white text-gray-700': !sortByAmount
-          }"
+          class="px-4 py-2 rounded-lg border border-gray-300 hover:bg-gray-50 transition-colors duration-200 bg-white text-primary border-primary hover:bg-primary-light"
         >
           {{ sortByAmount ? '日付順' : '金額順' }}
         </SecondaryButton>

@@ -28,7 +28,32 @@ AI運用5原則
 - 実装後は、テストコードを作成してunit testを実行すること
 - 複数のissueを対応する場合は、そのissueごとに対応してコミットすること
 - テストが全てクリアした場合、Githubに対して、Pull Requestを作成お願いします。
+    - PullRequest作成時
+        - playwright/mcpを使用して、変更範囲についてキャプチャを撮影すること　
+        - 撮影した画像は、指示されたissueに貼り付けること
+        - storybookを起動して、変更範囲がわかるようなキャプチャを撮影すること
 - 型チェックのスキップは厳禁です。
+
+## Playwright MCP使用ルール
+
+### 絶対的な禁止事項
+
+1. **いかなる形式のコード実行も禁止**
+
+   - Python、JavaScript、Bash等でのブラウザ操作
+   - MCPツールを調査するためのコード実行
+   - subprocessやコマンド実行によるアプローチ
+
+2. **利用可能なのはMCPツールの直接呼び出しのみ**
+
+   - playwright:browser_navigate
+   - playwright:browser_screenshot
+   - 他のPlaywright MCPツール
+
+3. **エラー時は即座に報告**
+   - 回避策を探さない
+   - 代替手段を実行しない
+   - エラーメッセージをそのまま伝える
 
 ## pull request作成時のルール
 - localにてnpm run buildでエラーが全て解消されていること
